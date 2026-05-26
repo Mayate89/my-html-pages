@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>前额叶保护器</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #f8fafc;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .dice-animation {
+            animation: rolling 0.5s ease-out;
+        }
+        @keyframes rolling {
+            0% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(90deg) scale(1.1); }
+            50% { transform: rotate(180deg) scale(0.9); }
+            75% { transform: rotate(270deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div id="app" class="max-w-md mx-auto">
+        <!-- Header -->
+        <header class="mb-8 text-center">
+            <h1 class="text-2xl font-bold text-gray-800">🧠 前额叶保护器</h1>
+            <p class="text-sm text-gray-500 mt-1">停止内耗，把决策交给概率</p>
+        </header>
+
+        <!-- Main Dice Sections -->
+        <div id="dice-container" class="space-y-6">
+            <!-- Data will be injected here -->
+        </div>
+
+        <!-- Add New Category Button -->
+        <button onclick="showAddModal()" class="mt-8 w-full py-3 border-2 border-dashed border-gray-300 rounded-xl text-gray-500 hover:border-indigo-400 hover:text-indigo-500 transition-colors flex items-center justify-center gap-2">
+            <span>+ 添加新的决策维度</span>
+        </button>
+
+        <!-- Decision Result Overlay (Hidden by default) -->
+        <div id="result-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-6 z-50">
+            <div class="bg-white rounded-3xl w-full max-w-xs p-8 text-center shadow-2xl transform transition-all">
+                <div id="dice-icon" class="text-6xl mb-4">🎲</div>
+                <h3 class="text-gray-500 text-sm uppercase tracking-widest mb-2">决策结果</h3>
+                <div id="result-text" class="text-3xl font-bold text-indigo-600 mb-6">...</div>
+                <button onclick="closeResult()" class="w-full py-3 gradient-bg text-white rounded-xl font-semibold shadow-lg">好，就这样！</button>
+            </div>
+        </div>
+
+        <!-- Settings Modal -->
+        <div id="settings-modal" class="fixed inset-0 bg-white hidden z-50 overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold">配置选项</h2>
+                    <button onclick="closeSettings()" class="text-gray-400 text-2xl">&times;</button>
+                </div>
+                <div id="settings-content" class="space-y-6">
+                    <!-- Settings items injected here -->
+                </div>
+                <button onclick="saveSettings()" class="mt-8 w-full py-4 gradient-bg text-white rounded-xl font-bold">保存并返回</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 初始默认数据
+        let decisionData = [
+            {
+                id: 'eat-main',
+                title: '周末怎么吃饭？',
+                options: ['自己做饭 🍳', '点外卖 🛵'],
+                nextId: { '点外卖 🛵': 'takeout-detail' }
+            },
+            {
+                id: 'takeout-detail',
+                title: '外卖点什么？',
+                options: ['常吃的老几样 🍱', '尝试新商家 🍕', '健康轻食 🥗', '快乐肥宅水+汉堡 🍔'],
+                isSub: true
+            },
+            {
+                id: 'outfit',
+                title: '今天穿什么风格？',
+                options: ['极简运动 🏃‍♂️', '休闲衬衫 👔', '舒服卫衣 👕'],
+                isSub: false
+            }
+        ];
+
+        // 从本地加载数据
+        const savedData = localStorage.getItem('pfc_data');
+        if (savedData) {
+            decisionData = JSON.parse(savedData);
+        }
+
+        function renderDice() {
+            const container = document.getElementById('dice-container');
+            container.innerHTML = '';
+
+            decisionData.forEach(category => {
+                if (category.isSub) return; // 初始只显示顶层决策
+
+                const card = document.createElement('div');
+                card.className = "bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col gap-4";
+                card.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-bold text-lg text-gray-700">${category.title}</h3>
+                        <button onclick="openSettings('${category.id}')" class="text-gray-400 hover:text-indigo-500 text-sm">编辑</button>
+                    </div>
+                    <button onclick="roll('${category.id}')" class="w-full py-4 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-xl font-bold transition-all flex items-center justify-center gap-3">
+                        <span class="text-xl">🎲</span> 掷个骰子
+                    </button>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function roll(id) {
+            const category = decisionData.find(c => c.id === id);
+            if (!category) return;
+
+            const modal = document.getElementById('result-modal');
+            const resultText = document.getElementById('result-text');
+            const diceIcon = document.getElementById('dice-icon');
+
+            modal.classList.remove('hidden');
+            resultText.innerText = "思考中...";
+            diceIcon.classList.add('dice-animation');
+
+            setTimeout(() => {
+                const choice = category.options[Math.floor(Math.random() * category.options.length)];
+                diceIcon.classList.remove('dice-animation');
+                resultText.innerText = choice;
+
+                // 检查是否有下级决策
+                if (category.nextId && category.nextId[choice]) {
+                    const nextBtn = document.createElement('button');
+                    nextBtn.id = "next-step-btn";
+                    nextBtn.className = "w-full py-3 mt-2 border-2 border-indigo-200 text-indigo-500 rounded-xl font-semibold";
+                    nextBtn.innerText = "下一步决策";
+                    nextBtn.onclick = () => {
+                        nextBtn.remove();
+                        roll(category.nextId[choice]);
+                    };
+                    resultText.parentNode.insertBefore(nextBtn, resultText.nextSibling);
+                }
+            }, 600);
+        }
+
+        function closeResult() {
+            document.getElementById('result-modal').classList.add('hidden');
+            const nextBtn = document.getElementById('next-step-btn');
+            if (nextBtn) nextBtn.remove();
+        }
+
+        let currentEditingId = null;
+        function openSettings(id) {
+            currentEditingId = id;
+            const category = decisionData.find(c => c.id === id);
+            const modal = document.getElementById('settings-modal');
+            const content = document.getElementById('settings-content');
+            
+            modal.classList.remove('hidden');
+            content.innerHTML = `
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">决策名称</label>
+                    <input id="edit-title" type="text" value="${category.title}" class="w-full p-3 bg-gray-50 rounded-lg border-none ring-1 ring-gray-200 focus:ring-2 focus:ring-indigo-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">选项清单 (每行一个)</label>
+                    <textarea id="edit-options" rows="6" class="w-full p-3 bg-gray-50 rounded-lg border-none ring-1 ring-gray-200 focus:ring-2 focus:ring-indigo-500 outline-none">${category.options.join('\n')}</textarea>
+                </div>
+                <button onclick="deleteCategory('${id}')" class="text-red-500 text-sm font-medium mt-4">删除此决策维度</button>
+            `;
+        }
+
+        function closeSettings() {
+            document.getElementById('settings-modal').classList.add('hidden');
+        }
+
+        function saveSettings() {
+            const title = document.getElementById('edit-title').value;
+            const options = document.getElementById('edit-options').value.split('\n').filter(o => o.trim() !== '');
+            
+            const index = decisionData.findIndex(c => c.id === currentEditingId);
+            if (index !== -1) {
+                decisionData[index].title = title;
+                decisionData[index].options = options;
+            } else {
+                // 新增
+                decisionData.push({
+                    id: 'custom-' + Date.now(),
+                    title: title,
+                    options: options,
+                    isSub: false
+                });
+            }
+            
+            localStorage.setItem('pfc_data', JSON.stringify(decisionData));
+            renderDice();
+            closeSettings();
+        }
+
+        function showAddModal() {
+            currentEditingId = null;
+            const modal = document.getElementById('settings-modal');
+            const content = document.getElementById('settings-content');
+            modal.classList.remove('hidden');
+            content.innerHTML = `
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">新决策名称</label>
+                    <input id="edit-title" type="text" placeholder="例如：读哪本书？" class="w-full p-3 bg-gray-50 rounded-lg ring-1 ring-gray-200 outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">选项清单 (每行一个)</label>
+                    <textarea id="edit-options" rows="6" placeholder="选项A\n选项B" class="w-full p-3 bg-gray-50 rounded-lg ring-1 ring-gray-200 outline-none"></textarea>
+                </div>
+            `;
+        }
+
+        function deleteCategory(id) {
+            if (confirm('确定要删除吗？')) {
+                decisionData = decisionData.filter(c => c.id !== id);
+                localStorage.setItem('pfc_data', JSON.stringify(decisionData));
+                renderDice();
+                closeSettings();
+            }
+        }
+
+        // 初始化渲染
+        window.onload = renderDice;
+    </script>
+</body>
+</html>

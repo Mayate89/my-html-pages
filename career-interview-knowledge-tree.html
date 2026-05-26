@@ -1,0 +1,269 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);color:var(--color-text-primary)}
+.tabs{display:flex;gap:8px;margin-bottom:20px;padding:4px;background:var(--color-background-secondary);border-radius:var(--border-radius-md)}
+.tab{flex:1;padding:8px 0;border:none;background:transparent;cursor:pointer;font-size:14px;font-weight:500;color:var(--color-text-secondary);border-radius:6px;transition:all .15s}
+.tab.active{background:var(--color-background-primary);color:var(--color-text-primary);border:0.5px solid var(--color-border-secondary)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:20px}
+.card{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px 16px;cursor:pointer;background:var(--color-background-primary);transition:border-color .15s}
+.card:hover{border-color:var(--color-border-secondary)}
+.card.active{border:1.5px solid #378ADD}
+.card-tag{font-size:11px;font-weight:500;padding:2px 8px;border-radius:12px;display:inline-block;margin-bottom:8px}
+.tag-didi{background:#E6F1FB;color:#185FA5}
+.tag-byte{background:#EAF3DE;color:#3B6D11}
+.tag-both{background:#EEEDFE;color:#3C3489}
+.card h3{font-size:14px;font-weight:500;line-height:1.4;margin-bottom:4px}
+.card p{font-size:12px;color:var(--color-text-secondary);line-height:1.4}
+.detail{background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-lg);padding:20px;display:none}
+.detail.show{display:block}
+.detail h2{font-size:16px;font-weight:500;margin-bottom:16px}
+.star-row{margin-bottom:14px}
+.star-label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--color-text-secondary);margin-bottom:4px}
+.star-cn{font-size:13px;line-height:1.6;margin-bottom:4px}
+.star-en{font-size:12px;color:var(--color-text-secondary);line-height:1.6;font-style:italic}
+.terms{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;padding-top:14px;border-top:0.5px solid var(--color-border-tertiary)}
+.term{font-size:12px;padding:3px 10px;border-radius:12px;background:var(--color-background-secondary);color:var(--color-text-secondary)}
+.links{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.link-badge{font-size:12px;padding:3px 10px;border-radius:12px;border:0.5px solid var(--color-border-secondary);cursor:pointer;background:transparent;color:var(--color-text-primary)}
+.link-badge:hover{background:var(--color-background-secondary)}
+.section-hint{font-size:12px;color:var(--color-text-secondary);margin-bottom:6px}
+</style>
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('project')">项目维度</button>
+  <button class="tab" onclick="switchTab('skill')">能力维度</button>
+</div>
+
+<div id="project-view">
+  <div class="grid" id="proj-grid"></div>
+  <div class="detail" id="proj-detail"></div>
+</div>
+
+<div id="skill-view" style="display:none">
+  <div class="grid" id="skill-grid"></div>
+  <div class="detail" id="skill-detail"></div>
+</div>
+
+<script>
+const projects = [
+  {
+    id:'p1', company:'didi', label:'滴滴',
+    name:'首页架构重构 · 流失归因',
+    sub:'DAU -0.11% / GMV -0.24%',
+    S:'【背景】滴滴首页大改版后，全平台 DAU 和 GMV 同步下滑，产品团队无法判断是改版本身造成的，还是外部竞争或季节性因素导致的，需要定量拆解原因。',
+    S_en:'Homepage UI restructuring caused platform-wide DAU (−0.11%) and GMV (−0.24%) decline; root cause unknown.',
+    T:'【目标】用因果推断方法隔离改版的净效应，锁定核心流失节点，为产品迭代提供统计依据。',
+    T_en:'Isolate the causal effect of the UI change from macro noise; identify the churn node.',
+    A:'【方法】引入 LLM Agent 自动化实验分析流水线（SRM 校验、方差分析、动态趋势引擎），结合 DID 和 Shapley 值对漏斗逐层拆解，精准锁定：弹窗 UI 将用户错误引流至货运页是主因。',
+    A_en:'Deployed LLM-automated pipeline (SRM, variance, trend engines); applied DID + Shapley decomposition across the conversion funnel; identified intrusive pop-up redirecting users to freight page as the key churn node.',
+    R:'【结果】推动产品快速修复弹窗逻辑，止住业务流失。',
+    R_en:'Drove rapid product fix; halted business loss.',
+    terms:['双重差分 DID','Shapley值','SRM校验','LLM Agent','漏斗归因','辛普森悖论'],
+    skills:['s2','s4','s5']
+  },
+  {
+    id:'p2', company:'didi', label:'滴滴',
+    name:'摇一摇 · 跨平台拦截策略',
+    sub:'+6.03% 交易量因果提升',
+    S:'【背景】竞品（微信、支付宝等外部生态）通过优惠手段持续抢夺滴滴 App 存量用户，高频活跃用户流失风险上升。',
+    S_en:'Competing platforms (WeChat, Alipay ecosystem) were siphoning high-frequency DiDi users via promotional offers.',
+    T:'【目标】量化跨平台优惠策略对不同用户群的差异化增量效果，制定精准对冲方案。',
+    T_en:'Measure heterogeneous treatment effects across user segments; formulate a precision retention strategy.',
+    A:'【方法】设计多层正交 RCT 实验框架，按 LTV 和用户状态将用户分为四类（App存量、小程序存量、摇摆用户、网出新沉流），对每类用户分别测量拦截增量效果（Uplift Measurement），构建统计对冲策略。',
+    A_en:'Designed orthogonal multi-layer RCT; segmented users by LTV and state (App-native, mini-program, swing, new-lapsed) into 4 cohorts; measured uplift per segment; built statistical hedging strategy.',
+    R:'【结果】成功拦截 1.27% 高频活跃用户，App 核心交易量因果提升 +6.03%，App 交易用户数 +6.6%（双月观测窗口）。',
+    R_en:'Retained 1.27% of high-frequency users from competitive siphoning; App transaction volume causal lift +6.03%, transacting users +6.6% over two-month window.',
+    terms:['Uplift Measurement','异质性处理效应 HTE','正交实验','LTV分层','因果提升'],
+    skills:['s1','s3']
+  },
+  {
+    id:'p3', company:'byte', label:'字节',
+    name:'直播降本 · 带宽成本优化',
+    sub:'峰值码率 -3.917%',
+    S:'【背景】今日头条直播业务带宽成本高昂，但不同用户群对带宽资源的价值贡献差异极大，需要在降本的同时不损伤有价值用户的体验。',
+    S_en:'Toutiao live-streaming bandwidth costs were high; user value contributions varied widely — needed cost reduction without hurting valuable user experience.',
+    T:'【目标】建立用户价值分层体系，精准识别可降码率的低价值用户群，在统计学上证明降本方案不损伤整体活跃度。',
+    T_en:'Build user value stratification; identify cohorts eligible for bitrate reduction; statistically prove no significant impact on overall engagement.',
+    A:'【方法】构建多维 ROI 成本收益矩阵（整合带宽成本、电商收入、广告收入），输出 T-1 用户价值分层标签；设计 A/B 实验并进行非劣效性假设检验，严格控制置信区间，证明目标群体活跃天数和消费时长无统计显著下降。',
+    A_en:'Built multi-dimensional ROI matrix (bandwidth cost + e-commerce + ad revenue); produced T-1 daily user value tags; designed A/B test with non-inferiority hypothesis testing; controlled confidence intervals to prove no significant engagement decrease.',
+    R:'【结果】全天传输码率降低 0.713%，晚高峰码率降低 3.917%，大幅削减带宽支出，无用户体验负向影响。',
+    R_en:'Full-day bitrate −0.713%, peak-hour −3.917%; significant bandwidth cost reduction with no negative user experience impact.',
+    terms:['ROI矩阵','LTV','T-1用户标签','非劣效性检验','A/B实验','置信区间'],
+    skills:['s1','s3','s6']
+  },
+  {
+    id:'p4', company:'byte', label:'字节',
+    name:'频道排序 · 个性化策略',
+    sub:'+2.81pp 点击渗透率',
+    S:'【背景】今日头条首页频道采用固定层级排序，导致流量分配与用户真实偏好不匹配，频道点击渗透率偏低。',
+    S_en:'Toutiao homepage channels used fixed hierarchical ranking, mismatching user preferences; channel click-through penetration was low.',
+    T:'【目标】通过数据建模验证个性化排序方案的必要性，并以 A/B 实验量化实际效果。',
+    T_en:'Use statistical modelling to prove personalised ranking is superior; quantify impact via A/B test.',
+    A:'【方法】提取用户频道消费行为变量（点击频次、消费时长），进行参数归一化和加权系数分配，构建频道偏好评分模型；通过 A/B 实验对比个性化排序与固定排序的效果差异。',
+    A_en:'Extracted consumption variables (click frequency, session duration); applied normalisation and weighted coefficient assignment to build preference scoring model; validated via A/B test against fixed ranking.',
+    R:'【结果】首页垂直频道点击渗透率绝对值提升 +2.81pp，全局用户生命周期活跃天数提升 +0.014%。',
+    R_en:'Vertical channel click-through penetration absolute lift +2.81pp; global user lifetime active days +0.014%.',
+    terms:['加权评分模型','参数归一化','A/B实验','点击渗透率','生命周期活跃天数 LT'],
+    skills:['s1','s6']
+  }
+];
+
+const skills = [
+  {
+    id:'s1', name:'A/B 实验设计',
+    en:'A/B Testing & RCT Design',
+    desc:'设计随机对照实验，控制功效和误差率，确保因果结论的统计有效性。',
+    desc_en:'Design randomised controlled trials; control statistical power and error rates to ensure valid causal conclusions.',
+    points:[
+      {cn:'正交实验设计：多个实验并行时，通过正交流量树消除实验间的相互干扰，独立估计各实验的 ATE（平均处理效应）。', en:'Orthogonal design: traffic tree eliminates cross-experiment contamination; isolates ATE per experiment.'},
+      {cn:'非劣效性检验：当目标是"证明策略不伤害用户"而非"证明有提升"时，设定非劣效界值，用单侧检验验证。', en:'Non-inferiority testing: when goal is proving no harm rather than improvement; set non-inferiority margin; use one-sided test.'},
+      {cn:'SRM 校验（样本比例失真）：实验开始后检查实验组和对照组的样本比例是否符合预设，异常则说明流量分配有问题。', en:'SRM check: verify actual traffic split matches intended ratio post-launch; mismatch signals allocation bug.'},
+    ],
+    terms:['ATE 平均处理效应','SRM 样本比例失真','统计功效 Power','置信区间 CI','非劣效界值'],
+    projects:['p1','p2','p3','p4']
+  },
+  {
+    id:'s2', name:'因果推断 · DID',
+    en:'Causal Inference — Difference-in-Differences',
+    desc:'在无法做随机实验时，用准实验方法（DID）从观测数据中分离因果效应。',
+    desc_en:'When RCT is infeasible, apply quasi-experimental DID to isolate causal effects from observational data.',
+    points:[
+      {cn:'DID 核心逻辑：（实验组后 - 实验组前）- （对照组后 - 对照组前），消除共同时间趋势的干扰。', en:'DID logic: (Post_treat − Pre_treat) − (Post_ctrl − Pre_ctrl); removes shared time trends.'},
+      {cn:'内生性偏差：当解释变量和误差项相关时出现内生性，导致 OLS 估计有偏。DID 通过差分消除不随时间变化的混淆因素。', en:'Endogeneity bias: when explanatory variable correlates with error term; DID differences out time-invariant confounders.'},
+      {cn:'平行趋势假设：DID 成立的前提——在干预前，实验组和对照组的趋势应平行。需要用图形或统计检验来验证。', en:'Parallel trends assumption: pre-intervention trends of treatment/control groups must be parallel — verify visually or via test.'},
+    ],
+    terms:['双重差分 DID','内生性 Endogeneity','平行趋势假设','准实验设计','反事实 Counterfactual'],
+    projects:['p1']
+  },
+  {
+    id:'s3', name:'Uplift 度量 & 异质性效应',
+    en:'Uplift Measurement & Heterogeneous Treatment Effects',
+    desc:'不同用户群体对同一策略的响应差异不同，Uplift 分析量化每个子群的增量价值。',
+    desc_en:'Different user segments respond differently to the same intervention; uplift analysis quantifies incremental value per subgroup.',
+    points:[
+      {cn:'HTE（异质性处理效应）：同一策略对 A 类用户效果好，对 B 类用户可能没效果甚至有害，需要分层估计。', en:'HTE: the same treatment may work for segment A but not B; requires stratum-specific estimation.'},
+      {cn:'Uplift 四象限：潜在说服者（Persuadable）、已确定者（Sure Thing）、流失者（Lost Cause）、反应者（Sleeping Dog）。只有"潜在说服者"值得投入资源。', en:'Uplift quadrants: Persuadable (target), Sure Thing (no need), Lost Cause (hopeless), Sleeping Dog (backfire risk). Only Persuadables warrant resource.'},
+      {cn:'实际操作：对用户按 LTV 或状态分层，对每个分层做独立的实验估计，比较各分层的 Uplift 值来决定策略优先级。', en:'In practice: stratify by LTV/state; run independent estimation per stratum; compare uplift values to prioritise strategy.'},
+    ],
+    terms:['HTE 异质性处理效应','Uplift','CATE 条件平均处理效应','LTV分层','对冲策略'],
+    projects:['p2','p3']
+  },
+  {
+    id:'s4', name:'方差分解 & 漏斗归因',
+    en:'Variance Decomposition & Funnel Attribution',
+    desc:'将指标的整体变化分解为各驱动因素的独立贡献，定位真正的问题根源。',
+    desc_en:'Decompose overall metric change into independent contributions of each driver; pinpoint the true root cause.',
+    points:[
+      {cn:'连环替代法：逐一将"基准值"替换为"当期值"，每次替换产生的差异即为该因子的贡献量，最终各因子贡献之和 = 总变化量。', en:'Sequential substitution: replace baseline values with actual one-by-one; each replacement\'s delta = that factor\'s contribution; sum equals total change.'},
+      {cn:'Shapley 值：博弈论框架，考虑所有因子的排列组合，给每个因子分配公平的边际贡献，避免连环替代法的顺序依赖问题。', en:'Shapley value: game-theory framework; considers all factor permutations; assigns fair marginal contribution; avoids order-dependency of sequential substitution.'},
+      {cn:'辛普森悖论：分组内的趋势与总体趋势方向相反，通常是因为分组比例变化导致。识别和修正辛普森悖论是诊断分析误判的重要步骤。', en:'Simpson\'s Paradox: within-group and overall trends point in opposite directions, typically due to changing group proportions. Identifying it is key to avoiding analytical misjudgement.'},
+    ],
+    terms:['连环替代法','Shapley值','辛普森悖论 Simpson\'s Paradox','规模效应 vs 结构效应','DAU→GMV漏斗'],
+    projects:['p1','p4']
+  },
+  {
+    id:'s5', name:'LLM Agent 自动化流水线',
+    en:'LLM-Automated Statistical Pipelines',
+    desc:'将重复性的实验质量检查和分析流程工程化，用 LLM Agent 驱动，大幅提升分析效率。',
+    desc_en:'Engineer repetitive experiment QA and analysis workflows into LLM-driven automated pipelines; drastically accelerate turnaround.',
+    points:[
+      {cn:'Health Checker 组件：自动完成 AA 检验（实验前检查随机化是否正确）、SRM 校验、QP检验（测试期间指标是否稳定）。', en:'Health Checker: auto-runs A/A test (verify randomisation), SRM check, QP test (metric stability during experiment).'},
+      {cn:'Trend Engine：自动生成动态趋势图，判断指标是否仍在显著变化或已经收敛，辅助决策何时可以停止实验。', en:'Trend Engine: generates dynamic trend charts; detects whether metric is still moving or converging; informs stopping decision.'},
+      {cn:'DID Skill & Report Builder：输入实验参数后自动套用 DID 模板计算因果效应，并生成结构化分析报告。', en:'DID Skill & Report Builder: given experiment parameters, auto-applies DID template; generates structured analysis report.'},
+    ],
+    terms:['AA检验','SRM','QP检验','Health Checker','Trend Engine','Report Builder'],
+    projects:['p1']
+  },
+  {
+    id:'s6', name:'统计建模 & 评分体系',
+    en:'Statistical Modelling & Scoring Systems',
+    desc:'从原始行为数据出发，构建量化评分模型，将抽象的"偏好"或"价值"转化为可操作的数值。',
+    desc_en:'From raw behavioural data, build quantitative scoring models; convert abstract preferences or value into actionable scores.',
+    points:[
+      {cn:'特征工程：选取和转化原始变量（如频次、时长），归一化处理使不同量纲的指标可以比较。', en:'Feature engineering: select and transform raw variables (frequency, duration); normalise to make different-scale indicators comparable.'},
+      {cn:'加权系数分配：基于业务逻辑和数据验证，给各特征分配权重，最终输出综合评分。权重可以通过实验反馈迭代优化。', en:'Weighted scoring: assign feature weights based on business logic and data validation; iterate weights based on experiment feedback.'},
+      {cn:'ROI 矩阵：将成本和多条收入流整合到同一框架下，每个用户的净价值 = 收入贡献 - 成本分摊，以此实现精细化资源配置。', en:'ROI matrix: integrate costs and multiple revenue streams; net user value = revenue contribution − cost allocation; enables precision resource allocation.'},
+    ],
+    terms:['特征工程','归一化 Normalisation','加权评分','ROI矩阵','T-1标签','LTV'],
+    projects:['p3','p4']
+  }
+];
+
+const projMap = Object.fromEntries(projects.map(p=>[p.id,p]));
+const skillMap = Object.fromEntries(skills.map(s=>[s.id,s]));
+
+let activeProj = null, activeSkill = null;
+
+function switchTab(tab){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelector('.tabs').children[tab==='project'?0:1].classList.add('active');
+  document.getElementById('project-view').style.display = tab==='project'?'block':'none';
+  document.getElementById('skill-view').style.display = tab==='skill'?'block':'none';
+}
+
+function renderProjects(){
+  const g = document.getElementById('proj-grid');
+  g.innerHTML = projects.map(p=>`
+    <div class="card${activeProj===p.id?' active':''}" onclick="showProject('${p.id}')">
+      <span class="card-tag ${p.company==='didi'?'tag-didi':'tag-byte'}">${p.label}</span>
+      <h3>${p.name}</h3>
+      <p>${p.sub}</p>
+    </div>`).join('');
+}
+
+function showProject(id){
+  activeProj = id;
+  renderProjects();
+  const p = projMap[id];
+  const d = document.getElementById('proj-detail');
+  d.className = 'detail show';
+  d.innerHTML = `
+    <h2>${p.name}</h2>
+    ${['S','T','A','R'].map(k=>`
+      <div class="star-row">
+        <div class="star-label">${{S:'Situation 背景',T:'Task 目标',A:'Action 方法',R:'Result 结果'}[k]}</div>
+        <div class="star-cn">${p[k]}</div>
+        <div class="star-en">${p[k+'_en']}</div>
+      </div>`).join('')}
+    <div class="section-hint">关联能力节点</div>
+    <div class="links">${p.skills.map(sid=>`<button class="link-badge" onclick="switchTab('skill');showSkill('${sid}')">${skillMap[sid].name} →</button>`).join('')}</div>
+    <div class="terms">${p.terms.map(t=>`<span class="term">${t}</span>`).join('')}</div>`;
+}
+
+function renderSkills(){
+  const g = document.getElementById('skill-grid');
+  g.innerHTML = skills.map(s=>`
+    <div class="card${activeSkill===s.id?' active':''}" onclick="showSkill('${s.id}')">
+      <span class="card-tag tag-both">能力</span>
+      <h3>${s.name}</h3>
+      <p style="font-size:11px;font-style:italic">${s.en}</p>
+    </div>`).join('');
+}
+
+function showSkill(id){
+  activeSkill = id;
+  renderSkills();
+  const s = skillMap[id];
+  const d = document.getElementById('skill-detail');
+  d.className = 'detail show';
+  d.innerHTML = `
+    <h2>${s.name} <span style="font-size:13px;font-weight:400;color:var(--color-text-secondary)">${s.en}</span></h2>
+    <div class="star-row">
+      <div class="star-cn">${s.desc}</div>
+      <div class="star-en">${s.desc_en}</div>
+    </div>
+    ${s.points.map((pt,i)=>`
+      <div class="star-row">
+        <div class="star-label">要点 ${i+1}</div>
+        <div class="star-cn">${pt.cn}</div>
+        <div class="star-en">${pt.en}</div>
+      </div>`).join('')}
+    <div class="section-hint">对应项目案例</div>
+    <div class="links">${s.projects.map(pid=>`<button class="link-badge" onclick="switchTab('project');showProject('${pid}')">${projMap[pid].name} →</button>`).join('')}</div>
+    <div class="terms">${s.terms.map(t=>`<span class="term">${t}</span>`).join('')}</div>`;
+}
+
+renderProjects();
+renderSkills();
+</script>

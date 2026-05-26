@@ -1,0 +1,2254 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>面试备考手册 — Elevator Pitch · Deep-Dive ×2 · Behavioral</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0f1117;
+      --bg-card: #1a1d27;
+      --bg-card-hover: #1f2335;
+      --bg-highlight: #1e2a3a;
+      --accent-blue: #4f9cf9;
+      --accent-green: #4ade80;
+      --accent-amber: #fbbf24;
+      --accent-red: #f87171;
+      --accent-purple: #a78bfa;
+      --text-primary: #e8eaf0;
+      --text-secondary: #9ca3af;
+      --text-muted: #6b7280;
+      --border: #2a2d3e;
+      --pause-short: #4f9cf9;
+      --pause-long: #a78bfa;
+      --emphasis: #fbbf24;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: 'Inter', 'SF Pro Display', -apple-system, sans-serif;
+      font-size: 16px;
+    }
+
+    body { min-height: 100vh; }
+
+    /* ─── Progress Bar ─── */
+    #progress-bar {
+      position: fixed;
+      top: 0; left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+      width: 0%;
+      z-index: 2000;
+      transition: width 0.08s linear;
+    }
+
+    /* ─── Sidebar ─── */
+    #sidebar {
+      position: fixed;
+      left: 0; top: 0;
+      width: 200px;
+      height: 100vh;
+      background: var(--bg-card);
+      border-right: 1px solid var(--border);
+      padding: 72px 0 24px;
+      overflow-y: auto;
+      z-index: 100;
+    }
+
+    #sidebar .sidebar-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 0 20px 10px;
+    }
+
+    #sidebar a {
+      display: block;
+      padding: 9px 20px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      border-left: 3px solid transparent;
+      transition: all 0.2s ease;
+      line-height: 1.45;
+    }
+
+    #sidebar a.sub {
+      padding-left: 32px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    #sidebar a:hover {
+      color: var(--text-primary);
+      background: rgba(255,255,255,0.03);
+    }
+
+    #sidebar a.active {
+      color: var(--accent-blue);
+      border-left-color: var(--accent-blue);
+      background: rgba(79, 156, 249, 0.07);
+    }
+
+    #sidebar a.sub.active {
+      color: var(--accent-blue);
+      border-left-color: var(--accent-blue);
+    }
+
+    /* ─── Main Layout ─── */
+    #main {
+      margin-left: 220px;
+      max-width: 860px;
+      padding: 48px 24px 80px;
+    }
+
+    /* ─── Page Title ─── */
+    .page-title-block {
+      margin-bottom: 56px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .page-title-block h1 {
+      font-size: 34px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+      color: var(--text-primary);
+    }
+
+    .page-title-block .subtitle {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin-top: 10px;
+      line-height: 1.6;
+    }
+
+    .page-title-block .meta-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .meta-tag {
+      font-size: 12px;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+
+    .meta-tag.blue { border-color: rgba(79,156,249,0.4); color: var(--accent-blue); }
+    .meta-tag.green { border-color: rgba(74,222,128,0.4); color: var(--accent-green); }
+
+    /* ─── Module Section ─── */
+    .module-section {
+      margin-bottom: 72px;
+    }
+
+    /* ─── Module Header ─── */
+    .module-header {
+      position: relative;
+      padding: 28px 32px;
+      background: var(--bg-card);
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+      margin-bottom: 28px;
+      overflow: hidden;
+    }
+
+    .module-header .watermark {
+      position: absolute;
+      right: 20px;
+      top: -8px;
+      font-size: 88px;
+      font-weight: 700;
+      opacity: 0.10;
+      color: var(--accent-blue);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+      letter-spacing: -0.04em;
+    }
+
+    .module-header h2 {
+      font-size: 26px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      line-height: 1.4;
+      color: var(--text-primary);
+      position: relative;
+      z-index: 1;
+    }
+
+    .module-header .module-question {
+      font-size: 14px;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-top: 7px;
+      line-height: 1.6;
+      position: relative;
+      z-index: 1;
+    }
+
+    .module-header.mod-1 { border-left: 4px solid var(--accent-blue); }
+    .module-header.mod-2 { border-left: 4px solid var(--accent-green); }
+    .module-header.mod-3 { border-left: 4px solid var(--accent-amber); }
+    .module-header.mod-4 { border-left: 4px solid var(--accent-purple); }
+
+    /* ─── Coach Note ─── */
+    .coach-note {
+      background: var(--bg-highlight);
+      border-left: 3px solid var(--accent-amber);
+      border-radius: 8px;
+      padding: 18px 22px 16px;
+      margin-bottom: 28px;
+    }
+
+    .coach-note .coach-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent-amber);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+
+    .coach-note ul {
+      padding-left: 18px;
+      list-style: disc;
+    }
+
+    .coach-note li {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-bottom: 5px;
+    }
+
+    .coach-note li:last-child { margin-bottom: 0; }
+
+    /* ─── Script Block ─── */
+    .script-block {
+      background: var(--bg-card);
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+      padding: 28px 32px;
+      margin-bottom: 28px;
+    }
+
+    .script-body {
+      font-size: 18px;
+      line-height: 2.0;
+      color: var(--text-primary);
+    }
+
+    .script-body p {
+      margin-bottom: 22px;
+    }
+
+    .script-body p:last-child { margin-bottom: 0; }
+
+    /* ─── Pause Markers ─── */
+    .ps {
+      color: var(--pause-short);
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .pl {
+      color: var(--pause-long);
+      font-weight: 700;
+      font-size: 20px;
+      letter-spacing: 0.02em;
+    }
+
+    /* ─── Inline Styles ─── */
+    .emph {
+      color: var(--emphasis);
+      font-weight: 700;
+    }
+
+    .acent {
+      color: var(--accent-blue);
+      font-style: italic;
+    }
+
+    code.m {
+      background: #2a2d3e;
+      color: var(--accent-green);
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 14px;
+      font-style: normal;
+    }
+
+    span.stat {
+      color: var(--accent-amber);
+      font-weight: 600;
+    }
+
+    /* ─── STAR Section Label ─── */
+    .star-section {
+      margin-bottom: 32px;
+    }
+
+    .star-label {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent-green);
+      background: rgba(74,222,128,0.1);
+      border: 1px solid rgba(74,222,128,0.2);
+      padding: 5px 12px;
+      border-radius: 6px;
+      margin-bottom: 16px;
+    }
+
+    /* ─── Section Divider ─── */
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 40px 0 28px;
+    }
+
+    .section-divider::before,
+    .section-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .section-divider span {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    /* ─── Paragraph Map Table (Module 1) ─── */
+    .para-table {
+      background: var(--bg-card);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+      margin-bottom: 28px;
+    }
+
+    .para-table-header {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      background: rgba(79,156,249,0.12);
+      padding: 10px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .para-table-header span {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent-blue);
+    }
+
+    .para-table-row {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      padding: 13px 18px;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.2s ease;
+    }
+
+    .para-table-row:last-child { border-bottom: none; }
+
+    .para-table-row:nth-child(odd) { background: var(--bg-card-hover); }
+    .para-table-row:hover { background: rgba(79,156,249,0.05); }
+
+    .para-lbl {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent-amber);
+      padding-top: 1px;
+    }
+
+    .para-content {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+
+    /* ─── STAR Grid Table (Module 2) ─── */
+    .star-table {
+      background: var(--bg-card);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+      margin-bottom: 28px;
+    }
+
+    .star-table-header {
+      display: grid;
+      grid-template-columns: 160px 1fr 210px;
+      background: rgba(79,156,249,0.12);
+      padding: 10px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .star-table-header span {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent-blue);
+    }
+
+    .star-table-row {
+      display: grid;
+      grid-template-columns: 160px 1fr 210px;
+      padding: 13px 18px;
+      border-bottom: 1px solid var(--border);
+      align-items: start;
+      transition: background 0.2s ease;
+    }
+
+    .star-table-row:last-child { border-bottom: none; }
+    .star-table-row:nth-child(odd) { background: var(--bg-card-hover); }
+    .star-table-row:hover { background: rgba(79,156,249,0.05); }
+
+    .star-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 6px;
+      white-space: nowrap;
+      letter-spacing: 0.02em;
+    }
+
+    .badge-s { background: rgba(79,156,249,0.18); color: var(--accent-blue); }
+    .badge-t { background: rgba(248,113,113,0.18); color: var(--accent-red); }
+    .badge-a { background: rgba(74,222,128,0.18); color: var(--accent-green); }
+    .badge-r { background: rgba(167,139,250,0.18); color: var(--accent-purple); }
+
+    .star-content {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      padding: 0 14px;
+    }
+
+    .star-keywords {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    /* ─── Practice Section ─── */
+    .practice-card {
+      background: var(--bg-card);
+      border-radius: 12px;
+      padding: 22px 28px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+      margin-bottom: 28px;
+      border-top: 3px solid var(--border);
+    }
+
+    .practice-card h4 {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    .practice-card ol {
+      padding-left: 20px;
+      list-style: decimal;
+    }
+
+    .practice-card li {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.85;
+      margin-bottom: 7px;
+    }
+
+    .practice-card li:last-child { margin-bottom: 0; }
+
+    /* ─── Q&A Card ─── */
+    .qa-card {
+      background: var(--bg-card);
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+      margin-bottom: 20px;
+      overflow: hidden;
+      transition: background 0.2s ease, border-left 0.2s ease;
+      border-left: 3px solid transparent;
+    }
+
+    .qa-card:hover {
+      background: var(--bg-card-hover);
+      border-left-color: var(--accent-blue);
+    }
+
+    .qa-card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 20px 24px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .qa-num {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--accent-blue);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .qa-priority {
+      flex-shrink: 0;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 10px;
+      letter-spacing: 0.03em;
+    }
+
+    .pri-p0 { background: rgba(248,113,113,0.18); color: var(--accent-red); }
+    .pri-p1 { background: rgba(251,191,36,0.18); color: var(--accent-amber); }
+    .pri-p2 { background: rgba(74,222,128,0.18); color: var(--accent-green); }
+
+    .qa-question {
+      font-size: 14.5px;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .qa-answer {
+      padding: 16px 24px 20px;
+    }
+
+    /* ─── Followup group sub-header ─── */
+    .followup-group-header {
+      margin: 36px 0 16px;
+      padding-left: 16px;
+      border-left: 3px solid;
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .followup-group-header h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: -0.01em;
+      line-height: 1.4;
+    }
+
+    .followup-group-header .fg-badge {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .fg-mod1 { border-left-color: var(--accent-blue); }
+    .fg-mod2 { border-left-color: var(--accent-green); }
+    .fg-mod3 { border-left-color: var(--accent-amber); }
+    .fg-role2 { border-left-color: var(--accent-purple); }
+    .fg-role3 { border-left-color: var(--accent-red); }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 900px) {
+      .star-table-header,
+      .star-table-row {
+        grid-template-columns: 130px 1fr;
+      }
+      .star-table-header span:last-child,
+      .star-keywords { display: none; }
+    }
+
+    @media (max-width: 768px) {
+      #sidebar { display: none; }
+      #main { margin-left: 0; padding: 32px 16px 60px; }
+      .script-body { font-size: 17px; }
+      .module-header h2 { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════ -->
+<!--  Progress Bar                               -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="progress-bar"></div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!--  Sidebar Navigation                         -->
+<!-- ═══════════════════════════════════════════ -->
+<nav id="sidebar">
+  <div class="sidebar-label">目录</div>
+  <a href="#module-1">Module 1 · Elevator Pitch</a>
+  <a href="#m1-script" class="sub">逐字稿</a>
+  <a href="#m1-structure" class="sub">结构回顾</a>
+  <a href="#m1-practice" class="sub">朗读练习</a>
+  <a href="#module-2" style="margin-top: 8px;">Module 2 · Deep-Dive A</a>
+  <a href="#m2-situation" class="sub">Situation 危机引入</a>
+  <a href="#m2-task" class="sub">Task 为什么难</a>
+  <a href="#m2-action" class="sub">Action 三层拆解</a>
+  <a href="#m2-result" class="sub">Result 结果落地</a>
+  <a href="#m2-structure" class="sub">STAR 结构回顾</a>
+  <a href="#m2-practice" class="sub">朗读练习</a>
+  <a href="#module-3" style="margin-top: 8px;">Module 3 · Deep-Dive B</a>
+  <a href="#m3-situation" class="sub">Situation 背景铺垫</a>
+  <a href="#m3-task" class="sub">Task 增量问题</a>
+  <a href="#m3-action" class="sub">Action 三层方法论</a>
+  <a href="#m3-result" class="sub">Result 对冲策略</a>
+  <a href="#m3-structure" class="sub">STAR 结构回顾</a>
+  <a href="#m3-practice" class="sub">朗读练习</a>
+  <a href="#module-4" style="margin-top: 8px;">Module 4 · Behavioral</a>
+  <a href="#m4-q-a" class="sub">Why leaving 逐字稿</a>
+  <a href="#m4-q-b" class="sub">Pushback 逐字稿</a>
+  <a href="#m4-structure" class="sub">两题结构回顾</a>
+  <a href="#m4-practice" class="sub">朗读练习</a>
+  <a href="#followup" style="margin-top: 8px;">Followup Q&A</a>
+  <a href="#fup-m1" class="sub">ByteDance · Q11–Q13</a>
+  <a href="#fup-m2" class="sub">DiDi DID · Q1–Q5</a>
+  <a href="#fup-m3" class="sub">HTE/Uplift · Q6–Q10</a>
+  <a href="#fup-r2" class="sub">Business · Q14–Q18</a>
+  <a href="#fup-r3" class="sub">VETASSESS · Q19–Q23</a>
+</nav>
+
+<!-- ═══════════════════════════════════════════ -->
+<!--  Main Content                               -->
+<!-- ═══════════════════════════════════════════ -->
+<main id="main">
+
+  <!-- Page Title -->
+  <div class="page-title-block">
+    <h1>面试备考手册</h1>
+    <p class="subtitle">Data Scientist · Causal Inference · Experimental Design · 因果推断 · A/B Testing</p>
+    <div class="meta-row">
+      <span class="meta-tag blue">4 Modules + Followup</span>
+      <span class="meta-tag green">Elevator Pitch · Deep-Dive ×2 · Behavioral · 13 Q&A</span>
+      <span class="meta-tag">2026-05-06</span>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       MODULE 1 · ELEVATOR PITCH
+       ══════════════════════════════════════════════════════════ -->
+  <section class="module-section" id="module-1">
+
+    <div class="module-header mod-1">
+      <div class="watermark">01</div>
+      <h2>模块 1：Elevator Pitch</h2>
+      <div class="module-question">针对问题："Tell me about yourself"</div>
+    </div>
+
+    <!-- Coach Note -->
+    <div class="coach-note">
+      <div class="coach-title">⚡ 教练备注（朗读前请先看）</div>
+      <ul>
+        <li>目标时长：<span class="stat">90–120 秒</span>。整体结构是：身份锚定 → 专长亮点 → 两段经历各一句高光 → 为什么在这里。</li>
+        <li>不要背课文，要像在跟一个聪明的朋友解释你的工作一样说话。</li>
+        <li>第一句是钩子，务必自信说出来。</li>
+      </ul>
+    </div>
+
+    <!-- Script -->
+    <div class="script-block" id="m1-script">
+      <div class="script-body">
+
+        <p>Well, <span class="ps"> / </span> the short version is — <span class="pl"> // </span>
+        I'm a statistician and data scientist <span class="ps"> / </span>
+        who specialises in figuring out <span class="emph">why things happen</span>,
+        <span class="ps"> / </span> not just <span class="acent">what happened</span>. <span class="pl"> // </span></p>
+
+        <p>I've spent the last three years at two of China's biggest tech companies —
+        <span class="emph">ByteDance</span> and <span class="emph">DiDi</span> — <span class="ps"> / </span>
+        and my core focus has always been <code class="m">causal inference</code> and
+        <code class="m">experimental design</code>. <span class="pl"> // </span>
+        You know, in fast-moving consumer tech, <span class="ps"> / </span>
+        everyone's got dashboards full of numbers. <span class="ps"> / </span>
+        But the hard question — <span class="ps"> / </span>
+        the one that actually moves the needle — is: <span class="ps"> / </span>
+        did our intervention <span class="emph">cause</span> this outcome,
+        <span class="ps"> / </span> or did it just <span class="acent">coincide</span> with it?
+        <span class="pl"> // </span>
+        That's the problem I wake up thinking about. <span class="pl"> // </span></p>
+
+        <p>At ByteDance, <span class="ps"> / </span>
+        I was embedded in the Toutiao and short-story content teams. <span class="ps"> / </span>
+        I designed and ran rigorous <code class="m">A/B testing</code> frameworks — <span class="ps"> / </span>
+        we're talking full statistical power calculations, non-inferiority evaluations,
+        confidence interval controls — <span class="ps"> / </span>
+        and delivered results like a <span class="stat">3.9%</span> reduction in peak-hour bandwidth costs
+        <span class="ps"> / </span> without any statistically significant drop in user engagement.
+        <span class="pl"> // </span>
+        So the business saved real money, <span class="ps"> / </span>
+        and we had the numbers to prove it was safe. <span class="pl"> // </span></p>
+
+        <p>Then at DiDi, <span class="ps"> / </span>
+        I moved into a more complex space. <span class="pl"> // </span>
+        I mean, <span class="ps"> / </span>
+        ride-hailing is a much noisier environment — <span class="ps"> / </span>
+        multiple products, overlapping experiments, macro fluctuations. <span class="ps"> / </span>
+        My biggest challenge there was a platform-wide crisis: <span class="ps"> / </span>
+        a major homepage redesign that was silently cannibalising our core
+        ride-hailing <code class="m">DAU</code> and <code class="m">GMV</code>. <span class="pl"> // </span>
+        I used <code class="m">Difference-in-Differences</code> modelling to isolate the causal mechanism —
+        <span class="ps"> / </span>
+        it turned out invasive UI pop-ups were redirecting users and trapping them in the wrong product flow.
+        <span class="pl"> // </span>
+        On top of that, <span class="ps"> / </span>
+        I actually built an <code class="m">LLM</code>-powered pipeline to automate the statistical analysis —
+        <span class="ps"> / </span>
+        <code class="m">SRM</code> checks, variance decomposition, dynamic trend engines — <span class="ps"> / </span>
+        so we could iterate much faster than a manual workflow would allow. <span class="pl"> // </span></p>
+
+        <p>What's really interesting about my background, <span class="ps"> / </span>
+        I think, <span class="ps"> / </span>
+        is that I sit at this intersection <span class="ps"> / </span>
+        of rigorous statistical methodology <span class="ps"> / </span>
+        and pragmatic engineering — <span class="ps"> / </span>
+        I don't just build models in isolation, <span class="ps"> / </span>
+        I build <span class="emph">systems</span> that actually change business decisions. <span class="pl"> // </span></p>
+
+        <p>And honestly? <span class="pl"> // </span>
+        Australia's data science market — <span class="ps"> / </span>
+        particularly companies like Canva or Atlassian that are genuinely data-driven —
+        <span class="ps"> / </span>
+        is exactly the environment where I think this skillset has the most impact.
+        <span class="ps"> / </span> So <span class="ps"> / </span>
+        I'm really excited to be having this conversation. <span class="pl"> // </span></p>
+
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="section-divider" id="m1-structure"><span>结构回顾 · STAR 映射</span></div>
+
+    <!-- Paragraph Map Table -->
+    <div class="para-table">
+      <div class="para-table-header">
+        <span>段落</span>
+        <span>作用</span>
+      </div>
+      <div class="para-table-row">
+        <div class="para-lbl">第 1 段</div>
+        <div class="para-content">身份锚定：我是谁，我解决什么本质问题</div>
+      </div>
+      <div class="para-table-row">
+        <div class="para-lbl">第 2 段</div>
+        <div class="para-content"><span class="emph">ByteDance</span> 高光：<code class="m">A/B Testing</code> + 量化结果</div>
+      </div>
+      <div class="para-table-row">
+        <div class="para-lbl">第 3 段</div>
+        <div class="para-content"><span class="emph">DiDi</span> 高光：<code class="m">Causal Inference</code> (<code class="m">DID</code>) + <code class="m">LLM Pipeline</code>（差异化武器）</div>
+      </div>
+      <div class="para-table-row">
+        <div class="para-lbl">第 4 段</div>
+        <div class="para-content">价值观总结：方法论严谨 + 落地导向</div>
+      </div>
+      <div class="para-table-row">
+        <div class="para-lbl">第 5 段</div>
+        <div class="para-content">为什么在这里：自然收尾，表达热情</div>
+      </div>
+    </div>
+
+    <!-- Practice Tips -->
+    <div class="practice-card" id="m1-practice">
+      <h4>🎤 朗读练习建议</h4>
+      <ol>
+        <li>先完整朗读一遍，计时，目标在 <span class="stat">100–115 秒</span>内</li>
+        <li>特别注意 <span class="pl"> // </span> 处的长停顿——这里是让面试官消化信息的窗口，不要急着往下说</li>
+        <li>粗体词朗读时语速略降、音量略升，不需要夸张，自然加重即可</li>
+        <li>练熟后，可以尝试把 ByteDance 那段缩短到一句，把更多篇幅留给 DiDi（因为 DiDi 的故事更稀缺）</li>
+      </ol>
+    </div>
+
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       MODULE 2 · PROJECT DEEP-DIVE A
+       ══════════════════════════════════════════════════════════ -->
+  <section class="module-section" id="module-2">
+
+    <div class="module-header mod-2">
+      <div class="watermark">02</div>
+      <h2>模块 2：Project Deep-Dive A</h2>
+      <div class="module-question">针对问题："Tell me about a time you solved a complex problem" &nbsp;/&nbsp; "Walk me through your most challenging project"</div>
+    </div>
+
+    <!-- Coach Note -->
+    <div class="coach-note">
+      <div class="coach-title">⚡ 教练备注（朗读前请先看）</div>
+      <ul>
+        <li>目标时长：<span class="stat">3–4 分钟</span>（这是面试中最核心的 deep-dive，可以给足时间）。</li>
+        <li>结构严格走 <code class="m">STAR</code>：危机引入 → 为什么难 → 我怎么分层拆解 → 方法论亮点（<code class="m">DID</code> + <code class="m">LLM</code>）→ 结果 + 推动落地。</li>
+        <li>记住：面试官想听到的不是"我用了 <code class="m">DID</code>"，而是"我在别人都束手无策的时候，用 <code class="m">DID</code> 找到了真正的原因"——要有戏剧张力。</li>
+      </ul>
+    </div>
+
+    <!-- ── SITUATION ── -->
+    <div class="star-section" id="m2-situation">
+      <div class="star-label">[SITUATION] 危机引入</div>
+      <div class="script-block">
+        <div class="script-body">
+
+          <p>So, <span class="ps"> / </span>
+          let me walk you through what I think is probably my most complex project to date.
+          <span class="pl"> // </span></p>
+
+          <p>This was at DiDi. <span class="pl"> // </span>
+          We'd just launched a major homepage redesign — <span class="ps"> / </span>
+          you know, a full architectural overhaul. <span class="ps"> / </span>
+          The product team had added a new top-navigation framework <span class="ps"> / </span>
+          to promote DiDi's freight business alongside its core ride-hailing.
+          <span class="ps"> / </span>
+          Big strategic bet, <span class="ps"> / </span>
+          a lot of stakeholders invested in it. <span class="pl"> // </span></p>
+
+          <p>And then, <span class="ps"> / </span>
+          almost immediately after rollout, <span class="ps"> / </span>
+          we saw something <span class="emph">deeply alarming</span>. <span class="pl"> // </span>
+          Our platform-wide <code class="m">DAU</code> dropped <span class="stat">0.11%</span>
+          <span class="ps"> / </span>
+          and <code class="m">GMV</code> dropped <span class="stat">0.24%</span>. <span class="pl"> // </span>
+          Now, <span class="ps"> / </span>
+          I know those numbers might sound small — <span class="ps"> / </span>
+          but at DiDi's scale, <span class="ps"> / </span>
+          that translates to <span class="emph">millions of dollars</span> in lost transaction volume.
+          <span class="pl"> // </span>
+          And here's the thing: <span class="ps"> / </span>
+          the business also thought the freight numbers were looking great,
+          <span class="ps"> / </span>
+          so there was genuine pressure to call this a success. <span class="pl"> // </span></p>
+
+          <p>The problem was — <span class="pl"> // </span>
+          nobody could tell if the ride-hailing losses were <span class="emph">real</span>,
+          <span class="ps"> / </span>
+          or if it was just noise. <span class="pl"> // </span></p>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TASK ── -->
+    <div class="star-section" id="m2-task">
+      <div class="star-label">[TASK] 为什么这个问题特别难</div>
+      <div class="script-block">
+        <div class="script-body">
+
+          <p>And this is where it got really tricky. <span class="pl"> // </span></p>
+
+          <p>In a normal <code class="m">A/B test</code> scenario, <span class="ps"> / </span>
+          you'd just compare your treatment and control group, <span class="ps"> / </span>
+          and you're done. <span class="pl"> // </span>
+          But this wasn't a clean experiment. <span class="ps"> / </span>
+          We had <span class="emph">multiple overlapping interventions</span> happening simultaneously —
+          <span class="ps"> / </span>
+          different freight promotion strategies running in parallel, <span class="ps"> / </span>
+          different user segments, <span class="ps"> / </span>
+          different traffic sources — <span class="ps"> / </span>
+          all mixed together in the same traffic pool. <span class="pl"> // </span></p>
+
+          <p>So the question wasn't just "did the new homepage hurt ride-hailing?"
+          <span class="ps"> / </span>
+          The real question was: <span class="ps"> / </span>
+          "causally, <span class="ps"> / </span>
+          what specific mechanism is driving users away from completing a ride?"
+          <span class="pl"> // </span>
+          And you can't answer that with a simple dashboard. <span class="pl"> // </span></p>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ACTION ── -->
+    <div class="star-section" id="m2-action">
+      <div class="star-label">[ACTION] 分三层拆解：实验设计 → DID → LLM 自动化</div>
+      <div class="script-block">
+        <div class="script-body">
+
+          <p>So I designed a <span class="emph">three-layer investigative approach</span>. <span class="pl"> // </span></p>
+
+          <p><span class="emph">Layer one</span> was pure experimental architecture. <span class="pl"> // </span>
+          I restructured the traffic allocation — <span class="ps"> / </span>
+          making sure the ride-hailing and freight experiments were properly
+          <code class="m">orthogonal</code>, <span class="ps"> / </span>
+          using the same hash seed across app and mini-program traffic
+          <span class="ps"> / </span>
+          so we weren't comparing apples and oranges. <span class="pl"> // </span>
+          This gave us clean, isolated treatment effects for each sub-experiment.
+          <span class="pl"> // </span></p>
+
+          <p><span class="emph">Layer two</span> is where I went deeper. <span class="pl"> // </span>
+          Even with the <code class="m">A/B</code> data, <span class="ps"> / </span>
+          I still couldn't rule out <span class="acent">macro confounders</span> —
+          <span class="ps"> / </span>
+          you know, seasonal fluctuations, <span class="ps"> / </span>
+          external market shifts, <span class="ps"> / </span>
+          things that affect all users regardless of which group they're in.
+          <span class="pl"> // </span>
+          So I applied a <code class="m">Difference-in-Differences</code> model.
+          <span class="pl"> // </span></p>
+
+          <p>The idea was simple but powerful: <span class="ps"> / </span>
+          I used the freight users as a kind of control reference <span class="ps"> / </span>
+          to benchmark what "normal" ride-hailing behaviour should look like
+          <span class="ps"> / </span>
+          in the absence of the UI change. <span class="pl"> // </span>
+          And once I stripped away all those macro effects, <span class="ps"> / </span>
+          what I found was <span class="emph">crystal clear</span>. <span class="pl"> // </span>
+          The causal mechanism was a specific UI pop-up — <span class="ps"> / </span>
+          the one that was aggressively redirecting ride-hailing users into the freight flow.
+          <span class="ps"> / </span>
+          And crucially — <span class="ps"> / </span>
+          once users landed in the freight section, <span class="ps"> / </span>
+          they couldn't find their way back to the ride-hailing homepage easily.
+          <span class="pl"> // </span>
+          That was the <span class="emph">churn node</span>. <span class="ps"> / </span>
+          I quantified the causal loss at every step of the funnel using a sequential substitution algorithm —
+          <span class="ps"> / </span>
+          essentially a <code class="m">Shapley-value</code> decomposition of the conversion chain.
+          <span class="pl"> // </span></p>
+
+          <p>Now, <span class="ps"> / </span>
+          here's the part I'm actually quite proud of — <span class="ps"> / </span>
+          <span class="emph">Layer three</span>. <span class="pl"> // </span>
+          The depth of causal analysis I just described? <span class="ps"> / </span>
+          It would normally take <span class="acent">weeks</span>. <span class="ps"> / </span>
+          You've got <code class="m">SRM</code> checks, variance analysis, trend decomposition —
+          <span class="ps"> / </span>
+          each one is a manual workflow. <span class="pl"> // </span>
+          So I built an <code class="m">LLM</code>-powered automation pipeline.
+          <span class="ps"> / </span>
+          I engineered a suite of statistical agents — <span class="ps"> / </span>
+          programmatic components that could automatically run <code class="m">A/A</code> validation,
+          <span class="ps"> / </span>
+          check for sample ratio mismatch, <span class="ps"> / </span>
+          decompose variance, <span class="ps"> / </span>
+          and generate dynamic trend engines — <span class="ps"> / </span>
+          all triggered on demand. <span class="pl"> // </span>
+          It cut our analysis turnaround time dramatically, <span class="ps"> / </span>
+          which meant the business could iterate on UI fixes in
+          <span class="emph">days instead of months</span>. <span class="pl"> // </span></p>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ── RESULT ── -->
+    <div class="star-section" id="m2-result">
+      <div class="star-label">[RESULT] 结果与落地</div>
+      <div class="script-block">
+        <div class="script-body">
+
+          <p>And the outcome was really satisfying. <span class="pl"> // </span></p>
+
+          <p>We presented the <code class="m">DID</code> findings with what I'd call
+          <span class="emph">incontrovertible statistical evidence</span> — <span class="ps"> / </span>
+          not "we think it's probably this," <span class="ps"> / </span>
+          but "here is the precise causal pathway, <span class="ps"> / </span>
+          here is the quantified loss at each funnel node, <span class="ps"> / </span>
+          and here is the confidence interval." <span class="pl"> // </span></p>
+
+          <p>The product team moved fast. <span class="ps"> / </span>
+          They rolled out a series of rapid UI iterations — <span class="ps"> / </span>
+          business-specific visual differentiation, <span class="ps"> / </span>
+          adjusting the pop-up trigger timing, <span class="ps"> / </span>
+          adding a top-navigation back-to-ride cue. <span class="pl"> // </span>
+          And the losses were halted. <span class="pl"> // </span></p>
+
+          <p>But more broadly? <span class="pl"> // </span>
+          I think what made this project meaningful <span class="ps"> / </span>
+          was that it <span class="emph">changed how the team thought about measurement</span>.
+          <span class="pl"> // </span>
+          Before, <span class="ps"> / </span>
+          the instinct was to look at aggregate metrics and draw conclusions.
+          <span class="pl"> // </span>
+          After this, <span class="ps"> / </span>
+          there was a much deeper appreciation for the question of
+          <span class="acent">causality</span> — <span class="ps"> / </span>
+          <span class="acent">why</span> something happened, <span class="ps"> / </span>
+          not just <span class="acent">that</span> it happened. <span class="pl"> // </span>
+          And that shift in <span class="emph">analytical culture</span> <span class="ps"> / </span>
+          is honestly the outcome I'm most proud of. <span class="pl"> // </span></p>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="section-divider" id="m2-structure"><span>STAR 结构回顾</span></div>
+
+    <!-- STAR Grid Table -->
+    <div class="star-table">
+      <div class="star-table-header">
+        <span>层次</span>
+        <span>内容</span>
+        <span>关键词</span>
+      </div>
+      <div class="star-table-row">
+        <div><span class="star-badge badge-s">S — Situation</span></div>
+        <div class="star-content">首页重构 → <code class="m">DAU</code>/<code class="m">GMV</code> 双降，业务压力大</div>
+        <div class="star-keywords">platform-wide crisis,<br>millions at stake</div>
+      </div>
+      <div class="star-table-row">
+        <div><span class="star-badge badge-t">T — Task</span></div>
+        <div class="star-content">多实验叠加，无法用普通 <code class="m">A/B</code> 回答因果问题</div>
+        <div class="star-keywords">overlapping interventions,<br>causal mechanism</div>
+      </div>
+      <div class="star-table-row">
+        <div><span class="star-badge badge-a">A1 — 实验正交</span></div>
+        <div class="star-content">流量树重构，哈希种子正交</div>
+        <div class="star-keywords">orthogonal,<br>clean treatment effects</div>
+      </div>
+      <div class="star-table-row">
+        <div><span class="star-badge badge-a">A2 — DID</span></div>
+        <div class="star-content">以货运用户为对照，剥离宏观混淆项，定位弹窗因果</div>
+        <div class="star-keywords">Difference-in-Differences,<br>Shapley decomposition</div>
+      </div>
+      <div class="star-table-row">
+        <div><span class="star-badge badge-a">A3 — LLM Pipeline</span></div>
+        <div class="star-content">自动化统计工作流，大幅压缩分析周期</div>
+        <div class="star-keywords">LLM agents, SRM,<br>variance decomposition</div>
+      </div>
+      <div class="star-table-row">
+        <div><span class="star-badge badge-r">R — Result</span></div>
+        <div class="star-content">统计证据驱动快速 UI 迭代，止损；改变团队度量文化</div>
+        <div class="star-keywords">incontrovertible evidence,<br>causal culture</div>
+      </div>
+    </div>
+
+    <!-- Practice Tips -->
+    <div class="practice-card" id="m2-practice">
+      <h4>🎤 朗读练习建议</h4>
+      <ol>
+        <li>第一遍：完整朗读，重点体会 <span class="pl"> // </span> 处的长停顿——"危机引入"段每个 <span class="pl"> // </span> 都是让听者跟上你节奏的呼吸点</li>
+        <li>第二遍：把 Layer one / two / three 说得像讲故事的章节，每层之间停顿略长，让面试官感受到你的思维是分层、有序的</li>
+        <li>特别注意结尾段的语速要放慢——"cultural change"是收割情感共鸣的时刻，不要急</li>
+        <li>如果面试官打断说"can you tell me more about the <code class="m">DID</code> part?"——你随时可以深挖，参考 Action Layer 2 部分展开细节</li>
+      </ol>
+    </div>
+
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       MODULE 3 · PROJECT DEEP-DIVE B
+       ══════════════════════════════════════════════════════════ -->
+  <section class="module-section" id="module-3">
+
+    <div class="module-header mod-3">
+      <div class="watermark">03</div>
+      <h2>模块 3：Project Deep-Dive B</h2>
+      <div class="module-question">针对问题："How do you measure impact when A/B testing is tricky?" &nbsp;/&nbsp; "Tell me about a time you had to go beyond standard A/B testing"</div>
+    </div>
+
+    <!-- Coach Note -->
+    <div class="coach-note">
+      <div class="coach-title">⚡ 教练备注（朗读前请先看）</div>
+      <ul>
+        <li>目标时长：<span class="stat">2.5–3.5 分钟</span>。这个故事的核心卖点和模块 2 不同——模块 2 展示的是"我能找到问题在哪"，模块 3 展示的是"我能精确量化增量价值，然后把它变成商业策略"。</li>
+        <li>技术亮点有三层：<code class="m">HTE</code> 框架设计 → <code class="m">Uplift</code> 拆解（真实增量 vs 自然转化）→ 对冲策略落地 + 数字结果。</li>
+        <li>叙事节奏：先抛出"<code class="m">A/B testing</code> 不够用"的难题，再一层层揭示你怎么解决的。</li>
+      </ul>
+    </div>
+
+    <!-- ── SITUATION ── -->
+    <div class="star-section" id="m3-situation">
+      <div class="star-label">[SITUATION] 背景：A/B 测出正向，但问题没那么简单</div>
+      <div class="script-block">
+        <div class="script-body">
+
+          <p>So, <span class="ps"> / </span>
+          this is actually one of my favourite examples to talk about — <span class="ps"> / </span>
+          because it's a case where the <code class="m">A/B test</code> gave us a positive result,
+          <span class="ps"> / </span> but if we'd stopped there, <span class="ps"> / </span>
+          we would've made a <span class="emph">completely wrong business decision</span>. <span class="pl"> // </span></p>
+
+          <p>The context is DiDi's ride-hailing business. <span class="pl"> // </span>
+          We had a promotional strategy — <span class="ps"> / </span>
+          I'll call it a "re-engagement intervention" — <span class="ps"> / </span>
+          designed to bring back lapsed users who'd drifted towards competitors.
+          <span class="ps"> / </span>
+          The mechanics involved targeted outreach: <span class="ps"> / </span>
+          push notifications, <span class="ps"> / </span> SMS, <span class="ps"> / </span>
+          and a "shake to get a coupon" mechanic <span class="ps"> / </span>
+          inside the app and across external mini-program ecosystems. <span class="pl"> // </span></p>
+
+          <p>The <code class="m">A/B test</code> came back green. <span class="pl"> // </span>
+          Overall transaction volume was up. <span class="ps"> / </span>
+          The business team was excited. <span class="ps"> / </span>
+          And then someone asked the question <span class="ps"> / </span>
+          that completely changed the direction of the analysis: <span class="pl"> // </span></p>
+
+          <p>"But wait — <span class="ps"> / </span>
+          of all the users who redeemed that coupon <span class="ps"> / </span>
+          and placed a ride… <span class="ps"> / </span>
+          how many of them would have ridden with DiDi <span class="emph">anyway</span>?" <span class="pl"> // </span></p>
+
+          <p>That is the <span class="emph">incrementality problem</span>. <span class="pl"> // </span>
+          And it's one of the hardest things to get right <span class="ps"> / </span>
+          in consumer tech experimentation. <span class="pl"> // </span></p>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TASK ── -->
+    <div class="star-section" id="m3-task">
+      <div class="star-label">[TASK] 为什么这个问题特别难</div>
+      <div class="script-block">
+        <div class="script-body">
+
+          <p>Here's why standard <code class="m">A/B testing</code> falls short in this scenario. <span class="pl"> // </span></p>
+
+          <p>When you run a promotion on a population <span class="ps"> / </span>
+          that already has a <span class="emph">high baseline intent to convert</span>,
+          <span class="ps"> / </span>
+          what you're measuring isn't incremental value — <span class="ps"> / </span>
+          you're measuring <span class="emph">subsidised behaviour</span>. <span class="pl"> // </span>
+          You're essentially paying for rides <span class="ps"> / </span>
+          that would have happened anyway. <span class="ps"> / </span>
+          I mean, <span class="ps"> / </span>
+          that's not impact — that's just cost. <span class="pl"> // </span></p>
+
+          <p>And in a competitive ride-hailing market <span class="ps"> / </span>
+          where you have users simultaneously active across DiDi's App, <span class="ps"> / </span>
+          WeChat mini-program, <span class="ps"> / </span>
+          and Alipay mini-program — <span class="ps"> / </span>
+          the user behaviour is <span class="emph">incredibly heterogeneous</span>. <span class="pl"> // </span>
+          Different user segments respond completely differently to the same intervention.
+          <span class="pl"> // </span>
+          So we needed a framework <span class="ps"> / </span>
+          that could separate the <span class="emph">true uplift</span> from the noise <span class="ps"> / </span>
+          at a granular level. <span class="pl"> // </span></p>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ACTION ── -->
+    <div class="star-section" id="m3-action">
+      <div class="star-label">[ACTION] 三层方法论：正交 RCT → 用户分层 → HTE Uplift 拆解</div>
+      <div class="script-block">
+        <div class="script-body">
+
+          <p>So I designed what I'd call a multi-layered <span class="emph">orthogonal <code class="m">RCT</code> framework</span>. <span class="pl"> // </span></p>
+
+          <p>First, <span class="ps"> / </span>
+          I restructured the experimental architecture. <span class="pl"> // </span>
+          The key challenge was that the App and mini-program ecosystems <span class="ps"> / </span>
+          were essentially competing for the same users. <span class="ps"> / </span>
+          So I made sure the experiments across these traffic channels <span class="ps"> / </span>
+          were <code class="m">orthogonally</code> designed — <span class="ps"> / </span>
+          using a shared hash-seed allocation <span class="ps"> / </span>
+          so the same user couldn't simultaneously appear in conflicting treatment arms.
+          <span class="pl"> // </span>
+          This gave us a clean, uncontaminated <span class="emph">counterfactual baseline</span>. <span class="pl"> // </span></p>
+
+          <p>Second, <span class="ps"> / </span>
+          I introduced cohort stratification <span class="ps"> / </span>
+          based on two dimensions: <span class="ps"> / </span>
+          user <code class="m">LTV</code> — their long-term value to the platform — <span class="ps"> / </span>
+          and user state — specifically, <span class="ps"> / </span>
+          whether a user was a <span class="emph">wobbler</span> <span class="ps"> / </span>
+          who genuinely switches between DiDi and competitors depending on incentives,
+          <span class="ps"> / </span>
+          or a <span class="emph">loyal high-frequency user</span> <span class="ps"> / </span>
+          who rides with DiDi regardless. <span class="pl"> // </span>
+          This stratification is critical, <span class="ps"> / </span>
+          because the business value of winning back a wobbler <span class="ps"> / </span>
+          is fundamentally different <span class="ps"> / </span>
+          from the cost of subsidising a loyal user. <span class="pl"> // </span></p>
+
+          <p>Third, <span class="ps"> / </span>
+          and this is the core — <span class="ps"> / </span>
+          I applied a <code class="m">Heterogeneous Treatment Effects</code> framework
+          <span class="ps"> / </span>
+          to measure the <span class="emph">incremental uplift</span> for each cohort separately.
+          <span class="pl"> // </span>
+          The key question I was answering was: <span class="ps"> / </span>
+          for each user segment, <span class="ps"> / </span>
+          what is the <span class="emph">causal lift</span> in transactions <span class="ps"> / </span>
+          that is attributable purely to our intervention, <span class="ps"> / </span>
+          above and beyond what would have happened in the counterfactual world
+          <span class="ps"> / </span>
+          where we did nothing? <span class="pl"> // </span></p>
+
+          <p>What the analysis revealed was really stark. <span class="pl"> // </span>
+          For high-frequency, high-<code class="m">LTV</code> users — <span class="ps"> / </span>
+          the loyal core — <span class="ps"> / </span>
+          the conversion rate was high, <span class="ps"> / </span>
+          but the incremental value was <span class="emph">near zero</span>. <span class="pl"> // </span>
+          They were going to ride anyway. <span class="ps"> / </span>
+          Spending money on them was <span class="emph">pure waste</span>. <span class="pl"> // </span></p>
+
+          <p>For the wobbler cohort — <span class="ps"> / </span>
+          users in that middle zone <span class="ps"> / </span>
+          who genuinely oscillate between platforms based on price sensitivity —
+          <span class="ps"> / </span>
+          the incremental lift was <span class="emph">significant and real</span>. <span class="pl"> // </span>
+          The intervention was <span class="emph">actually changing their behaviour</span>. <span class="pl"> // </span></p>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ── RESULT ── -->
+    <div class="star-section" id="m3-result">
+      <div class="star-label">[RESULT] 对冲策略落地 + 量化结果</div>
+      <div class="script-block">
+        <div class="script-body">
+
+          <p>So based on those uplift findings, <span class="ps"> / </span>
+          I formulated what I called a <span class="emph">statistical hedging strategy</span>. <span class="pl"> // </span></p>
+
+          <p>Instead of running the promotion broadly, <span class="ps"> / </span>
+          we concentrated the intervention budget on the <span class="emph">high-incrementality wobbler segment</span>.
+          <span class="ps"> / </span>
+          We basically stopped subsidising the loyal users <span class="ps"> / </span>
+          and redirected that spend <span class="ps"> / </span>
+          towards the users where every dollar of promotion was actually doing something.
+          <span class="pl"> // </span></p>
+
+          <p>The quantified outcomes were significant. <span class="pl"> // </span>
+          We successfully retained <span class="stat">1.27%</span> of high-frequency active users
+          <span class="ps"> / </span> from competitive siphoning — <span class="ps"> / </span>
+          users who, without the intervention, <span class="ps"> / </span>
+          we had strong statistical reason to believe <span class="ps"> / </span>
+          would have shifted their ride volume to a competitor. <span class="pl"> // </span></p>
+
+          <p>And over a two-month observation window, <span class="ps"> / </span>
+          the full strategy rollout achieved a
+          <span class="stat">+6.03%</span> statistically significant causal lift in core App transaction volume,
+          <span class="ps"> / </span>
+          and a <span class="stat">+6.6%</span> increase in App transacting users. <span class="pl"> // </span>
+          These aren't correlation numbers — <span class="ps"> / </span>
+          they're <span class="emph">causal estimates</span> <span class="ps"> / </span>
+          derived from the counterfactual baseline <span class="ps"> / </span>
+          I'd built into the experimental design from day one. <span class="pl"> // </span></p>
+
+          <p>What I'm proud of here <span class="ps"> / </span>
+          isn't just the number — <span class="ps"> / </span>
+          it's the <span class="emph">reasoning chain</span> that got us there. <span class="pl"> // </span>
+          We went from <span class="ps"> / </span>
+          "the A/B test is green, let's scale it" <span class="ps"> / </span>
+          to <span class="ps"> / </span>
+          "actually, let's ask <span class="emph">who</span> is responding,
+          <span class="ps"> / </span>
+          and <span class="emph">why</span>, <span class="ps"> / </span>
+          and whether that response is <span class="emph">genuinely incremental</span>." <span class="pl"> // </span>
+          That shift in analytical rigour <span class="ps"> / </span>
+          is what turned a good-looking experiment <span class="ps"> / </span>
+          into a genuinely <span class="emph">high-ROI business decision</span>. <span class="pl"> // </span></p>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="section-divider" id="m3-structure"><span>STAR 结构回顾</span></div>
+
+    <!-- STAR Grid Table -->
+    <div class="star-table">
+      <div class="star-table-header">
+        <span>层次</span>
+        <span>内容</span>
+        <span>关键词</span>
+      </div>
+      <div class="star-table-row">
+        <div><span class="star-badge badge-s">S — Situation</span></div>
+        <div class="star-content">促活实验 <code class="m">A/B</code> 正向，但隐藏 <code class="m">incrementality</code> 陷阱</div>
+        <div class="star-keywords">subsidised behaviour,<br>incrementality problem</div>
+      </div>
+      <div class="star-table-row">
+        <div><span class="star-badge badge-t">T — Task</span></div>
+        <div class="star-content">异构用户群 + 多平台竞争，标准 <code class="m">A/B</code> 不够用</div>
+        <div class="star-keywords">heterogeneous,<br>counterfactual baseline</div>
+      </div>
+      <div class="star-table-row">
+        <div><span class="star-badge badge-a">A1 — 正交 RCT</span></div>
+        <div class="star-content">正交 <code class="m">RCT</code> 设计，hash-seed 隔离多端流量</div>
+        <div class="star-keywords">orthogonal,<br>uncontaminated</div>
+      </div>
+      <div class="star-table-row">
+        <div><span class="star-badge badge-a">A2 — 用户分层</span></div>
+        <div class="star-content"><code class="m">LTV</code> × 用户状态双维分层（忠实 vs 摇摆用户）</div>
+        <div class="star-keywords">cohort stratification,<br>wobbler</div>
+      </div>
+      <div class="star-table-row">
+        <div><span class="star-badge badge-a">A3 — HTE</span></div>
+        <div class="star-content"><code class="m">HTE</code> 框架拆解真实增量 vs 自然转化</div>
+        <div class="star-keywords">heterogeneous treatment effects,<br>causal uplift</div>
+      </div>
+      <div class="star-table-row">
+        <div><span class="star-badge badge-r">R — Result</span></div>
+        <div class="star-content">对冲策略重新分配预算 → <span class="stat">+6.03%</span> / <span class="stat">+6.6%</span> / 留存 <span class="stat">1.27%</span></div>
+        <div class="star-keywords">hedging, statistically significant,<br>causal lift</div>
+      </div>
+    </div>
+
+    <!-- Practice Tips -->
+    <div class="practice-card" id="m3-practice">
+      <h4>🎤 朗读练习建议</h4>
+      <ol>
+        <li>"That is the <span class="emph">incrementality problem</span>" 这句是全篇情绪最高点之一，说完后 <span class="pl"> // </span> 停足 2 秒，让它沉下去</li>
+        <li>"They were going to ride anyway. <span class="ps"> / </span> Spending money on them was <span class="emph">pure waste</span>." ——这两句要说得干脆、果断，像在给面试官做 business review</li>
+        <li>结尾那段 "We went from… to…" 的对比句式，语速略慢，说得像在梳理思路，不要背书感</li>
+        <li>如果被追问 "how did you define the wobbler cohort operationally?"——你可以答：基于历史跨平台订单行为、平台切换频率、以及对价格优惠的响应弹性</li>
+      </ol>
+    </div>
+
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       MODULE 4 · BEHAVIORAL & CULTURE FIT
+       ══════════════════════════════════════════════════════════ -->
+  <section class="module-section" id="module-4">
+
+    <div class="module-header mod-4">
+      <div class="watermark">04</div>
+      <h2>模块 4：Behavioral & Culture Fit</h2>
+      <div class="module-question">两个最高频问题的逐字稿</div>
+    </div>
+
+    <!-- Global Coach Note -->
+    <div class="coach-note">
+      <div class="coach-title">⚡ 全局教练备注</div>
+      <ul>
+        <li>模块 4 和前三个模块的底层逻辑完全不同。前三个是"展示能力"，这个是"展示人格"。</li>
+        <li>澳洲外企文化极度重视：主动性、透明度、心理安全感、以及不 PUA 的成熟职场关系。</li>
+        <li>你的回答要让面试官感受到：你是一个有自我认知、有方向感、且离职原因正向的人——而不是一个在逃跑的人。</li>
+      </ul>
+    </div>
+
+    <!-- ── 问题 A ── -->
+    <div class="star-section" id="m4-q-a">
+      <div class="star-label">问题 A："Why do you want to leave your current role?"</div>
+    </div>
+
+    <div class="coach-note">
+      <div class="coach-title">⚡ 问题 A 教练备注</div>
+      <ul>
+        <li>绝对禁区：不提移民、不提"苟着"、不抱怨管理层。</li>
+        <li>核心叙事策略：主动向前奔跑，而不是被动逃离。</li>
+        <li>把离职理由包装成三个维度：① 技术深度的天花板 ② 对国际化协作环境的渴望 ③ 在澳洲市场找到更好的专业匹配度。</li>
+      </ul>
+    </div>
+
+    <div class="script-block">
+      <div class="script-body">
+
+        <p>That's a fair question, <span class="ps"> / </span>
+        and I want to give you an honest answer. <span class="pl"> // </span></p>
+
+        <p>I've genuinely learned a lot at DiDi. <span class="pl"> // </span>
+        The scale is enormous, <span class="ps"> / </span>
+        the problems are complex, <span class="ps"> / </span>
+        and I think some of the work I've done there — <span class="ps"> / </span>
+        the <code class="m">causal inference</code> frameworks, <span class="ps"> / </span>
+        the <code class="m">LLM</code>-powered pipeline — <span class="ps"> / </span>
+        I'm really proud of. <span class="pl"> // </span></p>
+
+        <p>But to be honest with you? <span class="pl"> // </span>
+        I've reached a point where I feel like I've <span class="emph">extracted most of the learning</span>
+        I can from this particular environment. <span class="pl"> // </span>
+        You know, <span class="ps"> / </span>
+        in Chinese big tech, <span class="ps"> / </span>
+        the culture is intensely execution-focused — <span class="ps"> / </span>
+        it's very fast, <span class="ps"> / </span>
+        very competitive, <span class="ps"> / </span>
+        and the emphasis is on shipping and iteration. <span class="pl"> // </span>
+        And I've thrived in that. <span class="ps"> / </span>
+        But what it sometimes lacks <span class="ps"> / </span>
+        is the space for deeper <span class="emph">methodological dialogue</span> — <span class="ps"> / </span>
+        the kind of conversations where you're genuinely debating <span class="ps"> / </span>
+        whether <code class="m">DID</code> is the right causal model here,
+        <span class="ps"> / </span>
+        or whether we need an <code class="m">IV</code> approach instead. <span class="pl"> // </span>
+        I want to be in a room <span class="ps"> / </span>
+        where that <span class="emph">rigour is the default</span>,
+        <span class="ps"> / </span> not the exception. <span class="pl"> // </span></p>
+
+        <p>The second thing — <span class="pl"> // </span>
+        and this is probably the bigger pull factor — <span class="ps"> / </span>
+        is that I'm genuinely excited about working in an
+        <span class="emph">international environment</span>. <span class="pl"> // </span>
+        The problems that companies like yours are working on — <span class="ps"> / </span>
+        data-driven product decisions at global scale, <span class="ps"> / </span>
+        with diverse, cross-functional teams — <span class="ps"> / </span>
+        that's exactly the kind of work <span class="ps"> / </span>
+        where I believe my particular combination of skills <span class="ps"> / </span>
+        has the most impact. <span class="pl"> // </span></p>
+
+        <p>So it's less about <span class="acent">leaving something behind</span>,
+        <span class="ps"> / </span>
+        and more about <span class="emph">deliberately moving toward</span> something <span class="ps"> / </span>
+        that I think is the right next chapter for where I want to take my career.
+        <span class="pl"> // </span></p>
+
+      </div>
+    </div>
+
+    <!-- ── 问题 B ── -->
+    <div class="star-section" id="m4-q-b">
+      <div class="star-label">问题 B："Tell me about a time you faced pushback on your analysis. How did you handle it?"</div>
+    </div>
+
+    <div class="coach-note">
+      <div class="coach-title">⚡ 问题 B 教练备注</div>
+      <ul>
+        <li>这道题考察的不是你有没有遇到阻力，而是：你如何在坚持数据立场的同时，维护职场关系。</li>
+        <li>最佳答案结构：描述冲突 → 我用数据而非情绪回应 → 最终赢得信任 → 反思。</li>
+        <li>用 DiDi 首页重构那个故事——因为你当时的分析结论（新首页有负向损失）是反商业直觉的，业务侧肯定有压力。</li>
+      </ul>
+    </div>
+
+    <div class="script-block">
+      <div class="script-body">
+
+        <p>Yeah, <span class="ps"> / </span>
+        this actually comes up more than you'd think <span class="ps"> / </span>
+        in a fast-moving environment like DiDi. <span class="pl"> // </span>
+        Let me give you a specific example. <span class="pl"> // </span></p>
+
+        <p>This was during the homepage redesign project I mentioned. <span class="pl"> // </span>
+        When I first brought the data showing that the new homepage was
+        <span class="emph">causally hurting</span> ride-hailing metrics,
+        <span class="ps"> / </span>
+        the reaction from the product team wasn't exactly warm. <span class="pl"> // </span>
+        I mean — <span class="ps"> / </span>
+        they'd invested months into this redesign, <span class="ps"> / </span>
+        there was real excitement about the freight business growth,
+        <span class="ps"> / </span>
+        and here I am showing up with a <code class="m">DID</code> model saying <span class="ps"> / </span>
+        "actually, <span class="ps"> / </span>
+        I think we have a problem." <span class="pl"> // </span></p>
+
+        <p>The pushback I got was essentially: <span class="ps"> / </span>
+        "Your model might be wrong. <span class="ps"> / </span>
+        The aggregate numbers still look okay. <span class="ps"> / </span>
+        Maybe you're overcounting the effect." <span class="pl"> // </span></p>
+
+        <p>And, <span class="ps"> / </span>
+        you know, <span class="ps"> / </span>
+        my instinct in that moment <span class="ps"> / </span>
+        was to defend my methodology. <span class="pl"> // </span>
+        But I've learned — <span class="ps"> / </span>
+        and this took me a while — <span class="ps"> / </span>
+        that the most effective response to pushback on analysis <span class="ps"> / </span>
+        isn't to double down on the method. <span class="pl"> // </span>
+        It's to <span class="emph">invite the sceptic into the reasoning process</span>. <span class="pl"> // </span></p>
+
+        <p>So instead of saying "my <code class="m">DID</code> model is correct," <span class="ps"> / </span>
+        I said: <span class="ps"> / </span>
+        "Let's <span class="emph">stress-test it together</span>. <span class="ps"> / </span>
+        Tell me what assumptions you think might be wrong, <span class="ps"> / </span>
+        and we'll run the sensitivity checks right now." <span class="pl"> // </span></p>
+
+        <p>We spent time going through the <span class="acent">parallel trends</span> assumption,
+        <span class="ps"> / </span>
+        checking whether the freight user cohort was genuinely a valid control reference,
+        <span class="ps"> / </span>
+        running robustness checks with different model specifications.
+        <span class="pl"> // </span>
+        And what happened was — <span class="ps"> / </span>
+        by the end of that session, <span class="ps"> / </span>
+        the product manager wasn't just <span class="emph">persuaded by the conclusion</span>,
+        <span class="ps"> / </span>
+        they were <span class="emph">persuaded by the process</span>. <span class="pl"> // </span>
+        They'd seen exactly where the numbers came from. <span class="pl"> // </span></p>
+
+        <p>The output was that the team moved quickly on the UI iterations I recommended —
+        <span class="ps"> / </span>
+        not because I'd won an argument, <span class="ps"> / </span>
+        but because we'd <span class="emph">arrived at the conclusion together</span>.
+        <span class="pl"> // </span></p>
+
+        <p>What I took away from that is something I now try to apply consistently:
+        <span class="pl"> // </span>
+        <span class="emph">statistical rigour</span> and <span class="emph">collaborative humility</span>
+        aren't in tension — <span class="ps"> / </span>
+        they actually <span class="emph">reinforce</span> each other. <span class="ps"> / </span>
+        If your analysis is sound, <span class="ps"> / </span>
+        it can withstand scrutiny. <span class="ps"> / </span>
+        And inviting that scrutiny <span class="ps"> / </span>
+        is the <span class="emph">fastest way to build trust</span>. <span class="pl"> // </span></p>
+
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="section-divider" id="m4-structure"><span>两题结构回顾</span></div>
+
+    <!-- Structure Grid Table -->
+    <div class="star-table">
+      <div class="star-table-header">
+        <span>题目</span>
+        <span>核心叙事</span>
+        <span>关键印象词</span>
+      </div>
+      <div class="star-table-row">
+        <div><span class="star-badge badge-a">Why leaving</span></div>
+        <div class="star-content">主动向前 + 追求方法论深度 + 国际化环境</div>
+        <div class="star-keywords">deliberate move,<br>rigour as default</div>
+      </div>
+      <div class="star-table-row">
+        <div><span class="star-badge badge-r">Pushback</span></div>
+        <div class="star-content">用协作代替对抗，邀请质疑而非防御</div>
+        <div class="star-keywords">invite the sceptic,<br>collaborative humility</div>
+      </div>
+    </div>
+
+    <!-- Practice Tips -->
+    <div class="practice-card" id="m4-practice">
+      <h4>🎤 朗读练习建议</h4>
+      <div style="margin-bottom:16px;">
+        <strong style="color:var(--accent-blue);font-size:13px;">问题 A：</strong>
+      </div>
+      <ol style="margin-bottom:18px;">
+        <li>"I've reached a point where I feel like I've <span class="emph">extracted most of the learning</span>" ——这句是全段最重要的，语速略降，说得像在真诚自省，不要听起来像在背稿</li>
+        <li>"<span class="emph">deliberately moving toward</span>" 这个词组要说得有力量，体现主动性</li>
+      </ol>
+      <div style="margin-bottom:14px;">
+        <strong style="color:var(--accent-purple);font-size:13px;">问题 B：</strong>
+      </div>
+      <ol>
+        <li>"Actually, I think we have a problem" ——这里用稍微轻一点的语气说，带一点自嘲，显得真实不做作</li>
+        <li>"Let's <span class="emph">stress-test it together</span>" ——这句是全篇情绪转折点，说得像在真实邀请对方，坚定但不强硬</li>
+        <li>结尾的反思段落语速放慢，这是展示思想成熟度的时刻</li>
+      </ol>
+    </div>
+
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       INTERVIEW FOLLOWUP Q&A
+       ══════════════════════════════════════════════════════════ -->
+  <section class="module-section" id="followup">
+
+    <div class="module-header" style="border-left: 4px solid var(--accent-blue);">
+      <div class="watermark">Q&A</div>
+      <h2>Interview Followup Q&A</h2>
+      <div class="module-question">13 道面试追问逐字稿 · 按来源模块和角色分组 · 覆盖 ByteDance / DiDi DID / HTE Uplift / Business / VETASSESS</div>
+    </div>
+
+    <div class="coach-note">
+      <div class="coach-title">⚡ 使用说明</div>
+      <ul>
+        <li>Q1–Q5 对应 Module 2（DiDi 首页重构 / <code class="m">DID</code>），是 deep-dive 的核心追问，优先级最高。</li>
+        <li>Q6–Q10 对应 Module 3（<code class="m">HTE</code> / Uplift），是方法论深度的验证。</li>
+        <li>Q11–Q13 对应 Module 1（ByteDance A/B），面试官可能在 Elevator Pitch 提到时追问。</li>
+        <li>Q14–Q18 面向商业判断型面试官（如 VP of Product），考察翻译能力。</li>
+        <li>Q19–Q23 面向 VETASSESS 职业评估，强调统计师角色定位而非数据分析师。</li>
+        <li>每道题朗读时注意 <span class="pl"> // </span> 的停顿节奏——技术追问同样需要呼吸点。</li>
+      </ul>
+    </div>
+
+    <!-- ═══════════════ GROUP 1: BYTEDANCE ═══════════════ -->
+    <div class="followup-group-header fg-mod1" id="fup-m1">
+      <h3>Module 1 · ByteDance 追问</h3>
+      <span class="fg-badge">Q11 – Q13</span>
+    </div>
+
+    <!-- Q11 -->
+    <div class="qa-card" id="fup-q11">
+      <div class="qa-card-header">
+        <div class="qa-num">Q11</div>
+        <span class="qa-priority pri-p1">🟡 P1</span>
+        <div class="qa-question">"For the live-streaming bitrate reduction — how did you calculate the required sample size and statistical power before running the experiment?"</div>
+      </div>
+      <div class="qa-answer">
+        <div class="script-body">
+
+          <p>Good question — sample size planning was actually a non-trivial step here, because the primary metric we were protecting was user active days (lifetime), which has a relatively <span class="emph">low variance</span> compared to engagement metrics like click-through rate. <span class="pl"> // </span></p>
+
+          <p>So the approach I took was: <span class="pl"> // </span> first, I pulled the historical distribution of the metric — active days per user over a 30-day window — to get the baseline mean and standard deviation. <span class="pl"> // </span> Then I used a standard two-sample t-test power formula: <span class="ps"> / </span> given a target <span class="emph">minimum detectable effect (MDE)</span> — in this case, we set a non-inferiority margin of roughly <span class="stat">0.1%</span> on active days — <span class="ps"> / </span> with 80% statistical power and a significance level of 0.05, <span class="ps"> / </span> I calculated the required per-arm sample size. <span class="pl"> // </span></p>
+
+          <p>The tricky part was that we were running the experiment on a <span class="emph">subset of low-value users</span> — <span class="ps"> / </span> not the full user base — <span class="ps"> / </span> so I had to re-estimate the variance within that specific cohort separately, <span class="ps"> / </span> because low-engagement users tend to have much higher variance in activity patterns. <span class="pl"> // </span></p>
+
+          <p>Once I had the per-arm n, <span class="ps"> / </span> I cross-checked against the actual daily traffic volume in that segment <span class="ps"> / </span> to determine how many days the experiment needed to run <span class="ps"> / </span> to reach the required exposure. <span class="pl"> // </span></p>
+
+          <p>In practice, <span class="ps"> / </span> we ran it for <span class="stat">14 days</span> <span class="ps"> / </span> with a holdout buffer of a few extra days for metric stabilisation before readout. <span class="pl"> // </span></p>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Q12 -->
+    <div class="qa-card" id="fup-q12">
+      <div class="qa-card-header">
+        <div class="qa-num">Q12</div>
+        <span class="qa-priority pri-p1">🟡 P1</span>
+        <div class="qa-question">"You ran a non-inferiority test on user active days. What margin did you set for non-inferiority, and how did you justify that threshold to the business?"</div>
+      </div>
+      <div class="qa-answer">
+        <div class="script-body">
+
+          <p>Right — <span class="ps"> / </span> so the framing here was explicitly a <span class="emph">non-inferiority design</span>, <span class="ps"> / </span> because the <span class="acent">goal</span> of the experiment wasn't to improve user experience — <span class="ps"> / </span> it was to reduce cost <span class="ps"> / </span> <span class="acent">without hurting</span> user experience. <span class="pl"> // </span> So the null hypothesis was reversed: <span class="ps"> / </span> we were trying to prove the treatment was not meaningfully worse than control, <span class="ps"> / </span> rather than proving it was better. <span class="pl"> // </span></p>
+
+          <p>The margin I set was <span class="emph">a 0.1% relative decrease in lifetime active days</span> as the threshold below which we'd consider the intervention harmful. <span class="pl"> // </span> The justification to the business was framed in terms of <span class="emph">business tolerance</span>: <span class="ps"> / </span> we asked the product and operations team — <span class="ps"> / </span> <span class="acent">"what is the smallest degradation in user retention that would actually concern you from a revenue perspective?"</span> <span class="pl"> // </span> And based on their monetisation model, <span class="ps"> / </span> 0.1% relative LT decline was below the threshold that would affect advertising revenue in any material way. <span class="pl"> // </span></p>
+
+          <p>So the margin wasn't arbitrary — <span class="ps"> / </span> it was anchored to a business impact calculation, <span class="ps"> / </span> which made it much easier for stakeholders to accept. <span class="pl"> // </span></p>
+
+          <p>One additional thing I did: <span class="ps"> / </span> I ran the analysis separately on <span class="emph">high-value and low-value user subgroups</span> <span class="ps"> / </span> to make sure the aggregate non-inferiority wasn't masking a local harm to any specific segment. <span class="pl"> // </span> It wasn't — <span class="ps"> / </span> the effect was consistent across subgroups. <span class="pl"> // </span></p>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Q13 -->
+    <div class="qa-card" id="fup-q13">
+      <div class="qa-card-header">
+        <div class="qa-num">Q13</div>
+        <span class="qa-priority pri-p1">🟡 P1</span>
+        <div class="qa-question">"The +0.014% lift in lifetime active days — that's a very small number. How did you distinguish that from noise? What was your p-value and confidence interval?"</div>
+      </div>
+      <div class="qa-answer">
+        <div class="script-body">
+
+          <p>Fair challenge — <span class="ps"> / </span> and honestly, <span class="ps"> / </span> <span class="stat">0.014%</span> is a number that would raise eyebrows in a lot of contexts. <span class="pl"> // </span> So let me explain why we were confident it was real and not noise. <span class="pl"> // </span></p>
+
+          <p>First, <span class="ps"> / </span> the statistical significance: <span class="ps"> / </span> the p-value on that result was <span class="emph">below 0.01</span> — <span class="ps"> / </span> well within our pre-specified significance threshold. <span class="ps"> / </span> The <span class="emph">95% confidence interval</span> was entirely above zero, <span class="ps"> / </span> meaning even the lower bound of our estimate was a positive effect. <span class="pl"> // </span></p>
+
+          <p>Second, <span class="ps"> / </span> what gives me confidence beyond the p-value is the <span class="emph">scale of the experiment</span>. <span class="pl"> // </span> We're talking about an experiment running on tens of millions of daily active users. <span class="pl"> // </span> At that scale, <span class="ps"> / </span> even a <span class="stat">0.014%</span> shift in a stable metric like lifetime active days <span class="ps"> / </span> represents a <span class="acent">large absolute number of user-days</span> <span class="ps"> / </span> and is well above the noise floor of the measurement system. <span class="pl"> // </span></p>
+
+          <p>Third, <span class="ps"> / </span> I ran <span class="emph"><code class="m">A/A</code> validation</span> before the experiment launched — <span class="ps"> / </span> specifically to confirm that our randomisation was clean <span class="ps"> / </span> and that the variance of the metric under no-treatment conditions was consistent with our power calculations. <span class="pl"> // </span> The <code class="m">A/A</code> results looked healthy. <span class="pl"> // </span></p>
+
+          <p>So yes — <span class="ps"> / </span> the percentage sounds tiny, <span class="ps"> / </span> but given the sample size, the pre-registered hypothesis, <span class="ps"> / </span> and the clean <code class="m">A/A</code> — <span class="ps"> / </span> we were confident the signal was real. <span class="pl"> // </span></p>
+
+          <p>That said — <span class="ps"> / </span> I always caveat results like this by saying: <span class="ps"> / </span> <span class="acent">statistical significance is not the same as practical significance.</span> <span class="pl"> // </span> In this case, <span class="ps"> / </span> the practical significance argument was less about the active day lift <span class="ps"> / </span> and more about the <span class="emph">cost reduction</span> being the primary goal — <span class="ps"> / </span> and that was unambiguously large and significant. <span class="pl"> // </span></p>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ GROUP 2: DIDI DID ═══════════════ -->
+    <div class="followup-group-header fg-mod2" id="fup-m2">
+      <h3>Module 2 · DiDi 首页重构 / DID 追问</h3>
+      <span class="fg-badge">Q1 – Q5</span>
+    </div>
+
+    <!-- Q1 -->
+    <div class="qa-card" id="fup-q1">
+      <div class="qa-card-header">
+        <div class="qa-num">Q1</div>
+        <span class="qa-priority pri-p0">🔴 P0</span>
+        <div class="qa-question">"You mentioned using freight users as a control group in your DID model. How did you validate the parallel trends assumption? What did you do if it didn't hold?"</div>
+      </div>
+      <div class="qa-answer">
+        <div class="script-body">
+
+          <p>Great question — <span class="ps"> / </span> the parallel trends assumption is the <span class="emph">central credibility requirement</span> of any <code class="m">DID</code> design, <span class="ps"> / </span> and I took it seriously. <span class="pl"> // </span></p>
+
+          <p>The validation approach was: <span class="ps"> / </span> I looked at the <span class="emph">pre-treatment trend</span> of the ride-hailing metric — <span class="ps"> / </span> specifically daily active users and transaction volume — <span class="ps"> / </span> for both the affected group (ride-hailing users exposed to the new UI) <span class="ps"> / </span> and the control reference group (freight users) — <span class="ps"> / </span> going back <span class="emph">8 weeks</span> before the homepage redesign launched. <span class="pl"> // </span></p>
+
+          <p>What I was checking for was: <span class="ps"> / </span> do these two groups move in parallel during the pre-period? <span class="pl"> // </span> If one group was already diverging before the treatment, <span class="ps"> / </span> the control reference is invalid. <span class="pl"> // </span></p>
+
+          <p>In our case, <span class="ps"> / </span> the pre-trends <span class="emph">were</span> reasonably parallel — <span class="ps"> / </span> both groups showed similar weekly seasonality patterns <span class="ps"> / </span> and neither had any anomalous jumps in the pre-period. <span class="pl"> // </span> I formalised this with a simple regression: <span class="ps"> / </span> I regressed the outcome on time, group, and an interaction term — <span class="ps"> / </span> and tested whether the interaction coefficient in the pre-period was statistically indistinguishable from zero. <span class="pl"> // </span> It was. <span class="pl"> // </span></p>
+
+          <p>Now — <span class="ps"> / </span> you asked what I'd do if it <span class="acent">hadn't</span> held. <span class="pl"> // </span> Honestly, <span class="ps"> / </span> if the pre-trends had diverged, <span class="ps"> / </span> I would have <span class="emph">abandoned <code class="m">DID</code></span> for that specification <span class="ps"> / </span> and pivoted to one of two alternatives: <span class="ps"> / </span> either a <span class="emph">synthetic control</span> approach — <span class="ps"> / </span> constructing a weighted combination of multiple control groups to better match the pre-trend — <span class="ps"> / </span> or a <span class="emph">regression discontinuity design</span> if the treatment timing was sharp enough. <span class="pl"> // </span> I actually kept those options in reserve, <span class="ps"> / </span> because with a redesign launch date as a clean cutoff, <span class="ps"> / </span> <code class="m">RD</code> was a viable fallback. <span class="pl"> // </span></p>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="qa-card" id="fup-q2">
+      <div class="qa-card-header">
+        <div class="qa-num">Q2</div>
+        <span class="qa-priority pri-p0">🔴 P0</span>
+        <div class="qa-question">"When you say you used Shapley values for funnel decomposition — how exactly did you define the 'players' in that Shapley game? Was it funnel steps, or user segments, or something else?"</div>
+      </div>
+      <div class="qa-answer">
+        <div class="script-body">
+
+          <p>Good catch — <span class="ps"> / </span> I should be precise here. <span class="pl"> // </span></p>
+
+          <p>The "players" in the Shapley decomposition <span class="ps"> / </span> were <span class="emph">funnel conversion steps</span>, <span class="ps"> / </span> not user segments. <span class="pl"> // </span> Specifically, <span class="ps"> / </span> I defined the funnel as a sequential chain of conversion events: <span class="ps"> / </span> homepage entry → top-nav click → freight page landing → ride-hailing return attempt → ride-booking completion. <span class="pl"> // </span></p>
+
+          <p>The question I was answering with Shapley was: <span class="ps"> / </span> <span class="acent">of the total observed drop in ride-booking completions, / what proportion of that loss is attributable to each step in the chain?</span> <span class="pl"> // </span></p>
+
+          <p>So the "contribution" of each player — each funnel step — <span class="ps"> / </span> was measured as its <span class="emph">marginal contribution to the total conversion loss</span> <span class="ps"> / </span> averaged across all permutations of which steps you include. <span class="pl"> // </span> This gave me a principled way to say: <span class="ps"> / </span> <span class="acent">"the largest single contributor to the conversion loss is step 3 — users landing on the freight page and failing to navigate back"</span> — <span class="ps"> / </span> rather than just eyeballing drop-off rates. <span class="pl"> // </span></p>
+
+          <p>In practice, <span class="ps"> / </span> I implemented this as a <span class="emph">sequential substitution algorithm</span> — <span class="ps"> / </span> which is computationally equivalent to Shapley for ordered funnels — <span class="ps"> / </span> rather than the full combinatorial Shapley calculation, <span class="ps"> / </span> which would've been expensive on our data volume. <span class="pl"> // </span> The ordering assumption in a funnel is justified, <span class="ps"> / </span> so this approximation was valid. <span class="pl"> // </span></p>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="qa-card" id="fup-q3">
+      <div class="qa-card-header">
+        <div class="qa-num">Q3</div>
+        <span class="qa-priority pri-p0">🔴 P0</span>
+        <div class="qa-question">"How did you handle the fact that some users might appear in *both* the ride-hailing and freight treatment arms simultaneously?"</div>
+      </div>
+      <div class="qa-answer">
+        <div class="script-body">
+
+          <p>Yes — <span class="ps"> / </span> this is a real contamination risk in any multi-product experiment, <span class="ps"> / </span> and it was exactly the kind of thing I had to address in the traffic tree redesign. <span class="pl"> // </span></p>
+
+          <p>The solution was at the <span class="emph">allocation layer</span>. <span class="pl"> // </span> I used a <span class="emph">shared hash-seed</span> across both the ride-hailing and freight experiment arms — <span class="ps"> / </span> meaning a given user's experiment assignment was deterministic based on their user ID and the same seed. <span class="pl"> // </span> This ensured that the same user couldn't simultaneously be in the treatment arm for ride-hailing <span class="ps"> / </span> <span class="acent">and</span> the treatment arm for freight — <span class="ps"> / </span> they'd be consistently assigned to one side. <span class="pl"> // </span></p>
+
+          <p>For users who were genuinely <span class="emph">multi-product users</span> — <span class="ps"> / </span> people who both book rides and ship freight regularly — <span class="ps"> / </span> I handled them by including a usage-pattern covariate in the analysis <span class="ps"> / </span> and running a sensitivity check that excluded high-frequency cross-product users entirely. <span class="pl"> // </span> The results were robust to that exclusion, <span class="ps"> / </span> which gave us confidence that cross-product contamination wasn't driving the observed effect. <span class="pl"> // </span></p>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="qa-card" id="fup-q4">
+      <div class="qa-card-header">
+        <div class="qa-num">Q4</div>
+        <span class="qa-priority pri-p0">🔴 P0</span>
+        <div class="qa-question">"You mentioned SRM checks in your LLM pipeline. What's your typical threshold for flagging an SRM, and what do you do when you find one?"</div>
+      </div>
+      <div class="qa-answer">
+        <div class="script-body">
+
+          <p>So <code class="m">SRM</code> — Sample Ratio Mismatch — <span class="ps"> / </span> is essentially a sanity check that verifies <span class="ps"> / </span> the actual traffic split between treatment and control <span class="ps"> / </span> matches the <span class="acent">intended</span> split from the randomisation layer. <span class="pl"> // </span> If you intend 50/50 but observe 52/48, <span class="ps"> / </span> something is wrong upstream. <span class="pl"> // </span></p>
+
+          <p>My threshold for flagging: <span class="ps"> / </span> I use a <span class="emph">chi-squared test</span> on the observed vs. expected counts — <span class="ps"> / </span> and flag any result with p &lt; 0.01 as a hard <code class="m">SRM</code>. <span class="pl"> // </span> I deliberately use a stricter threshold than the standard 0.05 <span class="ps"> / </span> because <code class="m">SRM</code> at scale can be subtle — <span class="ps"> / </span> even a 1% deviation in sample ratio <span class="ps"> / </span> can significantly bias treatment effect estimates. <span class="pl"> // </span></p>
+
+          <p>When I find one, <span class="ps"> / </span> the <span class="emph">experiment is paused immediately</span> — <span class="ps"> / </span> no results are read out until the root cause is identified. <span class="pl"> // </span> The most common causes I've seen: <span class="ps"> / </span> logging loss on one variant, <span class="ps"> / </span> client-side filtering that applies asymmetrically, <span class="ps"> / </span> or a triggering condition that was accidentally correlated with the hash-based assignment. <span class="pl"> // </span></p>
+
+          <p>In the <code class="m">LLM</code> pipeline I built, <span class="ps"> / </span> the <code class="m">SRM</code> check runs <span class="emph">automatically at experiment launch</span> — <span class="ps"> / </span> it fires after 24 hours of data collection <span class="ps"> / </span> and sends an alert if the ratio is off. <span class="pl"> // </span> The model generates a structured diagnostic report flagging which traffic source the mismatch is concentrated in, <span class="ps"> / </span> which usually points directly to the root cause. <span class="pl"> // </span></p>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="qa-card" id="fup-q5">
+      <div class="qa-card-header">
+        <div class="qa-num">Q5</div>
+        <span class="qa-priority pri-p0">🔴 P0</span>
+        <div class="qa-question">"How long was your DID observation window, and how did you decide on that length? Did you do any pre-trend analysis?"</div>
+      </div>
+      <div class="qa-answer">
+        <div class="script-body">
+
+          <p>The post-treatment observation window was <span class="emph">3 weeks</span>. <span class="pl"> // </span></p>
+
+          <p>The reasoning: <span class="ps"> / </span> ride-hailing is a high-frequency behaviour — <span class="ps"> / </span> users typically transact multiple times per week — <span class="ps"> / </span> so you don't need a very long window to observe a real shift. <span class="pl"> // </span> But you do need long enough to: <span class="ps"> / </span> (1) let novelty effects wash out — <span class="ps"> / </span> users often behave oddly in the first few days after a UI change, <span class="ps"> / </span> just from the surprise of seeing something new — <span class="ps"> / </span> and (2) capture a full weekly seasonality cycle <span class="ps"> / </span> so you're not comparing weekdays to weekends unfairly. <span class="pl"> // </span></p>
+
+          <p>Three weeks gave us two complete weekly cycles <span class="ps"> / </span> after the initial 3-day novelty buffer. <span class="pl"> // </span></p>
+
+          <p>For pre-trend analysis: <span class="ps"> / </span> yes — <span class="ps"> / </span> I used <span class="emph">8 weeks of pre-period data</span>, <span class="ps"> / </span> which gave me roughly 56 data points per group at daily granularity. <span class="pl"> // </span> That's enough to fit a trend line and test for divergence with reasonable power. <span class="pl"> // </span> I also plotted the raw time series visually for both groups <span class="ps"> / </span> and presented that plot to the product team — <span class="ps"> / </span> because a visual parallel trend is something a non-technical stakeholder can evaluate directly, <span class="ps"> / </span> which matters a lot when you're trying to persuade people that your model is trustworthy. <span class="pl"> // </span></p>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ GROUP 3: HTE/UPLIFT ═══════════════ -->
+    <div class="followup-group-header fg-mod3" id="fup-m3">
+      <h3>Module 3 · HTE / Uplift / 摇一摇 追问</h3>
+      <span class="fg-badge">Q6 – Q10</span>
+    </div>
+
+    <!-- Q6 -->
+    <div class="qa-card" id="fup-q6">
+      <div class="qa-card-header">
+        <div class="qa-num">Q6</div>
+        <span class="qa-priority pri-p0">🔴 P0</span>
+        <div class="qa-question">"How did you operationally define a 'wobbler' user? What specific behavioral signals did you use to classify someone as genuinely price-sensitive versus loyal?"</div>
+      </div>
+      <div class="qa-answer">
+        <div class="script-body">
+
+          <p>Good — <span class="ps"> / </span> this is where the analysis actually gets interesting, <span class="ps"> / </span> because "wobbler" isn't a concept you can just pull from a dashboard. <span class="pl"> // </span> I had to construct it from first principles. <span class="pl"> // </span></p>
+
+          <p>The operational definition was built on <span class="emph">three behavioural signals</span>, <span class="ps"> / </span> each measured over a rolling 90-day window: <span class="pl"> // </span></p>
+
+          <p><span class="emph">Signal one: cross-platform order distribution.</span> <span class="pl"> // </span> I looked at each user's transaction history across DiDi's App, <span class="ps"> / </span> WeChat mini-program, and Alipay mini-program. <span class="pl"> // </span> A wobbler was someone whose order share on the App had <span class="emph">declined over time</span> relative to mini-programs — <span class="ps"> / </span> specifically, users whose App order share dropped by more than 15 percentage points <span class="ps"> / </span> in the most recent 30 days versus the prior 60 days. <span class="pl"> // </span> That temporal shift is a strong signal that something is pulling them away. <span class="pl"> // </span></p>
+
+          <p><span class="emph">Signal two: coupon redemption elasticity.</span> <span class="pl"> // </span> I used historical promotion data to estimate each user's <span class="emph">price response sensitivity</span> — <span class="ps"> / </span> essentially, did their booking frequency increase meaningfully when they received a discount? <span class="pl"> // </span> Loyal high-frequency users don't change behaviour much when you give them a coupon — <span class="ps"> / </span> they were going to book anyway. <span class="pl"> // </span> Wobblers show a statistically detectable uplift. <span class="pl"> // </span></p>
+
+          <p><span class="emph">Signal three: recency and frequency decay.</span> <span class="pl"> // </span> Users whose booking frequency on the App had dropped in the most recent month <span class="ps"> / </span> but who still had a history of high-frequency usage in the prior quarter — <span class="ps"> / </span> those are your recently-churning users, <span class="ps"> / </span> and they're the highest-value recovery targets. <span class="pl"> // </span></p>
+
+          <p>I combined these three signals into a <span class="emph">composite wobbler score</span> using logistic regression — <span class="ps"> / </span> not a complex model, <span class="ps"> / </span> deliberately simple and interpretable, <span class="ps"> / </span> because I needed the business team to understand and trust the segmentation. <span class="pl"> // </span></p>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="qa-card" id="fup-q7">
+      <div class="qa-card-header">
+        <div class="qa-num">Q7</div>
+        <span class="qa-priority pri-p0">🔴 P0</span>
+        <div class="qa-question">"Did you use a meta-learner approach (like T-learner or X-learner), or was this a simpler subgroup ATE comparison?"</div>
+      </div>
+      <div class="qa-answer">
+        <div class="script-body">
+
+          <p>Honestly — <span class="ps"> / </span> it was closer to a <span class="emph">subgroup <code class="m">ATE</code> comparison</span> than a full meta-learner implementation, <span class="ps"> / </span> and I want to be transparent about why I made that choice. <span class="pl"> // </span></p>
+
+          <p>The X-learner or T-learner approaches are powerful <span class="ps"> / </span> but they introduce model complexity that can be hard to validate <span class="ps"> / </span> and even harder to explain to non-technical stakeholders. <span class="pl"> // </span> In a business environment where you need to move fast <span class="ps"> / </span> and bring product managers along with you, <span class="ps"> / </span> a clean <span class="emph">stratified <code class="m">ATE</code></span> — <span class="ps"> / </span> where you estimate the average treatment effect separately within each user segment — <span class="ps"> / </span> is often the more pragmatic choice. <span class="pl"> // </span></p>
+
+          <p>What I did: <span class="ps"> / </span> I split the user population into the segments I defined — <span class="ps"> / </span> wobbler, loyal high-value, dormant — <span class="ps"> / </span> and estimated the <span class="emph">conditional average treatment effect (<code class="m">CATE</code>)</span> within each segment separately, <span class="ps"> / </span> using the experiment control and treatment arms within each stratum. <span class="pl"> // </span> This gave me a segment-level treatment effect estimate <span class="ps"> / </span> without the black-box risk of a complex meta-learner. <span class="pl"> // </span></p>
+
+          <p>If I were doing this again with more time <span class="ps"> / </span> and in an environment with stronger ML infrastructure, <span class="ps"> / </span> I would absolutely explore <span class="emph">X-learner</span> — <span class="ps"> / </span> because it handles the case where the treatment group is much smaller than the control group more efficiently, <span class="ps"> / </span> which was true in our holdout design. <span class="pl"> // </span> But for this project, <span class="ps"> / </span> stratified <code class="m">CATE</code> was the right practical call. <span class="pl"> // </span></p>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="qa-card" id="fup-q8">
+      <div class="qa-card-header">
+        <div class="qa-num">Q8</div>
+        <span class="qa-priority pri-p0">🔴 P0</span>
+        <div class="qa-question">"What was your holdout design? Was the control group a pure holdout, or did they receive some baseline treatment?"</div>
+      </div>
+      <div class="qa-answer">
+        <div class="script-body">
+
+          <p>The control group was a <span class="emph">pure holdout</span> — <span class="ps"> / </span> meaning they received no promotional intervention whatsoever. <span class="pl"> // </span> No push notification, no SMS, no in-app coupon mechanic. <span class="pl"> // </span></p>
+
+          <p>This is important for the incrementality calculation. <span class="pl"> // </span> If your control group receives even a diluted version of the treatment — <span class="ps"> / </span> say, a generic app notification that isn't targeted — <span class="ps"> / </span> you underestimate the true causal lift, <span class="ps"> / </span> because the control group baseline is artificially elevated. <span class="pl"> // </span></p>
+
+          <p>The holdout was maintained for the full <span class="emph">two-month observation window</span>. <span class="pl"> // </span> After readout, <span class="ps"> / </span> users in the holdout were re-entered into the eligible promotion pool — <span class="ps"> / </span> we didn't permanently exclude them, <span class="ps"> / </span> which would've been an ethical and business problem at scale. <span class="pl"> // </span></p>
+
+          <p>One thing I was careful about: <span class="ps"> / </span> <span class="emph">holdout leakage</span>. <span class="pl"> // </span> In a ride-hailing context, <span class="ps"> / </span> if a user in the holdout group <span class="acent">sees</span> a friend using the promotion — <span class="ps"> / </span> say, a referral mechanic that's visible in social settings — <span class="ps"> / </span> that could contaminate the control. <span class="pl"> // </span> I checked for this by analysing the geographic clustering of treatment vs. control users <span class="ps"> / </span> and confirmed there was no anomalous spillover in the conversion data. <span class="pl"> // </span></p>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="qa-card" id="fup-q9">
+      <div class="qa-card-header">
+        <div class="qa-num">Q9</div>
+        <span class="qa-priority pri-p0">🔴 P0</span>
+        <div class="qa-question">"The +6.03% lift — was that measured on the full user population, or only within the wobbler segment?"</div>
+      </div>
+      <div class="qa-answer">
+        <div class="script-body">
+
+          <p>The <span class="emph"><span class="stat">+6.03%</span> causal lift in App transaction volume</span> was measured on the <span class="emph">targeted wobbler segment</span> — <span class="ps"> / </span> not the full user population. <span class="pl"> // </span> I want to be precise about this <span class="ps"> / </span> because reporting it on the full population would be misleading — <span class="ps"> / </span> the effect on loyal users was near zero by design, <span class="ps"> / </span> since we deliberately <span class="acent">excluded</span> them from the promotion. <span class="pl"> // </span></p>
+
+          <p>So the correct interpretation is: <span class="ps"> / </span> within the cohort of users we classified as wobblers and targeted with the intervention, <span class="ps"> / </span> the causal lift in their App transaction volume over the two-month window was <span class="emph"><span class="stat">+6.03%</span></span> relative to the pure holdout control within the same segment. <span class="pl"> // </span></p>
+
+          <p>The <span class="emph"><span class="stat">+6.6%</span> increase in App transacting users</span> — <span class="ps"> / </span> that one is slightly different. <span class="pl"> // </span> That's measured as the absolute increase in the number of <span class="acent">unique users</span> who completed at least one App transaction during the observation window, <span class="ps"> / </span> also within the targeted segment, <span class="ps"> / </span> compared to the holdout. <span class="pl"> // </span></p>
+
+          <p>And the <span class="emph"><span class="stat">1.27%</span> retention figure</span> — <span class="ps"> / </span> that's the proportion of high-frequency active users <span class="ps"> / </span> who we statistically attribute as having been <span class="acent">retained from competitive siphoning</span> <span class="ps"> / </span> as a result of the intervention. <span class="pl"> // </span> That estimate comes from a separate survival analysis <span class="ps"> / </span> looking at churn probability curves for the treated vs. holdout groups. <span class="pl"> // </span></p>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="qa-card" id="fup-q10">
+      <div class="qa-card-header">
+        <div class="qa-num">Q10</div>
+        <span class="qa-priority pri-p0">🔴 P0</span>
+        <div class="qa-question">"How did you account for cannibalization between the App and mini-program channels when measuring the net lift?"</div>
+      </div>
+      <div class="qa-answer">
+        <div class="script-body">
+
+          <p>This is one of the trickiest parts of the analysis <span class="ps"> / </span> in a multi-channel product environment. <span class="pl"> // </span></p>
+
+          <p>The risk you're identifying is real: <span class="ps"> / </span> if a user increases their App transactions <span class="ps"> / </span> <span class="acent">but decreases</span> their mini-program transactions by the same amount, <span class="ps"> / </span> the net business impact is zero — <span class="ps"> / </span> you've just shifted volume between channels, <span class="ps"> / </span> not grown it. <span class="pl"> // </span></p>
+
+          <p>My approach: <span class="ps"> / </span> I measured the treatment effect on <span class="emph">total transaction volume across all channels</span> — <span class="ps"> / </span> not just App volume in isolation. <span class="pl"> // </span> This is your <span class="emph">net platform-level lift</span>. <span class="pl"> // </span> Separately, I measured the App-specific lift <span class="ps"> / </span> and the mini-program-specific change within the treatment group. <span class="pl"> // </span></p>
+
+          <p>What we observed: <span class="ps"> / </span> App volume went up, <span class="ps"> / </span> <span class="acent">and</span> mini-program volume was <span class="emph">statistically flat</span> in the treatment group <span class="ps"> / </span> relative to the holdout. <span class="pl"> // </span> The confidence interval on mini-program volume change was centred on zero <span class="ps"> / </span> and narrow enough to rule out meaningful cannibalisation. <span class="pl"> // </span></p>
+
+          <p>This told us the App lift was <span class="emph">additive</span> — <span class="ps"> / </span> it represented genuine incremental platform transactions, <span class="ps"> / </span> not a zero-sum channel shift. <span class="pl"> // </span> Which was actually the key business insight: <span class="ps"> / </span> the wobblers we targeted weren't substituting channels — <span class="ps"> / </span> they were genuinely increasing their overall DiDi usage. <span class="pl"> // </span></p>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ GROUP 4: BUSINESS ═══════════════ -->
+    <div class="followup-group-header fg-role2" id="fup-r2">
+      <h3>Role 2 · Business-Oriented 面试追问</h3>
+      <span class="fg-badge">Q14 – Q18</span>
+    </div>
+
+    <!-- Q14 -->
+    <div class="qa-card" id="fup-q14">
+      <div class="qa-card-header">
+        <div class="qa-num">14</div>
+        <span class="qa-priority pri-p1">🟡 P1</span>
+        <div class="qa-question">"Walk me through how you would explain your DID findings to a VP of Product who has no statistics background. What's your one-sentence summary?"</div>
+      </div>
+      <div class="qa-answer">
+        <div class="script-body">
+
+          <p>Sure — <span class="ps"> / </span> this is something I actually had to do in practice, <span class="ps"> / </span> and I've learned that the best one-sentence summary <span class="ps"> / </span> strips out all the methodology <span class="ps"> / </span> and leads with the <span class="emph">business implication</span>. <span class="pl"> // </span></p>
+
+          <p>The one sentence I used was: <span class="pl"> // </span></p>
+
+          <p><span class="acent">"Our new homepage is accidentally sending ride-hailing users into the wrong product — / and we can prove that's costing us real transactions every day."</span> <span class="pl"> // </span></p>
+
+          <p>That's it. <span class="pl"> // </span> No mention of <code class="m">DID</code>, <span class="ps"> / </span> no mention of control groups or counterfactuals. <span class="pl"> // </span> Just: <span class="ps"> / </span> here is the problem, <span class="ps"> / </span> here is the direction of the effect, <span class="ps"> / </span> and here is why it matters. <span class="pl"> // </span></p>
+
+          <p>The methodology comes <span class="acent">after</span> — <span class="ps"> / </span> and only if they ask. <span class="pl"> // </span> In my experience, <span class="ps"> / </span> most VPs of Product want to know three things: <span class="ps"> / </span> <span class="acent">Is this real or noise? / How confident are you? / What do we do about it?</span> <span class="pl"> // </span> So I structure my verbal summary around those three questions: <span class="ps"> / </span></p>
+
+          <p>"We're very confident it's real — <span class="ps"> / </span> the statistical analysis rules out noise with high certainty. <span class="pl"> // </span> The cause is a specific UI pattern — <span class="ps"> / </span> a pop-up that's trapping users in the freight flow. <span class="pl"> // </span> And the fix is clear — <span class="ps"> / </span> we have three specific UI changes that product can ship in the next sprint." <span class="pl"> // </span></p>
+
+          <p>That's how I translate a <code class="m">DID</code> model <span class="ps"> / </span> into a VP-level conversation. <span class="pl"> // </span></p>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Q15 -->
+    <div class="qa-card" id="fup-q15">
+      <div class="qa-card-header">
+        <div class="qa-num">15</div>
+        <span class="qa-priority pri-p1">🟡 P1</span>
+        <div class="qa-question">"You said the business 'moved fast' on UI iterations after your analysis. But how did you handle it if they hadn't listened? What would your next move have been?"</div>
+      </div>
+      <div class="qa-answer">
+        <div class="script-body">
+
+          <p>Honest answer — <span class="ps"> / </span> I've been in situations where the first presentation doesn't land, <span class="ps"> / </span> and I think it's worth talking about what I'd actually do. <span class="pl"> // </span></p>
+
+          <p>If the initial reaction had been scepticism or inaction, <span class="ps"> / </span> my next move would have been <span class="emph">quantification in dollar terms</span>. <span class="pl"> // </span></p>
+
+          <p>At the point where I had the <code class="m">DID</code> results, <span class="ps"> / </span> I had enough data to estimate: <span class="ps"> / </span> <span class="acent">given current traffic volume and average order value, / this UI issue is costing approximately X RMB per day in lost ride-hailing GMV.</span> <span class="pl"> // </span> I would've put that number in front of the business team <span class="ps"> / </span> with a very short slide: <span class="ps"> / </span> "here is the cost of inaction per week. <span class="ps"> / </span> Here is the estimated engineering hours to fix it." <span class="pl"> // </span> That's a very different conversation than showing a <code class="m">DID</code> coefficient. <span class="pl"> // </span></p>
+
+          <p>The second lever: <span class="ps"> / </span> <span class="emph">find a champion in the room</span>. <span class="pl"> // </span> In cross-functional environments, <span class="ps"> / </span> the data scientist alone rarely has the authority to force a product change. <span class="pl"> // </span> But if you can get one senior product manager <span class="ps"> / </span> or the engineering lead on your side — <span class="ps"> / </span> someone whose OKR is directly affected by ride-hailing <code class="m">GMV</code> — <span class="ps"> / </span> then the analysis starts moving through the organisation with internal momentum. <span class="pl"> // </span></p>
+
+          <p>And if even that failed — <span class="ps"> / </span> I would've documented the analysis clearly, <span class="ps"> / </span> shared it broadly, <span class="ps"> / </span> and let it sit as a known risk. <span class="pl"> // </span> Because in my experience, <span class="ps"> / </span> when the next quarterly review shows the metric hasn't recovered, <span class="ps"> / </span> people remember who called it. <span class="pl"> // </span></p>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Q16 -->
+    <div class="qa-card" id="fup-q16">
+      <div class="qa-card-header">
+        <div class="qa-num">16</div>
+        <span class="qa-priority pri-p1">🟡 P1</span>
+        <div class="qa-question">"Have you ever presented an analysis where the data said one thing, but the business decided to go the other direction anyway? How did you respond?"</div>
+      </div>
+      <div class="qa-answer">
+        <div class="script-body">
+
+          <p>Yes — <span class="ps"> / </span> and I think this is actually a healthy and normal part of the job, <span class="ps"> / </span> once you frame it correctly. <span class="pl"> // </span></p>
+
+          <p>The specific case: <span class="ps"> / </span> at ByteDance, <span class="ps"> / </span> I did an analysis showing that a particular content recommendation strategy <span class="ps"> / </span> was <span class="emph">not improving key retention metrics</span> — <span class="ps"> / </span> the experiment results were flat to slightly negative on the metrics that mattered. <span class="pl"> // </span> My recommendation was to kill the strategy and reallocate the engineering resources. <span class="pl"> // </span></p>
+
+          <p>The business decided to continue with a modified version <span class="ps"> / </span> for reasons that were partly strategic and partly political — <span class="ps"> / </span> there had been significant organisational investment in the direction, <span class="ps"> / </span> and reversing it entirely was a hard sell. <span class="pl"> // </span></p>
+
+          <p>My response: <span class="ps"> / </span> I didn't push back beyond one clear, documented restatement of my findings. <span class="pl"> // </span> I said something like — <span class="ps"> / </span> <span class="acent">"I want to make sure my analysis is on record: / based on the current experiment data, / I don't expect this strategy to move the target metric. / If you decide to proceed, / I'd suggest we agree on a clear evaluation criterion and timeline so we can revisit this in 6 weeks."</span> <span class="pl"> // </span></p>
+
+          <p>And then I moved on and supported the decision fully. <span class="pl"> // </span></p>
+
+          <p>Six weeks later — <span class="ps"> / </span> the strategy underperformed as expected. <span class="pl"> // </span> The follow-up conversation was much more receptive to data-driven input. <span class="pl"> // </span></p>
+
+          <p>What I took from that: <span class="ps"> / </span> you win the long game by being <span class="emph">consistently right and consistently calm</span> — <span class="ps"> / </span> not by winning every individual argument. <span class="pl"> // </span></p>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Q17 -->
+    <div class="qa-card" id="fup-q17">
+      <div class="qa-card-header">
+        <div class="qa-num">17</div>
+        <span class="qa-priority pri-p1">🟡 P1</span>
+        <div class="qa-question">"You built an LLM pipeline to automate statistical workflows. Who else used it besides you? Did you document it? Did it outlive the project?"</div>
+      </div>
+      <div class="qa-answer">
+        <div class="script-body">
+
+          <p>Good question — <span class="ps"> / </span> because the honest answer reveals both a success and something I'd do differently next time. <span class="pl"> // </span></p>
+
+          <p>In terms of adoption: <span class="ps"> / </span> the pipeline was primarily <span class="emph">used by me</span> in the context of the homepage analysis, <span class="ps"> / </span> but I designed it to be general enough that other data scientists on the team could invoke it for their own experiments. <span class="pl"> // </span> I ran two knowledge-sharing sessions <span class="ps"> / </span> to walk through the workflow — <span class="ps"> / </span> what it does, <span class="ps"> / </span> what inputs it expects, <span class="ps"> / </span> and what the output reports look like. <span class="pl"> // </span></p>
+
+          <p>Documentation: <span class="ps"> / </span> yes — <span class="ps"> / </span> I wrote a structured README <span class="ps"> / </span> covering the architecture, <span class="ps"> / </span> the statistical components (<code class="m">SRM</code> checker, variance decomposer, trend engine), <span class="ps"> / </span> input format, <span class="ps"> / </span> and known limitations. <span class="pl"> // </span> It was stored in our internal data platform <span class="ps"> / </span> with version control. <span class="pl"> // </span></p>
+
+          <p>Did it outlive the project? <span class="pl"> // </span> Partially. <span class="pl"> // </span> The <code class="m">SRM</code> checking component was adopted into the team's standard pre-launch checklist — <span class="ps"> / </span> that one stuck. <span class="pl"> // </span> The more complex variance decomposition piece was used on a few subsequent experiments <span class="ps"> / </span> but required some hand-holding each time, <span class="ps"> / </span> which tells me the abstraction layer wasn't quite right for self-serve use. <span class="pl"> // </span></p>
+
+          <p>If I were doing this again, <span class="ps"> / </span> I'd invest more time upfront in making the interface genuinely self-serve — <span class="ps"> / </span> probably a simple command-line tool or internal web form <span class="ps"> / </span> rather than a Python script that requires understanding the parameter structure. <span class="pl"> // </span> Adoption of internal tools is a UX problem as much as a technical one. <span class="pl"> // </span></p>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Q18 -->
+    <div class="qa-card" id="fup-q18">
+      <div class="qa-card-header">
+        <div class="qa-num">18</div>
+        <span class="qa-priority pri-p1">🟡 P1</span>
+        <div class="qa-question">"If you had to pick just one metric to tell me whether your DiDi work was successful, what would it be and why?"</div>
+      </div>
+      <div class="qa-answer">
+        <div class="script-body">
+
+          <p>One metric — <span class="ps"> / </span> I'd pick <span class="emph">App transaction volume in the targeted wobbler segment over the two-month post-intervention window</span>. <span class="pl"> // </span></p>
+
+          <p>And here's why that's the right choice over the others: <span class="pl"> // </span></p>
+
+          <p>The overall platform <code class="m">DAU</code> or <code class="m">GMV</code> metrics are too noisy — <span class="ps"> / </span> too many things affect them simultaneously. <span class="pl"> // </span> The retention percentage — <span class="stat">1.27%</span> — is meaningful but it's a secondary derived metric. <span class="pl"> // </span></p>
+
+          <p>The App transaction volume in the wobbler segment <span class="ps"> / </span> is the <span class="emph">most direct measure of the thing I was actually trying to achieve</span>: <span class="ps"> / </span> did the intervention cause real users who were drifting away <span class="ps"> / </span> to come back and complete real rides? <span class="pl"> // </span> It's concrete, <span class="ps"> / </span> it maps directly to revenue, <span class="ps"> / </span> and it's causally attributed — <span class="ps"> / </span> not just correlated. <span class="pl"> // </span></p>
+
+          <p>The <span class="stat">+6.03%</span> causal lift in that metric, <span class="ps"> / </span> over a two-month window, <span class="ps"> / </span> on a segment that had been previously subsidised inefficiently — <span class="ps"> / </span> that's the clearest signal that the analytical framework and the business strategy were both working. <span class="pl"> // </span></p>
+
+          <p>If that number had been flat or negative, <span class="ps"> / </span> the whole intervention design — the segmentation, the targeting, the holdout — <span class="ps"> / </span> would've needed to go back to the drawing board. <span class="pl"> // </span> The fact that it was positive and statistically significant <span class="ps"> / </span> validated every design decision upstream. <span class="pl"> // </span></p>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ GROUP 5: VETASSESS ═══════════════ -->
+    <div class="followup-group-header fg-role3" id="fup-r3">
+      <h3>Role 3 · VETASSESS 职业评估追问</h3>
+      <span class="fg-badge">Q19 – Q23</span>
+    </div>
+
+    <div class="coach-note">
+      <div class="coach-title">⚡ 本组背景</div>
+      <ul>
+        <li>这些回答旨在展示你的工作与 <span class="emph">ANZSCO 224113 Statistician</span> 定义一致：构建数学模型、评估数据可靠性、进行统计推断、提供方法论建议。</li>
+        <li>避免听起来像 BI、数据工程或报表整理。每道题都以统计推理为切入点。</li>
+      </ul>
+    </div>
+
+    <!-- Q19 -->
+    <div class="qa-card" id="fup-q19">
+      <div class="qa-card-header">
+        <div class="qa-num">19</div>
+        <span class="qa-priority pri-p2">🟢 P2</span>
+        <div class="qa-question">"Can you describe a situation where you had to formulate a mathematical model from scratch to address a business problem, rather than applying an existing framework?"</div>
+      </div>
+      <div class="qa-answer">
+        <div class="script-body">
+
+          <p>Yes — <span class="ps"> / </span> the clearest example is the <span class="emph">target forecasting model</span> I built for DiDi's App transaction share project. <span class="pl"> // </span></p>
+
+          <p>The business problem: <span class="ps"> / </span> the team needed to set monthly targets for App transaction share — <span class="ps"> / </span> a ratio metric (App orders divided by total platform orders) — <span class="ps"> / </span> across an entire fiscal year. <span class="pl"> // </span> No existing model existed for this, <span class="ps"> / </span> and the naive approach — <span class="ps"> / </span> just using a single month-over-year growth rate — <span class="ps"> / </span> was producing inaccurate forecasts because it ignored compositional structure. <span class="pl"> // </span></p>
+
+          <p>So I formulated a model from the ground up. <span class="pl"> // </span> The core insight was to <span class="emph">decompose</span> the total order volume into three structurally distinct components: <span class="ps"> / </span> App organic orders (users who book through the App without any promotional nudge), <span class="ps"> / </span> App strategy orders (users who book after being reached by a re-engagement campaign), <span class="ps"> / </span> and mini-program orders (WeChat and Alipay channels). <span class="pl"> // </span></p>
+
+          <p>Each component had a <span class="emph">different mathematical form</span>: <span class="pl"> // </span></p>
+
+          <p>For organic App orders and mini-program orders, <span class="ps"> / </span> I built a <span class="emph">granular year-over-year growth model</span> — <span class="ps"> / </span> not a single YOY coefficient, <span class="ps"> / </span> but a 3×3 matrix with rows representing channel type (App organic, WeChat, Alipay) <span class="ps"> / </span> and columns representing date type (weekday, weekend, public holiday). <span class="pl"> // </span> Each cell of the matrix was estimated from the corresponding historical daily averages and their YOY ratios, <span class="ps"> / </span> then multiplied by the count of that date type in the target month. <span class="pl"> // </span></p>
+
+          <p>This structure was necessary to avoid <span class="emph">Simpson's Paradox</span> — <span class="ps"> / </span> an aggregate monthly YOY would give you the wrong answer <span class="ps"> / </span> if the composition of weekdays and holidays differs between years, <span class="ps"> / </span> which it does. <span class="pl"> // </span></p>
+
+          <p>For strategy orders, <span class="ps"> / </span> I formulated a <span class="emph">cohort-based retention model</span>: <span class="ps"> / </span> for each monthly cohort of re-engaged users, <span class="ps"> / </span> I modelled their subsequent App booking behaviour <span class="ps"> / </span> as a product of: cohort size × monthly retention rate × booking frequency conditional on retention. <span class="pl"> // </span> The retention rates and frequency parameters were estimated from historical cohort data <span class="ps"> / </span> and deliberately set conservatively by 2 percentage points <span class="ps"> / </span> to account for regression to the mean. <span class="pl"> // </span></p>
+
+          <p>The resulting model had a clean <span class="emph">parametric structure</span> <span class="ps"> / </span> with clearly separated fixed parameters and tunable business levers — <span class="ps"> / </span> which allowed the business team to run what-if simulations <span class="ps"> / </span> by adjusting the strategy flow rate (how many users to re-engage per month) <span class="ps"> / </span> and immediately see the projected impact on annual targets. <span class="pl"> // </span></p>
+
+          <p>This is the kind of model I find most professionally satisfying — <span class="ps"> / </span> one where the <span class="emph">mathematical structure mirrors the actual causal structure</span> of the phenomenon, <span class="ps"> / </span> rather than treating it as a black box. <span class="pl"> // </span></p>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Q20 -->
+    <div class="qa-card" id="fup-q20">
+      <div class="qa-card-header">
+        <div class="qa-num">20</div>
+        <span class="qa-priority pri-p2">🟢 P2</span>
+        <div class="qa-question">"What statistical software and libraries did you use, and for which specific tasks?"</div>
+      </div>
+      <div class="qa-answer">
+        <div class="script-body">
+
+          <p>My primary working environment is <span class="emph">Python</span>, <span class="ps"> / </span> with the following library stack for different tasks: <span class="pl"> // </span></p>
+
+          <p>For <span class="emph">data manipulation and querying</span>: <span class="ps"> / </span> <code class="m">SQL</code> (Hive dialect) for all large-scale data extraction from our data warehouse, <span class="ps"> / </span> and Pandas for intermediate transformations in Python. <span class="pl"> // </span></p>
+
+          <p>For <span class="emph">experimental analysis and statistical inference</span>: <span class="ps"> / </span> SciPy for hypothesis testing — t-tests, chi-squared tests, Mann-Whitney for non-normal distributions — <span class="ps"> / </span> and Statsmodels for regression-based analyses, <span class="ps"> / </span> including the <code class="m">OLS</code> specification I used for parallel trends testing in <code class="m">DID</code> and for the regression discontinuity robustness checks. <span class="pl"> // </span></p>
+
+          <p>For <span class="emph">causal inference modelling</span>: <span class="ps"> / </span> I implemented the <code class="m">DID</code> estimator directly in Statsmodels <span class="ps"> / </span> using a two-way fixed effects specification with entity and time fixed effects. <span class="pl"> // </span> For the Shapley-based funnel decomposition, <span class="ps"> / </span> I wrote a custom sequential substitution function in Python <span class="ps"> / </span> rather than using a library, <span class="ps"> / </span> because the ordered funnel structure allowed a more efficient recursive implementation. <span class="pl"> // </span></p>
+
+          <p>For <span class="emph">predictive modelling and segmentation</span>: <span class="ps"> / </span> Scikit-learn for the logistic regression model <span class="ps"> / </span> I used to construct the wobbler user score. <span class="pl"> // </span></p>
+
+          <p>For <span class="emph"><code class="m">LLM</code> pipeline orchestration</span>: <span class="ps"> / </span> Python with API calls to an internal <code class="m">LLM</code> service, <span class="ps"> / </span> with structured prompt templates and JSON-schema output parsing <span class="ps"> / </span> for the automated statistical reporting components. <span class="pl"> // </span></p>
+
+          <p>For <span class="emph">visualisation</span>: <span class="ps"> / </span> Matplotlib and Seaborn for internal analysis plots, <span class="ps"> / </span> and our internal BI platform (similar to Tableau) for business-facing dashboards. <span class="pl"> // </span></p>
+
+          <p>I want to be clear: <span class="ps"> / </span> my primary value-add is in <span class="emph">statistical model design and inference</span>, <span class="ps"> / </span> not in engineering complex data pipelines. <span class="pl"> // </span> The <code class="m">LLM</code> pipeline I built was a means to automate <span class="acent">statistical decision logic</span> — <span class="ps"> / </span> not a data engineering product. <span class="pl"> // </span></p>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Q21 -->
+    <div class="qa-card" id="fup-q21">
+      <div class="qa-card-header">
+        <div class="qa-num">21</div>
+        <span class="qa-priority pri-p2">🟢 P2</span>
+        <div class="qa-question">"Can you explain the key assumptions underlying Difference-in-Differences, and describe a situation where those assumptions were threatened?"</div>
+      </div>
+      <div class="qa-answer">
+        <div class="script-body">
+
+          <p>The <code class="m">DID</code> estimator rests on <span class="emph">four key assumptions</span>: <span class="pl"> // </span></p>
+
+          <p><span class="emph">One — Parallel trends</span>: <span class="ps"> / </span> in the absence of treatment, <span class="ps"> / </span> the outcome of the treatment group would have evolved <span class="ps"> / </span> in the same way as the control group. <span class="pl"> // </span> This is the central and most critical assumption, <span class="ps"> / </span> and it's fundamentally untestable in the post-period — <span class="ps"> / </span> you can only provide pre-period evidence in its support. <span class="pl"> // </span></p>
+
+          <p><span class="emph">Two — No anticipation</span>: <span class="ps"> / </span> subjects in the treatment group do not change their behaviour <span class="acent">before</span> the treatment is implemented, <span class="ps"> / </span> in anticipation of it. <span class="pl"> // </span></p>
+
+          <p><span class="emph">Three — <code class="m">SUTVA</code></span> — Stable Unit Treatment Value Assumption: <span class="ps"> / </span> the treatment of one unit does not affect the outcome of another unit. <span class="pl"> // </span> In other words, <span class="ps"> / </span> no spillovers or network effects between groups. <span class="pl"> // </span></p>
+
+          <p><span class="emph">Four — Common support</span>: <span class="ps"> / </span> the treatment and control groups are comparable in their observable characteristics. <span class="pl"> // </span></p>
+
+          <p>Now — <span class="ps"> / </span> the assumption that was most <span class="emph">threatened</span> in my DiDi <code class="m">DID</code> analysis was <span class="emph"><code class="m">SUTVA</code></span>. <span class="pl"> // </span> The concern was spillover: <span class="ps"> / </span> if a ride-hailing user who was redirected to the freight page <span class="acent">influenced</span> another user's behaviour — <span class="ps"> / </span> say, through a social referral mechanic — <span class="ps"> / </span> the control group could be contaminated. <span class="pl"> // </span></p>
+
+          <p>I addressed this in two ways. <span class="pl"> // </span> First, <span class="ps"> / </span> I analysed the <span class="emph">geographic clustering</span> of treatment and control users <span class="ps"> / </span> to check whether treated users were disproportionately clustered in the same social networks or geographic zones as control users. <span class="pl"> // </span> The clustering was not statistically anomalous — <span class="ps"> / </span> the randomisation appeared to distribute users across network clusters evenly. <span class="pl"> // </span></p>
+
+          <p>Second, <span class="ps"> / </span> I ran a <span class="emph">sensitivity analysis</span> that excluded users with any detected social referral link to a treated user. <span class="pl"> // </span> The <code class="m">DID</code> estimate was robust to that exclusion — <span class="ps"> / </span> the coefficient changed by less than 5%, <span class="ps"> / </span> well within the confidence interval. <span class="pl"> // </span></p>
+
+          <p>That robustness check is what gave me the confidence to defend the <code class="m">SUTVA</code> assumption. <span class="pl"> // </span></p>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Q22 -->
+    <div class="qa-card" id="fup-q22">
+      <div class="qa-card-header">
+        <div class="qa-num">22</div>
+        <span class="qa-priority pri-p2">🟢 P2</span>
+        <div class="qa-question">"How did you validate the statistical significance of your results? Walk me through your hypothesis testing procedure for one specific project."</div>
+      </div>
+      <div class="qa-answer">
+        <div class="script-body">
+
+          <p>I'll walk through the <span class="emph">bitrate reduction experiment</span> at ByteDance, <span class="ps"> / </span> because it has a clean hypothesis testing structure. <span class="pl"> // </span></p>
+
+          <p><span class="emph">Step one — Pre-specification</span>: <span class="ps"> / </span> before the experiment launched, <span class="ps"> / </span> I formally pre-specified the primary hypothesis <span class="ps"> / </span> and the analysis plan. <span class="pl"> // </span> Primary hypothesis: <span class="ps"> / </span> <span class="acent">lowering bitrate for low-value users does not cause a statistically significant reduction in user active days.</span> <span class="pl"> // </span> This was framed as a <span class="emph">non-inferiority test</span>, <span class="ps"> / </span> with a pre-specified non-inferiority margin of <span class="stat">0.1%</span> relative decline in lifetime active days. <span class="pl"> // </span></p>
+
+          <p><span class="emph">Step two — Power analysis</span>: <span class="ps"> / </span> I calculated the required sample size to achieve 80% power at a 0.05 significance level, <span class="ps"> / </span> given the observed variance of the metric in the target user segment. <span class="pl"> // </span> The calculation determined we needed approximately [X] users per arm, <span class="ps"> / </span> which the traffic volume could support within a 14-day run. <span class="pl"> // </span></p>
+
+          <p><span class="emph">Step three — <code class="m">A/A</code> validation</span>: <span class="ps"> / </span> before the treatment launched, <span class="ps"> / </span> I ran a 48-hour <code class="m">A/A</code> check — <span class="ps"> / </span> assigning users to two groups with no treatment difference — <span class="ps"> / </span> to confirm the randomisation was clean <span class="ps"> / </span> and the metric variance matched the historical estimate. <span class="pl"> // </span></p>
+
+          <p><span class="emph">Step four — Experiment execution and monitoring</span>: <span class="ps"> / </span> I monitored the <code class="m">SRM</code> daily for the first 3 days, <span class="ps"> / </span> and checked for any anomalies in the treatment assignment. <span class="pl"> // </span></p>
+
+          <p><span class="emph">Step five — Readout</span>: <span class="ps"> / </span> after 14 days, <span class="ps"> / </span> I conducted a two-sample t-test on the primary metric, <span class="ps"> / </span> calculated the 95% confidence interval for the treatment effect, <span class="ps"> / </span> and compared the lower bound to the non-inferiority margin. <span class="pl"> // </span></p>
+
+          <p>The result: <span class="ps"> / </span> the lower bound of the CI was above the non-inferiority margin — <span class="ps"> / </span> meaning we could conclude, with statistical confidence, <span class="ps"> / </span> that the bitrate reduction did <span class="emph">not</span> meaningfully harm user retention. <span class="pl"> // </span></p>
+
+          <p><span class="emph">Step six — Secondary metrics</span>: <span class="ps"> / </span> I then checked a pre-specified list of secondary metrics — <span class="ps"> / </span> session length, content consumption depth, revenue-adjacent signals — <span class="ps"> / </span> to confirm no unexpected negative effects elsewhere in the funnel. <span class="pl"> // </span></p>
+
+          <p>That's the full procedure — <span class="ps"> / </span> pre-specification, power, <code class="m">A/A</code>, monitoring, readout, secondary check. <span class="pl"> // </span> Every experiment I ran followed this structure. <span class="pl"> // </span></p>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Q23 -->
+    <div class="qa-card" id="fup-q23">
+      <div class="qa-card-header">
+        <div class="qa-num">23</div>
+        <span class="qa-priority pri-p2">🟢 P2</span>
+        <div class="qa-question">"What's the difference between the work you did and what a standard 'Data Analyst' would do in the same company?"</div>
+      </div>
+      <div class="qa-answer">
+        <div class="script-body">
+
+          <p>That's a fair and important distinction to draw, <span class="ps"> / </span> and I'll be direct about it. <span class="pl"> // </span></p>
+
+          <p>A standard Data Analyst in a Chinese tech company <span class="ps"> / </span> is primarily focused on three things: <span class="ps"> / </span> building and maintaining dashboards, <span class="ps"> / </span> running ad-hoc queries to answer business questions, <span class="ps"> / </span> and analysing <code class="m">A/B test</code> results using pre-built templates. <span class="pl"> // </span> That work is valuable — <span class="ps"> / </span> but it's largely <span class="emph">descriptive and reactive</span>. <span class="pl"> // </span></p>
+
+          <p>What I do is different in three specific ways. <span class="pl"> // </span></p>
+
+          <p><span class="emph">First — model formulation.</span> <span class="pl"> // </span> I don't just analyse data that's given to me. <span class="ps"> / </span> I formulate the <span class="emph">statistical model</span> that determines how the data should be collected, <span class="ps"> / </span> what the experimental design should look like, <span class="ps"> / </span> and what mathematical assumptions we're making about the data-generating process. <span class="pl"> // </span> The <code class="m">DID</code> model, the cohort retention model, the Shapley decomposition — <span class="ps"> / </span> these were all model design decisions, <span class="ps"> / </span> not template applications. <span class="pl"> // </span></p>
+
+          <p><span class="emph">Second — statistical inference under uncertainty.</span> <span class="pl"> // </span> I'm not just reporting observed differences. <span class="ps"> / </span> I'm making <span class="emph">probabilistic claims</span> about causal relationships — <span class="ps"> / </span> quantifying uncertainty through confidence intervals, <span class="ps"> / </span> testing assumptions explicitly, <span class="ps"> / </span> and being clear about when a result should or should not be trusted. <span class="pl"> // </span> That requires understanding the underlying statistical theory, <span class="ps"> / </span> not just knowing how to run a t-test in a spreadsheet. <span class="pl"> // </span></p>
+
+          <p><span class="emph">Third — methodological choice.</span> <span class="pl"> // </span> When the standard <code class="m">A/B test</code> framework isn't appropriate — <span class="ps"> / </span> because of contamination, <span class="ps"> / </span> or confounders, <span class="ps"> / </span> or the lack of a clean randomisation — <span class="ps"> / </span> I choose and implement the <span class="acent">right</span> method for the problem: <span class="ps"> / </span> <code class="m">DID</code>, instrumental variables, synthetic control, non-inferiority design. <span class="pl"> // </span> A Data Analyst doesn't typically have the training to make those methodological choices. <span class="pl"> // </span></p>
+
+          <p>To put it plainly: <span class="ps"> / </span> the Data Analyst title in my HR records reflects my organisational classification in a Chinese tech company, <span class="ps"> / </span> where the title is used broadly. <span class="pl"> // </span> The <span class="emph">substance of the work</span> — <span class="ps"> / </span> statistical modelling, causal inference, experimental design, uncertainty quantification — <span class="ps"> / </span> is what a statistician does. <span class="pl"> // </span></p>
+
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+  // ── Progress bar ──
+  const bar = document.getElementById('progress-bar');
+  function updateProgress() {
+    const scrolled = window.scrollY;
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = total > 0 ? (scrolled / total * 100) + '%' : '0%';
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+
+  // ── Sidebar active state via IntersectionObserver ──
+  const links = document.querySelectorAll('#sidebar a');
+
+  const anchors = Array.from(links)
+    .map(a => document.querySelector(a.getAttribute('href')))
+    .filter(Boolean);
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        links.forEach(link => {
+          const matches = link.getAttribute('href') === '#' + id;
+          link.classList.toggle('active', matches);
+        });
+      }
+    });
+  }, {
+    root: null,
+    rootMargin: '-5% 0px -75% 0px',
+    threshold: 0
+  });
+
+  anchors.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>预装业务战略价值分析</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <!--
+    Narrative Plan:
+    1. Hook/Executive Summary: Start with the most compelling ROI figure to immediately grab attention.
+    2. Section 1: The ROI Case Study (The 'X' Model). Provide the cleanest, most direct proof of profitability using the best-case-scenario data. This answers "Will I make money?".
+    3. Section 2: The Strategic Value (Penetration Rate). Broaden the argument beyond direct ROI to user behavior, showing how pre-install helps win the market and aligns with long-term strategy. This answers "How is the value created and is it reliable?".
+    4. Section 3: The Investment Blueprint (Model Selection). Show a clear, data-driven plan for how the budget will be spent efficiently. This answers "How will you spend my money wisely?".
+    5. Conclusion/Call to Action: A strong, concise summary of the investment opportunity.
+
+    Visualization Selection Plan:
+    1. ROI Section:
+        - Goal: Compare & Inform.
+        - Visualization: A horizontal Bar Chart to compare per-user GMV, supported by large "Big Number" cards for ROI and key metrics.
+        - Justification: Bar charts are excellent for direct comparison. Big numbers provide immediate, digestible takeaways for a C-level audience.
+        - Library/Method: Chart.js for the bar chart; HTML/CSS with Tailwind for the cards. (Confirmed NO SVG).
+    2. Penetration Section:
+        - Goal: Show Change/Trends over time.
+        - Visualization: A multi-series Line Chart to display the "three-line comparison" (Experiment vs. Control vs. Market Baseline).
+        - Justification: Line charts are the standard for showing trends. The visual gap between the lines tells a powerful story of outperformance.
+        - Library/Method: Chart.js. (Confirmed NO SVG).
+    3. Investment Blueprint Section:
+        - Goal: Organize & Show Relationships.
+        - Visualization: A Bubble Chart configured to act as a 2x2 Quadrant (Matrix) Chart.
+        - Justification: A quadrant chart is perfect for plotting items along two axes (Value vs. Cost). Using bubble size to represent market share adds a third dimension of data, making it very information-dense.
+        - Library/Method: Chart.js. (Confirmed NO SVG).
+
+    Color Palette Selection: "Energetic & Professional"
+    - A vibrant, high-contrast palette chosen to be engaging yet suitable for a corporate/CEO audience. It uses a strong blue as primary, an energetic orange as an accent, and clean grays/whites for the background.
+    
+    No Mermaid JS or SVG graphics were used in this document. All diagrams and charts are rendered using Chart.js on a Canvas element or created with structured HTML and Tailwind CSS.
+    -->
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            height: 40vh;
+            width: 100%;
+            max-height: 400px;
+        }
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 35vh;
+            }
+        }
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-5xl">
+        
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">预装业务：一项高回报的战略投资</h1>
+            <p class="text-xl text-gray-600">我们如何将每5元投入，转化为25元回报，并构建长期竞争壁垒</p>
+        </header>
+
+        <main class="space-y-12">
+
+            <section id="roi-analysis" class="bg-white rounded-xl shadow-lg p-6 md:p-8 transition-all duration-300 hover:shadow-2xl">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2">投资回报(ROI)分析：可验证的盈利能力</h2>
+                        <p class="text-gray-600 mb-6">我们选取了预装与未预装版本发售时间最相近、人群差异最小的“X机型”作为最纯粹的对照组。数据显示，预装项目本身具备清晰、正向的盈利能力。</p>
+                        <div class="space-y-4">
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <p class="text-sm font-semibold text-blue-800">单台增量收益 (GMV)</p>
+                                <p class="text-3xl font-bold text-blue-600">+ ¥25.00</p>
+                            </div>
+                             <div class="bg-orange-50 p-4 rounded-lg">
+                                <p class="text-sm font-semibold text-orange-800">单台预装成本</p>
+                                <p class="text-3xl font-bold text-orange-600">¥5.00</p>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <p class="text-sm font-semibold text-green-800">最终投资回报率 (ROI)</p>
+                                <p class="text-3xl font-bold text-green-600 text-gradient bg-gradient-to-r from-green-500 to-emerald-600">5.0 x</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="roiChart"></canvas>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="penetration-analysis" class="bg-white rounded-xl shadow-lg p-6 md:p-8 transition-all duration-300 hover:shadow-2xl">
+                 <h2 class="text-2xl font-bold text-gray-800 mb-2 text-center">完单渗透率分析：构建长期战略优势</h2>
+                 <p class="text-gray-600 mb-8 text-center max-w-3xl mx-auto">即使剥离直接的财务回报，预装在培养用户App使用心智、提升核心转化环节上，表现出强大的价值。我们不仅超越了自己，更远远跑赢了市场。</p>
+                 <div class="chart-container" style="max-height: 450px;">
+                    <canvas id="penetrationChart"></canvas>
+                </div>
+                 <p class="text-center mt-6 text-sm text-gray-500">
+                    基于此模型，预装业务预计可带来 <strong class="text-green-600 font-bold">50万</strong> 的年化纯增量订单。
+                </p>
+            </section>
+
+            <section id="investment-blueprint" class="bg-white rounded-xl shadow-lg p-6 md:p-8 transition-all duration-300 hover:shadow-2xl">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2">投资蓝图：确保每一分钱都花在刀刃上</h2>
+                        <p class="text-gray-600 mb-6">我们已建立一套清晰的机型筛选模型，用以指导预算分配。该模型基于“用户价值”和“投入效率”两大维度，将有限的资源精准投放于能产生最大战略价值的机型上。</p>
+                        <ul class="space-y-3 text-sm">
+                            <li class="flex items-start"><span class="inline-block w-4 h-4 rounded-full bg-blue-500 mr-3 mt-1 flex-shrink-0"></span><div><strong class="text-blue-700">必争之地 (高价值, 低成本):</strong> 旗舰机型首发，ROI最高，优先确保全面覆盖。</div></li>
+                            <li class="flex items-start"><span class="inline-block w-4 h-4 rounded-full bg-teal-500 mr-3 mt-1 flex-shrink-0"></span><div><strong class="text-teal-700">战略攻坚 (高价值, 高成本):</strong> 顶级旗舰合作，成本较高但用户画像精准，选择性投入以建立品牌壁垒。</div></li>
+                            <li class="flex items-start"><span class="inline-block w-4 h-4 rounded-full bg-orange-500 mr-3 mt-1 flex-shrink-0"></span><div><strong class="text-orange-700">机会主义 (低价值, 低成本):</strong> 中低端走量机型，成本极低时可合作，用于市场下沉和保持用户基数。</div></li>
+                            <li class="flex items-start"><span class="inline-block w-4 h-4 rounded-full bg-gray-400 mr-3 mt-1 flex-shrink-0"></span><div><strong class="text-gray-600">明确放弃 (低价值, 高成本):</strong> 投入产出比过低，不予考虑。</div></li>
+                        </ul>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="matrixChart"></canvas>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="text-center mt-16 py-8 border-t border-gray-200">
+            <h3 class="text-2xl font-bold text-gray-800">结论：一次不容错过的战略机遇</h3>
+            <p class="text-gray-600 mt-2 max-w-3xl mx-auto">预装业务不仅是一门能实现 <strong class="text-green-600">5倍ROI</strong> 的好生意，更是我们在移动端入口争夺战中，锁定高价值用户、构建长期护城河的关键落子。我们建议加大投入，抢占先机。</p>
+        </footer>
+    </div>
+
+    <script>
+        window.onload = function() {
+            const chartFontColor = '#6B7280';
+
+            const tooltipConfig = {
+                plugins: {
+                    tooltip: {
+                        enabled: true,
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleFont: { size: 14, weight: 'bold' },
+                        bodyFont: { size: 12 },
+                        padding: 10,
+                        cornerRadius: 4,
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                if (Array.isArray(label)) {
+                                    return label.join(' ');
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            };
+
+            const wrapLabel = (str, maxWidth = 16) => {
+                if (str.length <= maxWidth) return str;
+                const words = str.split('');
+                const lines = [];
+                let currentLine = '';
+                for (const word of words) {
+                    if ((currentLine + word).length > maxWidth) {
+                        lines.push(currentLine);
+                        currentLine = '';
+                    }
+                    currentLine += word;
+                }
+                lines.push(currentLine);
+                return lines;
+            };
+
+            const renderRoiChart = () => {
+                const ctx = document.getElementById('roiChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['未预装用户', '预装用户'],
+                        datasets: [{
+                            label: '人均GMV (激活后28天)',
+                            data: [100, 125],
+                            backgroundColor: ['#FDBA74', '#60A5FA'],
+                            borderColor: ['#FB923C', '#3B82F6'],
+                            borderWidth: 2,
+                            borderRadius: 4
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        ...tooltipConfig,
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: '人均GMV (元)',
+                                    color: chartFontColor
+                                },
+                                ticks: { color: chartFontColor },
+                                grid: { color: '#E5E7EB' }
+                            },
+                            y: {
+                                ticks: { color: chartFontColor, font: {size: 14} },
+                                grid: { display: false }
+                            }
+                        },
+                        plugins: {
+                            ...tooltipConfig.plugins,
+                            legend: {
+                                display: false
+                            },
+                            title: {
+                                display: true,
+                                text: 'X机型人均GMV对比',
+                                font: { size: 16, weight: 'bold' },
+                                color: '#374151',
+                                padding: { bottom: 20 }
+                            },
+                            annotation: {
+                                annotations: {
+                                    line1: {
+                                        type: 'line',
+                                        yMin: '预装用户',
+                                        yMax: '预装用户',
+                                        xMin: 100,
+                                        xMax: 125,
+                                        borderColor: '#16A34A',
+                                        borderWidth: 2
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            };
+
+            const renderPenetrationChart = () => {
+                const ctx = document.getElementById('penetrationChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['第1周', '第2周', '第3周', '第4周', '第5周', '第6周', '第7周', '第8周'],
+                        datasets: [
+                            {
+                                label: '市场大盘',
+                                data: [1.8, 2.0, 2.1, 2.3, 2.4, 2.5, 2.6, 2.7],
+                                borderColor: '#9CA3AF',
+                                backgroundColor: 'rgba(156, 163, 175, 0.1)',
+                                borderWidth: 2,
+                                pointBackgroundColor: '#9CA3AF',
+                                tension: 0.4,
+                                borderDash: [5, 5]
+                            },
+                            {
+                                label: '对照组 (去年未预装)',
+                                data: [3.0, 3.5, 3.8, 4.0, 4.2, 4.3, 4.4, 4.5],
+                                borderColor: '#60A5FA',
+                                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                                borderWidth: 3,
+                                pointBackgroundColor: '#3B82F6',
+                                tension: 0.4,
+                                fill: true,
+                            },
+                            {
+                                label: '实验组 (今年预装)',
+                                data: [4.5, 5.2, 5.8, 6.2, 6.5, 6.8, 7.0, 7.2],
+                                borderColor: '#10B981',
+                                backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                                borderWidth: 4,
+                                pointBackgroundColor: '#059669',
+                                tension: 0.4,
+                                fill: true,
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        ...tooltipConfig,
+                        scales: {
+                             y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: '完单渗透率 (%)',
+                                    color: chartFontColor
+                                },
+                                ticks: { color: chartFontColor, callback: (value) => value + '%' },
+                                grid: { color: '#E5E7EB' }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: '激活后周数',
+                                    color: chartFontColor
+                                },
+                                ticks: { color: chartFontColor },
+                                grid: { display: false }
+                            }
+                        },
+                         plugins: {
+                            ...tooltipConfig.plugins,
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    color: chartFontColor,
+                                    usePointStyle: true,
+                                    boxWidth: 8
+                                }
+                            }
+                        }
+                    }
+                });
+            };
+            
+            const renderMatrixChart = () => {
+                const ctx = document.getElementById('matrixChart').getContext('2d');
+                const data = {
+                    datasets: [
+                        { label: '必争之地', data: [{x: 8, y: 9, r: 20}], backgroundColor: 'rgba(59, 130, 246, 0.7)'},
+                        { label: '战略攻坚', data: [{x: 3, y: 8, r: 15}], backgroundColor: 'rgba(20, 184, 166, 0.7)'},
+                        { label: '机会主义', data: [{x: 9, y: 4, r: 25}], backgroundColor: 'rgba(249, 115, 22, 0.7)'},
+                        { label: '明确放弃', data: [{x: 2, y: 2, r: 10}], backgroundColor: 'rgba(156, 163, 175, 0.7)'},
+                        { label: '机型 A', data: [{x: 8.5, y: 8, r: 12}], backgroundColor: 'rgba(59, 130, 246, 0.7)'},
+                        { label: '机型 B', data: [{x: 7.5, y: 9.5, r: 18}], backgroundColor: 'rgba(59, 130, 246, 0.7)'},
+                        { label: '机型 C', data: [{x: 4, y: 8.5, r: 10}], backgroundColor: 'rgba(20, 184, 166, 0.7)'},
+                        { label: '机型 D', data: [{x: 8, y: 3, r: 22}], backgroundColor: 'rgba(249, 115, 22, 0.7)'},
+                    ]
+                };
+
+                const backgroundPlugin = {
+                    id: 'quadrant',
+                    beforeDraw(chart, args, options) {
+                        const {ctx, chartArea: {top, right, bottom, left}, scales: {x, y}} = chart;
+                        ctx.save();
+                        ctx.strokeStyle = '#E5E7EB';
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(x.getPixelForValue(5), top);
+                        ctx.lineTo(x.getPixelForValue(5), bottom);
+                        ctx.stroke();
+                        ctx.beginPath();
+                        ctx.moveTo(left, y.getPixelForValue(5));
+                        ctx.lineTo(right, y.getPixelForValue(5));
+                        ctx.stroke();
+                        ctx.restore();
+                    }
+                };
+
+                new Chart(ctx, {
+                    type: 'bubble',
+                    data: data,
+                    plugins: [backgroundPlugin],
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        ...tooltipConfig,
+                        scales: {
+                            y: {
+                                title: { display: true, text: '用户价值 (销量 &画像)', color: chartFontColor },
+                                min: 0, max: 10,
+                                ticks: { display: false },
+                                grid: { display: false }
+                            },
+                            x: {
+                                title: { display: true, text: '投入效率 (成本越低越好)', color: chartFontColor },
+                                min: 0, max: 10,
+                                ticks: { display: false },
+                                grid: { display: false }
+                            }
+                        },
+                        plugins: {
+                             legend: { display: false },
+                             tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.dataset.label;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            };
+
+            renderRoiChart();
+            renderPenetrationChart();
+            renderMatrixChart();
+        };
+    </script>
+</body>
+</html>

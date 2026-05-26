@@ -1,0 +1,251 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.wrap{padding:2rem 1.5rem;font-family:var(--font-sans)}
+.hero-label{font-size:11px;letter-spacing:.08em;color:var(--color-text-tertiary);text-transform:uppercase;margin-bottom:6px}
+.hero-title{font-size:22px;font-weight:500;color:var(--color-text-primary);line-height:1.3;margin-bottom:6px}
+.hero-sub{font-size:13px;color:var(--color-text-secondary);margin-bottom:2rem}
+.sec-label{font-size:11px;font-weight:500;letter-spacing:.07em;color:var(--color-text-tertiary);text-transform:uppercase;margin:2rem 0 10px}
+.metrics-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:.5rem}
+.metric-card{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:14px 16px}
+.metric-card .lbl{font-size:12px;color:var(--color-text-secondary);margin-bottom:4px}
+.metric-card .val{font-size:20px;font-weight:500;line-height:1.2}
+.metric-card .note{font-size:11px;color:var(--color-text-tertiary);margin-top:3px}
+.pos{color:#0F6E56}.neg{color:#993C1D}.neu{color:var(--color-text-primary)}
+.divider{height:0.5px;background:var(--color-border-tertiary);margin:2rem 0}
+.thread{display:flex;flex-direction:column;gap:0;margin-bottom:2rem}
+.thread-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.thread-badge{font-size:12px;font-weight:500;padding:4px 12px;border-radius:20px}
+.badge-teal{background:#E1F5EE;color:#0F6E56}
+.badge-coral{background:#FAECE7;color:#993C1D}
+.thread-title{font-size:16px;font-weight:500;color:var(--color-text-primary)}
+.step-row{display:grid;grid-template-columns:28px 1fr;gap:12px;position:relative}
+.step-row+.step-row{margin-top:10px}
+.step-left{display:flex;flex-direction:column;align-items:center;gap:0}
+.step-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0}
+.num-teal{background:#E1F5EE;color:#085041}
+.num-coral{background:#FAECE7;color:#712B13}
+.step-line{width:1px;flex:1;min-height:16px;margin-top:4px}
+.line-teal{background:#9FE1CB}
+.line-coral{background:#F5C4B3}
+.step-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px 16px;margin-bottom:10px}
+.step-card-title{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:6px}
+.step-card-body{font-size:13px;color:var(--color-text-secondary);line-height:1.55}
+.evidence-list{margin-top:8px;display:flex;flex-direction:column;gap:5px}
+.evidence-item{display:flex;gap:8px;align-items:flex-start}
+.ev-dot{width:5px;height:5px;border-radius:50%;margin-top:5px;flex-shrink:0}
+.dot-teal{background:#1D9E75}.dot-coral{background:#D85A30}
+.ev-text{font-size:12px;color:var(--color-text-secondary);line-height:1.5}
+.ev-num{font-weight:500;color:var(--color-text-primary)}
+.action-grid{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.action-item{display:flex;gap:10px;align-items:flex-start;background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 12px}
+.action-tag{font-size:11px;font-weight:500;padding:2px 8px;border-radius:10px;white-space:nowrap;flex-shrink:0;margin-top:1px}
+.tag-now{background:#E1F5EE;color:#085041}
+.tag-soon{background:#FAEEDA;color:#633806}
+.tag-plan{background:#E6F1FB;color:#0C447C}
+.action-text{font-size:12px;color:var(--color-text-secondary);line-height:1.5}
+.step-connector{display:flex;align-items:center;gap:8px;margin:4px 0 4px 40px}
+.conn-line{flex:1;height:0.5px;background:var(--color-border-tertiary)}
+.conn-label{font-size:11px;color:var(--color-text-tertiary);white-space:nowrap}
+</style>
+
+<div class="wrap">
+
+<div class="hero-label">数据分析 · 组内分享</div>
+<div class="hero-title">8.0 首页改版：数据分析如何驱动迭代决策</div>
+<div class="hero-sub">实验覆盖 NA + 微信端 · 截至 3.24 扩量至 34 城 33% 流量</div>
+
+<div class="sec-label">平台整体 · 核心指标</div>
+<div class="metrics-grid">
+  <div class="metric-card">
+    <div class="lbl">平台 GMV（NA）</div>
+    <div class="val neg">-368万/日</div>
+    <div class="note">推全后预估日均损失</div>
+  </div>
+  <div class="metric-card">
+    <div class="lbl">平台完单量（NA）</div>
+    <div class="val neg">-11.2万次/日</div>
+    <div class="note">推全后预估</div>
+  </div>
+  <div class="metric-card">
+    <div class="lbl">平台 DAU（NA）</div>
+    <div class="val neg">-6.5万/日</div>
+    <div class="note">推全后预估</div>
+  </div>
+</div>
+<div class="metrics-grid" style="margin-top:10px">
+  <div class="metric-card">
+    <div class="lbl">货运 DAU 提升</div>
+    <div class="val pos">+38~40%</div>
+    <div class="note">推全日均 +75万 DAU</div>
+  </div>
+  <div class="metric-card">
+    <div class="lbl">打车完单（NA）</div>
+    <div class="val neg">-0.22%</div>
+    <div class="note">14天累计 -2.4万单</div>
+  </div>
+  <div class="metric-card">
+    <div class="lbl">打车 GMV（NA）</div>
+    <div class="val neg">-0.22%同比</div>
+    <div class="note">网出花顺受损为主</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="sec-label">主线一 · 货运增长</div>
+<div class="thread">
+  <div class="thread-header">
+    <span class="thread-badge badge-teal">货运</span>
+    <span class="thread-title">拉新有效，转化路径待优化</span>
+  </div>
+
+  <div class="step-row">
+    <div class="step-left">
+      <div class="step-num num-teal">1</div>
+      <div class="step-line line-teal"></div>
+    </div>
+    <div>
+      <div class="step-card">
+        <div class="step-card-title">实验数据发现了什么</div>
+        <div class="step-card-body">送货顶 tab 上线后货运 DAU 显著提升，但交易转化未同步跟进。</div>
+        <div class="evidence-list">
+          <div class="evidence-item"><div class="ev-dot dot-teal"></div><div class="ev-text">货运 DAU <span class="ev-num">+38~40%</span>，推全后日均增量约 <span class="ev-num">75万</span></div></div>
+          <div class="evidence-item"><div class="ev-dot dot-teal"></div><div class="ev-text">顶导 CTR <span class="ev-num">1.12%</span>，略低于底导 <span class="ev-num">1.42%</span></div></div>
+          <div class="evidence-item"><div class="ev-dot dot-teal"></div><div class="ev-text">对交易暂无明显拉动，平台完单量未同步提升</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-connector"><div class="conn-line"></div><div class="conn-label">进一步分析</div><div class="conn-line"></div></div>
+
+  <div class="step-row">
+    <div class="step-left">
+      <div class="step-num num-teal">2</div>
+      <div class="step-line line-teal"></div>
+    </div>
+    <div>
+      <div class="step-card">
+        <div class="step-card-title">数据分析怎么论证的</div>
+        <div class="step-card-body">下钻新增 DAU 来源，识别人群结构与行为差异。</div>
+        <div class="evidence-list">
+          <div class="evidence-item"><div class="ev-dot dot-teal"></div><div class="ev-text"><span class="ev-num">80%</span> 增量来自「历史访问货运但未交易」的潜新用户，引导弹窗是核心驱动</div></div>
+          <div class="evidence-item"><div class="ev-dot dot-teal"></div><div class="ev-text">老客（货运交易用户）主要沉淀在金刚位，顶 tab 迁移率仅 <span class="ev-num">49%</span>（原 65%）</div></div>
+          <div class="evidence-item"><div class="ev-dot dot-teal"></div><div class="ev-text">C 端用户对车型认知不足，频道页沿用 B 端动线，下单成本偏高</div></div>
+          <div class="evidence-item"><div class="ev-dot dot-teal"></div><div class="ev-text">3.24 上线「无引导弹窗」对照实验，预计 4.6 输出自然选择倾向结论</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-connector"><div class="conn-line"></div><div class="conn-label">落地策略</div><div class="conn-line"></div></div>
+
+  <div class="step-row">
+    <div class="step-left">
+      <div class="step-num num-teal">3</div>
+    </div>
+    <div>
+      <div class="step-card">
+        <div class="step-card-title">产品决定做什么（分析直接驱动）</div>
+        <div class="action-grid">
+          <div class="action-item">
+            <span class="action-tag tag-now">已落地</span>
+            <div class="action-text">B/C 人群分层运营：老客导向金刚，潜新导向送货 tab；精细化弹窗触达机制</div>
+          </div>
+          <div class="action-item">
+            <span class="action-tag tag-soon">验证中</span>
+            <div class="action-text">AB 实验对比两版频道页（顶 tab vs 金刚）对新老客的承接与转化效果</div>
+          </div>
+          <div class="action-item">
+            <span class="action-tag tag-plan">规划中</span>
+            <div class="action-text">优化 C 端下单动线（简化车型选择）；明确「快送」品牌心智定位，测试 tab 名称与角标迭代</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="sec-label">主线二 · 打车负向</div>
+<div class="thread">
+  <div class="thread-header">
+    <span class="thread-badge badge-coral">打车</span>
+    <span class="thread-title">定位根因，精准收敛负向损失</span>
+  </div>
+
+  <div class="step-row">
+    <div class="step-left">
+      <div class="step-num num-coral">1</div>
+      <div class="step-line line-coral"></div>
+    </div>
+    <div>
+      <div class="step-card">
+        <div class="step-card-title">实验数据发现了什么</div>
+        <div class="step-card-body">NA 端打车核心指标出现系统性下滑，网出花顺受损最为显著。</div>
+        <div class="evidence-list">
+          <div class="evidence-item"><div class="ev-dot dot-coral"></div><div class="ev-text">网出花顺完单 <span class="ev-num">-0.22%</span>，14天累计减少 <span class="ev-num">2.4万单</span></div></div>
+          <div class="evidence-item"><div class="ev-dot dot-coral"></div><div class="ev-text">漏斗折损从「首页访问」和「冒泡」环节已开始，非后链路问题</div></div>
+          <div class="evidence-item"><div class="ev-dot dot-coral"></div><div class="ev-text">流失集中在高频用户：30天 <span class="ev-num">21单+</span>，安卓高端机，是高价值老客</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-connector"><div class="conn-line"></div><div class="conn-label">人群下钻 + DID 因果推断</div><div class="conn-line"></div></div>
+
+  <div class="step-row">
+    <div class="step-left">
+      <div class="step-num num-coral">2</div>
+      <div class="step-line line-coral"></div>
+    </div>
+    <div>
+      <div class="step-card">
+        <div class="step-card-title">数据分析怎么论证的</div>
+        <div class="step-card-body">通过人群下钻与 DID 因果推断，将负向锁定在「访问货运顶 tab」这一路径，排除其他干扰因素。</div>
+        <div class="evidence-list">
+          <div class="evidence-item"><div class="ev-dot dot-coral"></div><div class="ev-text">负向人群 = 访问过货运新首页的用户；未访问用户打车无显著损失</div></div>
+          <div class="evidence-item"><div class="ev-dot dot-coral"></div><div class="ev-text">DID 折算：该人群贡献约 <span class="ev-num">2.5万单</span>损失，几乎覆盖全部负向</div></div>
+          <div class="evidence-item"><div class="ev-dot dot-coral"></div><div class="ev-text">用户在货运页频繁点击【首页】底导，但点击后无法回到打车页面——「迷路」行为</div></div>
+          <div class="evidence-item"><div class="ev-dot dot-coral"></div><div class="ev-text">约 <span class="ev-num">10%</span> 用户点击货运地址栏后 2min 内转回首页大搜条冒泡——「误触」行为</div></div>
+          <div class="evidence-item"><div class="ev-dot dot-coral"></div><div class="ev-text">引导弹窗持续扩大访问货运页的用户量，放大了上述两类负向路径的影响范围</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-connector"><div class="conn-line"></div><div class="conn-label">落地策略</div><div class="conn-line"></div></div>
+
+  <div class="step-row">
+    <div class="step-left">
+      <div class="step-num num-coral">3</div>
+    </div>
+    <div>
+      <div class="step-card">
+        <div class="step-card-title">产品决定做什么（分析直接驱动）</div>
+        <div class="action-grid">
+          <div class="action-item">
+            <span class="action-tag tag-now">已落地</span>
+            <div class="action-text">弹窗错峰投放：避开网约车早晚高峰，减少对核心打车场景干扰</div>
+          </div>
+          <div class="action-item">
+            <span class="action-tag tag-now">已落地</span>
+            <div class="action-text">颜色差异化设计（顶 tab 文字 / banner / 搜索框），帮助用户快速识别频道</div>
+          </div>
+          <div class="action-item">
+            <span class="action-tag tag-soon">4.16上线</span>
+            <div class="action-text">底导新增「返回态」：处于货运/车主等非出行 tab 时，点击【首页】一键回到打车页</div>
+          </div>
+          <div class="action-item">
+            <span class="action-tag tag-plan">规划中</span>
+            <div class="action-text">弹窗精准触发升级：首弹保障打车触达，二弹基于用户实时行为（如连续点击原入口）精准分发</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>

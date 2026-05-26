@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>双向转换工具：Excel ↔ Markdown 表格</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        textarea { resize: none; }
+        .focus-ring:focus { outline: none; box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.3); border-color: #f97316; }
+        .mode-toggle {
+            transition: all 0.2s ease;
+        }
+        .mode-btn.active {
+            background-color: #f97316;
+            color: white;
+            border-color: #f97316;
+        }
+        .mode-btn:not(.active):hover {
+            background-color: #fff7ed;
+            border-color: #fdba74;
+        }
+        .toast-msg {
+            transition: opacity 0.2s;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen p-6 font-sans text-slate-800">
+
+<div class="max-w-7xl mx-auto">
+    <!-- 头部 -->
+    <div class="flex flex-wrap justify-between items-end gap-3 mb-6">
+        <div class="flex items-center gap-3">
+            <i class="fa-solid fa-arrows-spin text-3xl text-orange-500"></i>
+            <div>
+                <h1 class="text-2xl font-bold text-slate-800">Excel ⇄ Markdown 双向转换工具</h1>
+                <p class="text-sm text-slate-500 mt-1">支持 Excel 粘贴 → Markdown 表格，也支持 Markdown 表格 → Excel 格式（TSV/复制可用）</p>
+            </div>
+        </div>
+        <!-- 全局提示区域 -->
+        <div id="globalToast" class="text-xs bg-slate-700 text-white px-3 py-1.5 rounded-full shadow-md hidden opacity-0 transition-all"></div>
+    </div>
+
+    <!-- 双面板，每个面板独立转换模式切换 -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- 左侧面板：原始数据输入区 (支持excel或md输入) -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 flex flex-col h-[620px] overflow-hidden">
+            <div class="p-4 pb-2 border-b border-slate-100 flex justify-between items-center flex-wrap gap-2">
+                <div class="flex items-center gap-3">
+                    <span class="font-semibold text-slate-700"><i class="fa-regular fa-file-lines text-indigo-500 mr-1"></i>输入源</span>
+                    <!-- 左侧模式切换按钮组 -->
+                    <div class="inline-flex rounded-md shadow-sm" role="group">
+                        <button id="leftExcelModeBtn" class="mode-btn active px-3 py-1 text-xs font-medium border border-orange-300 rounded-l-md bg-orange-50 text-orange-700">📄 Excel 格式</button>
+                        <button id="leftMdModeBtn" class="mode-btn px-3 py-1 text-xs font-medium border border-slate-300 rounded-r-md bg-white text-slate-600">📝 Markdown 表格</button>
+                    </div>
+                </div>
+                <div class="flex gap-2">
+                    <button id="clearLeftBtn" class="text-xs text-slate-400 hover:text-red-500 transition"><i class="fa-regular fa-trash-alt mr-1"></i>清空</button>
+                    <button id="sampleExcelBtn" class="text-xs bg-slate-100 hover:bg-slate-200 px-2 py-1 rounded text-slate-600 transition"><i class="fa-regular fa-clipboard mr-1"></i>示例Excel</button>
+                    <button id="sampleMdBtn" class="text-xs bg-slate-100 hover:bg-slate-200 px-2 py-1 rounded text-slate-600 transition"><i class="fa-brands fa-markdown mr-1"></i>示例MD</button>
+                </div>
+            </div>
+            <textarea id="leftInput" placeholder="根据当前模式粘贴内容...&#10;📌 Excel模式：从 Excel 复制表格内容（制表符分隔）直接粘贴&#10;📌 Markdown模式：粘贴标准的 Markdown 表格（需包含表头分隔线）" class="w-full flex-1 p-4 bg-slate-50 border-0 focus:ring-0 focus:outline-none text-sm font-mono text-slate-700 resize-none"></textarea>
+            <div class="px-4 py-2 bg-slate-50 text-right border-t border-slate-100 text-xs text-slate-400">
+                <i class="fa-regular fa-keyboard"></i> 输入变化后自动转换为右侧格式
+            </div>
+        </div>
+
+        <!-- 右侧面板：目标数据输出区 (自动转换结果) -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 flex flex-col h-[620px] overflow-hidden">
+            <div class="p-4 pb-2 border-b border-slate-100 flex justify-between items-center flex-wrap gap-2">
+                <div class="flex items-center gap-3">
+                    <span class="font-semibold text-slate-700"><i class="fa-solid fa-arrow-right-long text-orange-400 mr-1"></i>转换结果</span>
+                    <!-- 右侧模式切换按钮组 (目标格式) -->
+                    <div class="inline-flex rounded-md shadow-sm" role="group">
+                        <button id="rightExcelModeBtn" class="mode-btn px-3 py-1 text-xs font-medium border border-slate-300 rounded-l-md bg-white text-slate-600">📊 Excel 格式</button>
+                        <button id="rightMdModeBtn" class="mode-btn active px-3 py-1 text-xs font-medium border border-orange-300 rounded-r-md bg-orange-50 text-orange-700">📝 Markdown 表格</button>
+                    </div>
+                </div>
+                <div class="flex gap-2">
+                    <button id="copyResultBtn" class="bg-orange-100 text-orange-600 hover:bg-orange-500 hover:text-white px-3 py-1 rounded-md text-xs font-semibold transition-colors"><i class="fa-regular fa-copy mr-1"></i>一键复制</button>
+                    <button id="clearRightBtn" class="text-xs text-slate-400 hover:text-red-500 transition"><i class="fa-regular fa-trash-alt mr-1"></i>清空结果</button>
+                </div>
+            </div>
+            <textarea id="rightOutput" readonly class="w-full flex-1 p-4 bg-slate-800 text-slate-200 border-0 focus:ring-0 text-sm font-mono resize-none"></textarea>
+            <div class="px-4 py-2 bg-slate-800 text-right border-t border-slate-700 text-xs text-slate-400">
+                <i class="fa-regular fa-copy"></i> 根据左侧模式和右侧目标格式自动转换
+            </div>
+        </div>
+    </div>
+
+    <!-- 使用提示卡片 -->
+    <div class="mt-6 bg-white rounded-lg border border-slate-200 p-4 text-sm text-slate-600 shadow-sm">
+        <div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-circle-info text-orange-400"></i><span class="font-semibold">双向转换说明</span></div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+            <div class="bg-slate-50 p-2 rounded"><span class="font-mono font-bold text-indigo-600">① Excel → Markdown</span><br/>左侧选择「Excel 格式」，粘贴从Excel复制的表格内容（制表符分隔，含表头行），右侧选择「Markdown 表格」，自动生成标准MD表格。</div>
+            <div class="bg-slate-50 p-2 rounded"><span class="font-mono font-bold text-emerald-600">② Markdown → Excel</span><br/>左侧选择「Markdown 表格」，粘贴完整MD表格（如 | 列A | 列B |<br/>|---| --- |），右侧选择「Excel 格式」，自动转为制表符分隔的文本，可直接复制到Excel中粘贴为单元格。</div>
+            <div class="bg-slate-50 p-2 rounded"><span class="font-mono font-bold text-orange-600">③ Excel ↔ Excel</span><br/>左侧Excel模式，右侧Excel模式 = 格式校验/清洗（保留原始tsv）。</div>
+            <div class="bg-slate-50 p-2 rounded"><span class="font-mono font-bold text-purple-600">④ MD ↔ MD</span><br/>左侧MD模式，右侧MD模式 = 标准化Markdown表格排版。</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // DOM 元素
+    const leftInput = document.getElementById('leftInput');
+    const rightOutput = document.getElementById('rightOutput');
+    
+    // 模式按钮
+    const leftExcelBtn = document.getElementById('leftExcelModeBtn');
+    const leftMdBtn = document.getElementById('leftMdModeBtn');
+    const rightExcelBtn = document.getElementById('rightExcelModeBtn');
+    const rightMdBtn = document.getElementById('rightMdModeBtn');
+    
+    // 辅助按钮
+    const clearLeftBtn = document.getElementById('clearLeftBtn');
+    const clearRightBtn = document.getElementById('clearRightBtn');
+    const copyResultBtn = document.getElementById('copyResultBtn');
+    const sampleExcelBtn = document.getElementById('sampleExcelBtn');
+    const sampleMdBtn = document.getElementById('sampleMdBtn');
+    
+    // 状态变量
+    let leftMode = 'excel';   // 'excel' 或 'markdown'
+    let rightMode = 'markdown'; // 默认右侧展示 markdown
+    
+    // Toast 简易提示
+    function showToast(message, duration = 2000) {
+        const toast = document.getElementById('globalToast');
+        if (!toast) return;
+        toast.textContent = message;
+        toast.classList.remove('hidden', 'opacity-0');
+        toast.classList.add('opacity-100');
+        setTimeout(() => {
+            toast.classList.add('opacity-0');
+            setTimeout(() => toast.classList.add('hidden'), 300);
+        }, duration);
+    }
+    
+    // 更新按钮UI (左侧模式)
+    function updateLeftModeUI() {
+        if (leftMode === 'excel') {
+            leftExcelBtn.classList.add('active', 'bg-orange-50', 'text-orange-700', 'border-orange-300');
+            leftExcelBtn.classList.remove('bg-white', 'text-slate-600', 'border-slate-300');
+            leftMdBtn.classList.remove('active', 'bg-orange-50', 'text-orange-700', 'border-orange-300');
+            leftMdBtn.classList.add('bg-white', 'text-slate-600', 'border-slate-300');
+        } else {
+            leftMdBtn.classList.add('active', 'bg-orange-50', 'text-orange-700', 'border-orange-300');
+            leftMdBtn.classList.remove('bg-white', 'text-slate-600', 'border-slate-300');
+            leftExcelBtn.classList.remove('active', 'bg-orange-50', 'text-orange-700', 'border-orange-300');
+            leftExcelBtn.classList.add('bg-white', 'text-slate-600', 'border-slate-300');
+        }
+        // 当左侧模式改变时，触发转换（重新解析左侧内容）
+        performConversion();
+    }
+    
+    // 更新右侧按钮UI
+    function updateRightModeUI() {
+        if (rightMode === 'excel') {
+            rightExcelBtn.classList.add('active', 'bg-orange-50', 'text-orange-700', 'border-orange-300');
+            rightExcelBtn.classList.remove('bg-white', 'text-slate-600', 'border-slate-300');
+            rightMdBtn.classList.remove('active', 'bg-orange-50', 'text-orange-700', 'border-orange-300');
+            rightMdBtn.classList.add('bg-white', 'text-slate-600', 'border-slate-300');
+        } else {
+            rightMdBtn.classList.add('active', 'bg-orange-50', 'text-orange-700', 'border-orange-300');
+            rightMdBtn.classList.remove('bg-white', 'text-slate-600', 'border-slate-300');
+            rightExcelBtn.classList.remove('active', 'bg-orange-50', 'text-orange-700', 'border-orange-300');
+            rightExcelBtn.classList.add('bg-white', 'text-slate-600', 'border-slate-300');
+        }
+        performConversion(); // 目标模式切换，重新转换
+    }
+    
+    // ================= 核心解析与转换函数 =================
+    // 从左侧文本根据 leftMode 解析成二维数组 (行数组，每行为字符串数组)
+    function parseLeftToGrid() {
+        const raw = leftInput.value;
+        if (!raw.trim()) return [];
+        
+        if (leftMode === 'excel') {
+            // Excel 模式：按行分割，每行按 \t 分割，保留空单元格（连续制表符需保留空字符串）
+            const lines = raw.split(/\r?\n/);
+            const grid = [];
+            for (let line of lines) {
+                // 去除首尾多余空格但不破坏内部tab结构？标准粘贴末尾可能有空格，但保留单元格含义
+                // 如果整行全是空白，可以忽略但为了对齐可能保留空行，但Excel通常不会空行；不过作为工具保留空行
+                if (line.trim() === '' && grid.length === 0) continue; // 忽略开头的全空行
+                const cells = line.split('\t');
+                // 如果一行全是空字符串且无内容，跳过可选但保持数据完整
+                grid.push(cells);
+            }
+            return grid;
+        } 
+        else { // markdown 模式: 解析标准 markdown 表格
+            const lines = raw.split(/\r?\n/);
+            const grid = [];
+            let headerRow = null;
+            let separatorRowIndex = -1;
+            let dataRows = [];
+            
+            // 过滤掉完全空行但保留表格内容逻辑
+            for (let i = 0; i < lines.length; i++) {
+                let line = lines[i].trim();
+                if (line === '') continue;
+                // 检测是否为分隔行 (包含 |--- 或 |:--- 等)
+                if (/^\|?[\s\-:]+[\-\|\s:]+$/.test(line) && line.includes('---')) {
+                    separatorRowIndex = i;
+                    continue;
+                }
+                // 以 | 开头和结尾的标准表格行
+                if (line.startsWith('|') && line.endsWith('|')) {
+                    // 解析单元格: 去掉首尾 '|' 然后按 '|' 分割，每个单元格 trim 前后空格
+                    let inner = line.slice(1, -1);
+                    let cells = inner.split('|').map(cell => cell.trim());
+                    if (headerRow === null && separatorRowIndex === -1) {
+                        headerRow = cells;
+                    } else {
+                        dataRows.push(cells);
+                    }
+                }
+            }
+            // 构建最终网格: 第一行表头 + 数据行
+            if (headerRow) {
+                grid.push(headerRow);
+                for (let row of dataRows) {
+                    // 确保单元格数量对齐（如果不够补空，超出则截断？为保证可用，补空）
+                    const alignedRow = [...row];
+                    if (headerRow.length > alignedRow.length) {
+                        for (let k = alignedRow.length; k < headerRow.length; k++) alignedRow.push('');
+                    }
+                    grid.push(alignedRow);
+                }
+            } else {
+                // 如果没找到表头但有数据行，尝试直接使用数据行
+                for (let row of dataRows) grid.push(row);
+            }
+            return grid;
+        }
+    }
+    
+    // 将二维数组 (grid) 根据 rightMode 转换为目标字符串
+    function convertGridToTarget(grid) {
+        if (!grid || grid.length === 0) return '';
+        if (rightMode === 'excel') {
+            // 转为 TSV 格式：每行用 \t 连接，换行 \n
+            return grid.map(row => row.join('\t')).join('\n');
+        } 
+        else { // markdown 模式
+            if (grid.length === 0) return '';
+            // 生成 markdown 表格：需要表头 + 分隔行 + 数据行
+            let mdRows = [];
+            // 表头
+            const headerCells = grid[0].map(cell => cell || '');
+            mdRows.push('| ' + headerCells.join(' | ') + ' |');
+            // 分隔行: 根据表头列数生成 |---|...|
+            const separator = '|' + headerCells.map(() => '---').join('|') + '|';
+            mdRows.push(separator);
+            // 数据行 (从第2行开始)
+            for (let i = 1; i < grid.length; i++) {
+                const row = grid[i];
+                // 如果该行单元格数量少于表头，补充空字符串；多于则截断（保留与表头一致）
+                let alignedRow = [...row];
+                if (alignedRow.length < headerCells.length) {
+                    while(alignedRow.length < headerCells.length) alignedRow.push('');
+                } else if (alignedRow.length > headerCells.length) {
+                    alignedRow = alignedRow.slice(0, headerCells.length);
+                }
+                // 处理单元格内特殊字符转义？markdown不需要额外转义，但遇到竖线会破坏表格，可简单替换但无需过度，用户自行注意。
+                const escapedRow = alignedRow.map(cell => String(cell).replace(/\|/g, '\\|'));
+                mdRows.push('| ' + escapedRow.join(' | ') + ' |');
+            }
+            return mdRows.join('\n');
+        }
+    }
+    
+    // 核心转换流程：左侧解析 -> 构建网格 -> 右侧渲染
+    function performConversion() {
+        const rawText = leftInput.value;
+        if (!rawText.trim()) {
+            rightOutput.value = '';
+            return;
+        }
+        try {
+            const grid = parseLeftToGrid();
+            if (!grid.length) {
+                rightOutput.value = '';
+                // 如果markdown模式解析无结果并且非空，可能有格式问题，提示用户
+                if (leftMode === 'markdown' && rawText.trim()) {
+                    rightOutput.value = '⚠️ 无法解析Markdown表格，请确保格式正确：包含表头行和分隔行（如 | 标题 | 内容 |\n| --- | --- |）';
+                }
+                return;
+            }
+            const targetResult = convertGridToTarget(grid);
+            rightOutput.value = targetResult;
+        } catch (err) {
+            console.warn(err);
+            rightOutput.value = '转换出错：输入格式可能不符合当前模式要求。请切换模式或检查内容。';
+        }
+    }
+    
+    // 监听左侧输入变化，并且根据两个模式触发转换
+    function onLeftInputChange() {
+        performConversion();
+    }
+    
+    // 复制右侧内容
+    function copyResult() {
+        const text = rightOutput.value;
+        if (!text) {
+            showToast('没有可复制的内容', 1500);
+            return;
+        }
+        // 使用现代 clipboard API
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('已复制到剪贴板 ✓', 1500);
+                flashCopyButton();
+            }).catch(() => fallbackCopy());
+        } else {
+            fallbackCopy();
+        }
+    }
+    
+    function fallbackCopy() {
+        const textarea = rightOutput;
+        textarea.select();
+        document.execCommand('copy');
+        showToast('已复制 (传统方式)', 1500);
+        flashCopyButton();
+    }
+    
+    function flashCopyButton() {
+        const btn = copyResultBtn;
+        const originalHtml = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-check mr-1"></i>已复制!';
+        btn.classList.add('bg-green-500', 'text-white');
+        btn.classList.remove('bg-orange-100', 'text-orange-600');
+        setTimeout(() => {
+            btn.innerHTML = originalHtml;
+            btn.classList.remove('bg-green-500', 'text-white');
+            btn.classList.add('bg-orange-100', 'text-orange-600');
+        }, 1800);
+    }
+    
+    // 清空左侧输入
+    function clearLeft() {
+        leftInput.value = '';
+        performConversion();
+        showToast('已清空左侧输入', 1000);
+    }
+    
+    function clearRight() {
+        rightOutput.value = '';
+        showToast('已清空右侧结果', 1000);
+    }
+    
+    // 示例填充
+    function fillSampleExcel() {
+        leftMode = 'excel';
+        updateLeftModeUI();
+        // 示例Excel内容（复制自excel的典型数据）
+        const sample = "指标名称\t指标类型\t单位\t业务描述\n活跃用户数\t核心指标\t人\t当日登录过产品的独立用户数\n次均使用时长\t行为指标\t分钟\t单次会话平均时长\n转化率\t效果指标\t%\t完成目标动作的用户比例";
+        leftInput.value = sample;
+        performConversion();
+        showToast('已填入Excel格式示例 (制表符分隔)', 1500);
+    }
+    
+    function fillSampleMarkdown() {
+        leftMode = 'markdown';
+        updateLeftModeUI();
+        const sample = "| 指标英文名 | 指标中文名 | 数据来源 | 备注 |\n| --- | --- | --- | --- |\n| DAU | 日活跃用户数 | 埋点系统 | 每日唯一用户 |\n| LTV | 用户生命周期价值 | 财务宽表 | 单位:元 |\n| Retention_1d | 次日留存率 | 数仓 | 新用户次日留存比例 |";
+        leftInput.value = sample;
+        performConversion();
+        showToast('已填入Markdown表格示例', 1500);
+    }
+    
+    // 监听左右模式按钮事件
+    leftExcelBtn.addEventListener('click', () => {
+        if (leftMode === 'excel') return;
+        leftMode = 'excel';
+        updateLeftModeUI();
+    });
+    leftMdBtn.addEventListener('click', () => {
+        if (leftMode === 'markdown') return;
+        leftMode = 'markdown';
+        updateLeftModeUI();
+    });
+    rightExcelBtn.addEventListener('click', () => {
+        if (rightMode === 'excel') return;
+        rightMode = 'excel';
+        updateRightModeUI();
+    });
+    rightMdBtn.addEventListener('click', () => {
+        if (rightMode === 'markdown') return;
+        rightMode = 'markdown';
+        updateRightModeUI();
+    });
+    
+    leftInput.addEventListener('input', onLeftInputChange);
+    clearLeftBtn.addEventListener('click', clearLeft);
+    clearRightBtn.addEventListener('click', clearRight);
+    copyResultBtn.addEventListener('click', copyResult);
+    sampleExcelBtn.addEventListener('click', fillSampleExcel);
+    sampleMdBtn.addEventListener('click', fillSampleMarkdown);
+    
+    // 页面初始化时，设置默认占位提示和示例预置？不预置内容但提供友好占位
+    leftInput.placeholder = leftMode === 'excel' 
+        ? '📌 Excel模式：从Excel复制表格（包含表头）直接粘贴。\n例如：\n姓名\t年龄\t城市\n张三\t28\t北京\n李四\t32\t上海' 
+        : '📌 Markdown模式：粘贴标准Markdown表格，需包含表头行和分隔行。\n例如：\n| 名称 | 数值 |\n| --- | --- |\n| 示例A | 100 |\n| 示例B | 200 |';
+    
+    // 监听左侧模式变化时更改placeholder
+    function updatePlaceholder() {
+        leftInput.placeholder = leftMode === 'excel' 
+            ? '📌 Excel模式：从Excel复制表格（制表符分隔）粘贴，示例：\n指标名\t数值\t单位\n点击率\t0.35\t%' 
+            : '📌 Markdown模式：粘贴Markdown表格（需包含分隔线）示例：\n| 列1 | 列2 |\n| --- | --- |\n| 数据A | 数据B |';
+    }
+    
+    // 覆写updateLeftModeUI增加占位更新
+    const originalLeftUI = updateLeftModeUI;
+    window.updateLeftModeUI = function() {
+        originalLeftUI();
+        updatePlaceholder();
+    };
+    updateLeftModeUI = function() {
+        if (leftMode === 'excel') {
+            leftExcelBtn.classList.add('active', 'bg-orange-50', 'text-orange-700', 'border-orange-300');
+            leftExcelBtn.classList.remove('bg-white', 'text-slate-600', 'border-slate-300');
+            leftMdBtn.classList.remove('active', 'bg-orange-50', 'text-orange-700', 'border-orange-300');
+            leftMdBtn.classList.add('bg-white', 'text-slate-600', 'border-slate-300');
+        } else {
+            leftMdBtn.classList.add('active', 'bg-orange-50', 'text-orange-700', 'border-orange-300');
+            leftMdBtn.classList.remove('bg-white', 'text-slate-600', 'border-slate-300');
+            leftExcelBtn.classList.remove('active', 'bg-orange-50', 'text-orange-700', 'border-orange-300');
+            leftExcelBtn.classList.add('bg-white', 'text-slate-600', 'border-slate-300');
+        }
+        updatePlaceholder();
+        performConversion();
+    };
+    // 替换引用
+    window.updateLeftModeUI = updateLeftModeUI;
+    // 重新绑定事件确保新模式刷新
+    leftExcelBtn.onclick = () => { if (leftMode !== 'excel') { leftMode = 'excel'; updateLeftModeUI(); } };
+    leftMdBtn.onclick = () => { if (leftMode !== 'markdown') { leftMode = 'markdown'; updateLeftModeUI(); } };
+    
+    // 重新整理执行一次初始化
+    updatePlaceholder();
+    performConversion();
+    
+    // 增加右侧模式改变时触发转换已经内置于updateRightModeUI， 但确保同步
+    function patchRightUpdate() {
+        const origRight = updateRightModeUI;
+        window.updateRightModeUI = function() {
+            if (rightMode === 'excel') {
+                rightExcelBtn.classList.add('active', 'bg-orange-50', 'text-orange-700', 'border-orange-300');
+                rightExcelBtn.classList.remove('bg-white', 'text-slate-600', 'border-slate-300');
+                rightMdBtn.classList.remove('active', 'bg-orange-50', 'text-orange-700', 'border-orange-300');
+                rightMdBtn.classList.add('bg-white', 'text-slate-600', 'border-slate-300');
+            } else {
+                rightMdBtn.classList.add('active', 'bg-orange-50', 'text-orange-700', 'border-orange-300');
+                rightMdBtn.classList.remove('bg-white', 'text-slate-600', 'border-slate-300');
+                rightExcelBtn.classList.remove('active', 'bg-orange-50', 'text-orange-700', 'border-orange-300');
+                rightExcelBtn.classList.add('bg-white', 'text-slate-600', 'border-slate-300');
+            }
+            performConversion();
+        };
+        window.updateRightModeUI();
+    }
+    patchRightUpdate();
+    // 重新执行确保事件完整
+    rightExcelBtn.onclick = () => { if (rightMode !== 'excel') { rightMode = 'excel'; updateRightModeUI(); } };
+    rightMdBtn.onclick = () => { if (rightMode !== 'markdown') { rightMode = 'markdown'; updateRightModeUI(); } };
+    updateRightModeUI();
+</script>
+</body>
+</html>

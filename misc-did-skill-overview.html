@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DiD Engine — Skill Overview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:       #0d1117;
+    --bg2:      #161b24;
+    --bg3:      #1e2535;
+    --gold:     #e8b84b;
+    --gold-dim: #a07c28;
+    --blue:     #5b9cf6;
+    --green:    #4ade80;
+    --red:      #f87171;
+    --text:     #c9d1e0;
+    --text-hi:  #eef1f7;
+    --text-lo:  #6b7a99;
+    --border:   rgba(255,255,255,0.07);
+    --border-gold: rgba(232,184,75,0.25);
+  }
+
+  html { font-size: 13px; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    min-height: 100vh;
+    padding: 28px;
+  }
+
+  /* ── TOP BANNER ── */
+  .banner {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border-gold);
+    padding-bottom: 16px;
+    margin-bottom: 20px;
+    animation: fadeDown 0.6s ease both;
+  }
+  .banner-left h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.6rem;
+    color: var(--text-hi);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .banner-left h1 span { color: var(--gold); }
+  .banner-left .sub {
+    font-size: 0.95rem;
+    color: var(--text-lo);
+    margin-top: 5px;
+    font-weight: 300;
+  }
+  .badge-row { display: flex; gap: 8px; align-items: center; }
+  .badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 1px solid;
+    letter-spacing: 0.04em;
+  }
+  .badge-gold  { color: var(--gold); border-color: var(--gold-dim); background: rgba(232,184,75,0.06); }
+  .badge-blue  { color: var(--blue); border-color: rgba(91,156,246,0.3); background: rgba(91,156,246,0.06); }
+  .badge-green { color: var(--green); border-color: rgba(74,222,128,0.3); background: rgba(74,222,128,0.06); }
+
+  /* ── MAIN GRID ── */
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1.15fr 1fr;
+    gap: 14px;
+    animation: fadeUp 0.7s ease 0.1s both;
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+  .card-title {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .card-title::before {
+    content: '';
+    display: block;
+    width: 3px;
+    height: 12px;
+    background: var(--gold);
+    border-radius: 2px;
+  }
+
+  /* ── SCENARIO TAGS ── */
+  .scenario-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+  .scenario-item {
+    background: var(--bg3);
+    border-radius: 7px;
+    padding: 9px 10px;
+    border-left: 3px solid var(--gold-dim);
+    font-size: 0.78rem;
+  }
+  .scenario-item .s-title { color: var(--text-hi); font-weight: 500; margin-bottom: 2px; }
+  .scenario-item .s-sub { color: var(--text-lo); font-size: 0.72rem; }
+
+  /* ── MODE COMPARE ── */
+  .mode-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .mode-box {
+    border-radius: 8px;
+    padding: 11px 13px;
+    border: 1px solid var(--border);
+  }
+  .mode-box.standard { border-color: rgba(91,156,246,0.35); background: rgba(91,156,246,0.05); }
+  .mode-box.trend    { border-color: rgba(232,184,75,0.35);  background: rgba(232,184,75,0.05); }
+  .mode-label { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
+  .mode-box.standard .mode-label { color: var(--blue); }
+  .mode-box.trend    .mode-label { color: var(--gold); }
+  .mode-name { font-size: 0.9rem; font-weight: 600; color: var(--text-hi); margin-bottom: 5px; }
+  .mode-desc { font-size: 0.74rem; color: var(--text); line-height: 1.4; }
+  .mode-tag  { font-size: 0.68rem; color: var(--text-lo); margin-top: 6px; }
+
+  /* ── TIMELINE ── */
+  .timeline {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-lo);
+    margin-top: 8px;
+    padding: 8px 10px;
+    background: var(--bg);
+    border-radius: 6px;
+    line-height: 1.7;
+  }
+  .timeline .hl { color: var(--gold); }
+  .timeline .hl2 { color: var(--blue); }
+
+  /* ── WORKFLOW ── */
+  .flow { display: flex; flex-direction: column; gap: 0; }
+  .flow-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    position: relative;
+  }
+  .flow-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 32px;
+    bottom: -8px;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--gold-dim), transparent);
+  }
+  .flow-num {
+    width: 31px;
+    height: 31px;
+    border-radius: 50%;
+    border: 1.5px solid var(--gold-dim);
+    background: rgba(232,184,75,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--gold);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .flow-content { flex: 1; padding-bottom: 16px; }
+  .flow-title { font-size: 0.85rem; font-weight: 600; color: var(--text-hi); margin-bottom: 3px; }
+  .flow-sub { font-size: 0.74rem; color: var(--text); line-height: 1.4; }
+  .flow-tag {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-family: 'DM Mono', monospace;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    padding: 2px 7px;
+    border-radius: 4px;
+    margin-top: 5px;
+    color: var(--text-lo);
+  }
+  .flow-tag + .flow-tag { margin-left: 4px; }
+  .flow-arrow-tag {
+    font-size: 0.65rem;
+    font-family: 'DM Mono', monospace;
+    color: var(--gold);
+    background: rgba(232,184,75,0.08);
+    border: 1px solid var(--border-gold);
+    padding: 2px 7px;
+    border-radius: 4px;
+    margin-top: 5px;
+    display: inline-block;
+  }
+
+  /* ── PRINCIPLE ── */
+  .formula-block {
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.76rem;
+    line-height: 1.9;
+    margin-top: 6px;
+    border: 1px solid var(--border);
+  }
+  .formula-block .f-label { color: var(--text-lo); font-size: 0.65rem; letter-spacing: 0.08em; display: block; margin-bottom: 4px; }
+  .formula-block .f-main  { color: var(--text-hi); }
+  .formula-block .f-sub   { color: var(--text-lo); font-size: 0.68rem; }
+  .formula-block .f-gold  { color: var(--gold); }
+  .formula-block .f-blue  { color: var(--blue); }
+  .formula-block .f-green { color: var(--green); }
+
+  /* ── OUTPUT PREVIEW ── */
+  .output-layer {
+    background: var(--bg);
+    border-radius: 7px;
+    padding: 9px 12px;
+    margin-top: 7px;
+    border: 1px solid var(--border);
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .layer-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--gold);
+    opacity: 0.7;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .layer-body { flex: 1; }
+  .layer-title { font-size: 0.78rem; font-weight: 600; color: var(--text-hi); }
+  .layer-desc  { font-size: 0.7rem; color: var(--text-lo); margin-top: 2px; line-height: 1.4; }
+  .layer-pill {
+    display: inline-block;
+    font-size: 0.62rem;
+    padding: 1px 6px;
+    border-radius: 10px;
+    margin-top: 3px;
+    font-family: 'DM Mono', monospace;
+  }
+  .pill-gold  { background: rgba(232,184,75,0.12); color: var(--gold); }
+  .pill-blue  { background: rgba(91,156,246,0.12); color: var(--blue); }
+  .pill-green { background: rgba(74,222,128,0.12); color: var(--green); }
+
+  /* ── TECH HIGHLIGHTS ── */
+  .tech-list { display: flex; flex-direction: column; gap: 7px; margin-top: 6px; }
+  .tech-item {
+    display: flex;
+    gap: 9px;
+    align-items: flex-start;
+    padding: 8px 10px;
+    background: var(--bg3);
+    border-radius: 6px;
+    font-size: 0.74rem;
+  }
+  .tech-icon { font-size: 0.85rem; flex-shrink: 0; margin-top: 1px; }
+  .tech-text { color: var(--text); }
+  .tech-text strong { color: var(--text-hi); font-weight: 500; }
+
+  /* ── USAGE ── */
+  .usage-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-top: 14px;
+    animation: fadeUp 0.7s ease 0.25s both;
+  }
+  .usage-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 13px 15px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .usage-icon { font-size: 1.2rem; flex-shrink: 0; }
+  .usage-title { font-size: 0.8rem; font-weight: 600; color: var(--text-hi); margin-bottom: 3px; }
+  .usage-desc  { font-size: 0.73rem; color: var(--text); line-height: 1.45; }
+
+  /* ── FOOTER ── */
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    font-size: 0.68rem;
+    color: var(--text-lo);
+    font-family: 'DM Mono', monospace;
+    animation: fadeUp 0.7s ease 0.35s both;
+  }
+  .footer .dot { color: var(--gold); margin: 0 6px; }
+
+  /* ── DIVIDER ── */
+  .divider { height: 1px; background: var(--border); margin: 10px 0; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SPAN UTILS ── */
+  .hi   { color: var(--text-hi); }
+  .gold { color: var(--gold); }
+  .blue { color: var(--blue); }
+  .lo   { color: var(--text-lo); }
+  .mono { font-family: 'DM Mono', monospace; }
+</style>
+</head>
+<body>
+
+<!-- ═══ BANNER ═══ -->
+<div class="banner">
+  <div class="banner-left">
+    <h1>DiD <span>Engine</span></h1>
+    <div class="sub">双重差分因果推断 Skill &nbsp;·&nbsp; 排除时间趋势，从数据中还原真实效应</div>
+  </div>
+  <div class="badge-row">
+    <span class="badge badge-blue">standard 模式</span>
+    <span class="badge badge-gold">trend 模式</span>
+    <span class="badge badge-green">panel SE 精确推断</span>
+  </div>
+</div>
+
+<!-- ═══ MAIN GRID ═══ -->
+<div class="grid">
+
+  <!-- ── COL 1：场景 + 模式 ── -->
+  <div style="display:flex;flex-direction:column;gap:12px;">
+
+    <div class="card">
+      <div class="card-title">什么时候用 DiD</div>
+      <div class="scenario-grid">
+        <div class="scenario-item">
+          <div class="s-title">AB 实验验证</div>
+          <div class="s-sub">实验组 vs 对照组，验证因果效应而非相关性</div>
+        </div>
+        <div class="scenario-item">
+          <div class="s-title">非随机分组</div>
+          <div class="s-sub">按行为/特征划分，两组基线趋势本就不同</div>
+        </div>
+        <div class="scenario-item">
+          <div class="s-title">策略效果归因</div>
+          <div class="s-sub">排除季节、趋势等时间因素，剥离净效应</div>
+        </div>
+        <div class="scenario-item">
+          <div class="s-title">指标下降溯源</div>
+          <div class="s-sub">验证某行为路径是否真实导致了指标变化</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">两种分析模式</div>
+      <div class="mode-row">
+        <div class="mode-box standard">
+          <div class="mode-label">Standard</div>
+          <div class="mode-name">标准 DiD</div>
+          <div class="mode-desc">随机分组 / AB 实验<br>平行趋势假设成立</div>
+          <div class="mode-tag">基准期 → 观测期（2段）</div>
+        </div>
+        <div class="mode-box trend">
+          <div class="mode-label">Trend</div>
+          <div class="mode-name">趋势校正 DiD</div>
+          <div class="mode-desc">自选择分组 / 非随机<br>主动估计并校正趋势差异</div>
+          <div class="mode-tag">A → B → C → D（4段）</div>
+        </div>
+      </div>
+      <div class="timeline" style="margin-top:10px;">
+        <span class="hl">trend</span> 模式估计量：<br>
+        τ = <span class="hl">diff2</span> − <span class="hl2">diff1</span><br>
+        &nbsp;&nbsp;= <span class="hl">[(D−C)<sub>trt</sub>−(D−C)<sub>ctrl</sub>]</span> − <span class="hl2">[(B−A)<sub>trt</sub>−(B−A)<sub>ctrl</sub>]</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">核心原理</div>
+      <div class="formula-block">
+        <span class="f-label">DiD 估计量</span>
+        <div class="f-main">τ = <span class="f-gold">Δ<sub>trt</sub></span> − <span class="f-blue">Δ<sub>ctrl</sub></span></div>
+        <div class="f-sub">Δ = post_mean − pre_mean</div>
+      </div>
+      <div class="formula-block" style="margin-top:7px;">
+        <span class="f-label">精确 Panel SE（有协方差时）</span>
+        <div class="f-main">Var(τ) = <span class="f-gold">Var(Δ<sub>trt</sub>)</span>/n<sub>t</sub> + <span class="f-blue">Var(Δ<sub>ctrl</sub>)</span>/n<sub>c</sub></div>
+        <div class="f-sub" style="margin-top:2px;">Var(Δ) = Var(post) + Var(pre) − <span class="f-green">2·Cov(pre,post)</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── COL 2：Workflow ── -->
+  <div class="card">
+    <div class="card-title">Skill Workflow</div>
+    <div class="flow">
+
+      <div class="flow-step">
+        <div class="flow-num">01</div>
+        <div class="flow-content">
+          <div class="flow-title">意图触发</div>
+          <div class="flow-sub">用户说明 DiD 分析需求，Skill 自动启动问诊流程</div>
+          <span class="flow-tag">"做 DiD 分析"</span>
+          <span class="flow-tag">"验证因果效应"</span>
+          <span class="flow-tag">"双重差分"</span>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-num">02</div>
+        <div class="flow-content">
+          <div class="flow-title">Q1 · 分组依据</div>
+          <div class="flow-sub">判断随机分组 or 自选择分组，自动确定使用哪种模式。<br>自选择分组主动告警并说明趋势校正逻辑。</div>
+          <span class="flow-arrow-tag">→ standard / trend 模式</span>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-num">03</div>
+        <div class="flow-content">
+          <div class="flow-title">Q2 · 时间段 + 指标（合并）</div>
+          <div class="flow-sub">一次收集时间段定义（2段 or ABCD 4段）和指标信息（字段名 / 中文名 / 累加或状态型）</div>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-num">04</div>
+        <div class="flow-content">
+          <div class="flow-title">Q3 · 数据来源</div>
+          <div class="flow-sub">用户自己提供数据 or 让 AI 生成 SQL。需要 SQL 时按需追问表结构，不列问题清单。</div>
+          <span class="flow-tag">模板 A：standard</span>
+          <span class="flow-tag">模板 B：trend</span>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-num">05</div>
+        <div class="flow-content">
+          <div class="flow-title">SQL 设计亮点</div>
+          <div class="flow-sub">
+            · 日级别预聚合消除同天多条记录<br>
+            · 以分组表为主表（LEFT JOIN），无行为填 0<br>
+            · 分母 = 固定样本量，不随活跃度漂移<br>
+            · 直接输出真实协方差 Cov(X,Y) = E[XY]−E[X]E[Y]
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-num">06</div>
+        <div class="flow-content">
+          <div class="flow-title">数据校验</div>
+          <div class="flow-sub">n ≥ 30、方差非零、字段完整、分组数量。trend 模式额外诊断各段活跃率异常。</div>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-num">07</div>
+        <div class="flow-content">
+          <div class="flow-title">调用 did_engine.py</div>
+          <div class="flow-sub">构建 input.json → 执行引擎 → 输出 did_output.json + Forest plot</div>
+          <span class="flow-arrow-tag">python3 did_engine.py --input … --out-dir …</span>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-num">08</div>
+        <div class="flow-content">
+          <div class="flow-title">四层结构化播报</div>
+          <div class="flow-sub">结论摘要 → 效应估计矩阵 → 诊断清单 → 数据质量表</div>
+          <span class="flow-arrow-tag">含 95% CI + 校正量 + 业务量化</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── COL 3：输出 + 亮点 ── -->
+  <div style="display:flex;flex-direction:column;gap:12px;">
+
+    <div class="card">
+      <div class="card-title">四层播报输出</div>
+
+      <div class="output-layer">
+        <div class="layer-num">1️⃣</div>
+        <div class="layer-body">
+          <div class="layer-title">核心结论</div>
+          <div class="layer-desc">效应方向 · 量级 · 显著性 · 校正可信度<br><span class="mono lo" style="font-size:0.68rem;">"因果效应 -11.16%，p&lt;0.0001，校正量极微"</span></div>
+        </div>
+      </div>
+
+      <div class="output-layer">
+        <div class="layer-num">2️⃣</div>
+        <div class="layer-body">
+          <div class="layer-title">效应估计矩阵</div>
+          <div class="layer-desc">两组基准期 / 干预期均值对比 · 粗 DiD → 校正量 → 校正后 DiD · 95% CI · P 值</div>
+          <span class="layer-pill pill-gold">绝对量</span>
+          <span class="layer-pill pill-blue">百分比</span>
+          <span class="layer-pill pill-green">置信区间</span>
+        </div>
+      </div>
+
+      <div class="output-layer">
+        <div class="layer-num">3️⃣</div>
+        <div class="layer-body">
+          <div class="layer-title">诊断清单 + 业务量化</div>
+          <div class="layer-desc">校正量占比三档判断（&lt;10% ✅ / 10-50% ⚠️ / &gt;50% 🔴）<br>人均日效应 · 受影响用户数 · 日均总效应</div>
+        </div>
+      </div>
+
+      <div class="output-layer">
+        <div class="layer-num">4️⃣</div>
+        <div class="layer-body">
+          <div class="layer-title">数据质量表</div>
+          <div class="layer-desc">分组 × 分段活跃率矩阵 · 两组对比 · 异常自动标记</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">关键技术决策</div>
+      <div class="tech-list">
+        <div class="tech-item">
+          <div class="tech-icon">⚖️</div>
+          <div class="tech-text"><strong>固定分母设计</strong> — 样本量固定为实验队列总人数，无行为用户贡献 0，避免活跃度结构变化污染跨期比较</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-icon">📐</div>
+          <div class="tech-text"><strong>精确 Panel SE</strong> — SQL 直接输出真实协方差，利用个体跨期相关性精确计算标准误，避免独立假设高估 SE</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-icon">🔄</div>
+          <div class="tech-text"><strong>趋势校正 vs 平行趋势</strong> — trend 模式不依赖平行趋势假设，而是主动估计并吸收趋势差异，自选择分组更可信</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-icon">📊</div>
+          <div class="tech-text"><strong>业务量化</strong> — 自动输出"人均效应 × 用户数 = 日均总效应"，百分比 + 绝对量双维度，决策层可读</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-icon">🔗</div>
+          <div class="tech-text"><strong>向后兼容</strong> — 旧字段名 / 旧模式名自动静默映射，协方差缺失时自动退化为独立假设近似</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ USAGE ROW ═══ -->
+<div class="usage-row">
+  <div class="usage-card">
+    <div class="usage-icon">💬</div>
+    <div>
+      <div class="usage-title">AI 全程引导</div>
+      <div class="usage-desc">直接说明分析意图，AI 引导完成问诊 → 生成 SQL → 执行 → 播报，无需手动操作</div>
+    </div>
+  </div>
+  <div class="usage-card">
+    <div class="usage-icon">📋</div>
+    <div>
+      <div class="usage-title">自带数据接入</div>
+      <div class="usage-desc">自己执行 SQL 后将聚合结果提供给 AI，跳过 SQL 生成步骤，直接构建 input.json 并调用引擎</div>
+    </div>
+  </div>
+  <div class="usage-card">
+    <div class="usage-icon">⚡</div>
+    <div>
+      <div class="usage-title">直接调用引擎</div>
+      <div class="usage-desc">熟悉格式后，直接编写 input.json 并执行 <span class="mono" style="font-size:0.68rem;color:var(--gold);">python3 did_engine.py</span>，适合批量分析场景</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<div class="footer">
+  <span>did_engine.py &nbsp;<span class="dot">·</span>&nbsp; SKILL.md &nbsp;<span class="dot">·</span>&nbsp; COMPUTATION_LOGIC.md &nbsp;<span class="dot">·</span>&nbsp; README.md</span>
+  <span>standard &nbsp;<span class="dot">·</span>&nbsp; trend &nbsp;<span class="dot">·</span>&nbsp; panel SE &nbsp;<span class="dot">·</span>&nbsp; 业务量化 &nbsp;<span class="dot">·</span>&nbsp; 四层播报</span>
+</div>
+
+</body>
+</html>

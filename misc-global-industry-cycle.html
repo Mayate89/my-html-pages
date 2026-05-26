@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2023-2026 全球产业周期诊断与投资策略框架</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Chosen Palette: Warm Neutrals & Professional Accents -->
+    <!-- Background: Stone-50 (Warm/Paper feel) -->
+    <!-- Primary Text: Slate-800 -->
+    <!-- Accents: 
+         - US/Tech: Blue-600 
+         - China/Manufacturing: Red-700
+         - Commodities: Emerald-600
+         - Warning/Risk: Amber-500
+    -->
+
+    <style>
+        /* Chart Container Styling - Mandatory per requirements */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; /* Constrain max width for readability */
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px; /* Base height */
+            max-height: 400px;
+        }
+
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 300px;
+            }
+        }
+
+        /* Custom Scrollbar for cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f5f5f4; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d6d3d1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a29e; 
+        }
+
+        .tab-active {
+            border-bottom: 3px solid #b91c1c; /* Red-700 */
+            color: #b91c1c;
+            font-weight: 600;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-slate-800 font-sans leading-relaxed">
+
+    <!-- Application Structure Plan:
+         The app is designed as a "Strategic Dashboard" for an investor.
+         1. Header: Establishes the persona (Strategist) and the "Macro Mismatch" context.
+         2. Navigation: Tabs correspond to the 4 modules of the report + a Summary/Action plan.
+         3. Dynamic Content Area:
+            - Macro View: Split screen comparing Commodities (Bubble chart) and Equity Structures (Doughnut).
+            - Inventory Cycle: A "Scatter Plot" acting as a clock/cycle map. Users click points to see specific industry diagnoses.
+            - Supply Chain: A flow/comparison view toggling between "Losers" (textiles) and "Winners" (capital expansion).
+            - Titans (US vs China): Comparative cards for AI, EV, and Old Economy.
+            - Action Plan: Filterable investment takeaways.
+         4. Why this structure? It moves from the abstract (Macro) to the specific (Inventory/Supply Chain) to the strategic (Titans) and finally the actionable (Investment).
+    -->
+
+    <!-- Header -->
+    <header class="bg-white border-b border-stone-200 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center">
+            <div>
+                <h1 class="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight">全球产业周期诊断 <span class="text-stone-500 font-light">2023-2026</span></h1>
+                <p class="text-sm text-stone-500 mt-1">华尔街产业经济学家视角 | 逆全球化 · 周期错位 · 资产重估</p>
+            </div>
+            <div class="mt-4 md:mt-0 bg-stone-100 px-4 py-2 rounded-lg text-xs md:text-sm text-stone-600 border border-stone-200">
+                <span class="font-bold text-red-700">当前背景：</span> 中美宏观周期错位 + 供应链重构 (China+1)
+            </div>
+        </div>
+        
+        <!-- Navigation -->
+        <nav class="max-w-6xl mx-auto px-4 mt-2 overflow-x-auto">
+            <div class="flex space-x-6 md:space-x-8 min-w-max border-b border-stone-200" id="nav-container">
+                <!-- Nav items injected via JS -->
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 py-8 min-h-[80vh]" id="main-content">
+        <!-- Content injected via JS -->
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-stone-100 border-t border-stone-200 py-8 mt-12">
+        <div class="max-w-6xl mx-auto px-4 text-center text-stone-500 text-sm">
+            <p>本报告基于模拟的华尔街策略师观点，仅供扫盲与框架参考，不构成直接投资建议。</p>
+            <p class="mt-2">© 2023-2026 周期诊断模拟系统</p>
+        </div>
+    </footer>
+
+    <!-- Visualization & Content Choices:
+         1. Macro: Chart.js Bubble (Commodities: Price vs. Term Structure) - visualizes "Levels" and "Tightness". Chart.js Doughnut (Market Cap) - visualizes "Structure".
+         2. Inventory: Chart.js Scatter (YoY Revenue vs. YoY Inventory) - visualizes the cycle phase (Boom, Bust, Recovery). Interaction: Click point -> Show details.
+         3. Supply Chain: HTML Grid + JS State Toggles. Simple progress bars for "Substitution Rate".
+         4. Titans: Comparative HTML Cards.
+         CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+    -->
+
+    <script>
+        // --- Data & Content Store ---
+        
+        const reportData = {
+            macro: {
+                title: "模块一：全景坐标系 —— 兵力部署图",
+                intro: "不要看经济学家说了什么，要看实物资产在说什么。中美经济最大的不同在于：美国是“消费+财政”驱动的虚拟-实物背离，中国是“制造+地产”通缩下的实物韧性。本模块将为你展示大宗商品的真实水位与中美股市的肌肉结构。",
+                commodities: [
+                    { label: '铜 (Copper)', priceLevel: 80, termStructure: 70, r: 15, desc: "名义价格合理，实际偏高。供给资本开支不足导致远期贴水。", type: "global" },
+                    { label: '原油 (Oil)', priceLevel: 65, termStructure: 50, r: 20, desc: "全球定价。名义价格合理，主要受供给纪律支撑。", type: "global" },
+                    { label: '锂/镍 (Lithium/Nickel)', priceLevel: 20, termStructure: 10, r: 12, desc: "中国定价。产能出清不彻底，处于“寒冬期末期”。", type: "china" }
+                ],
+                stocksUS: [
+                    { label: '信息技术 (IT/AI)', value: 35, color: '#2563eb' },
+                    { label: '医疗保健 (Bio/GLP-1)', value: 20, color: '#3b82f6' },
+                    { label: '能源 (页岩油)', value: 15, color: '#60a5fa' },
+                    { label: '其他', value: 30, color: '#94a3b8' }
+                ],
+                stocksCN: [
+                    { label: '金融 (银行/保险)', value: 30, color: '#b91c1c' },
+                    { label: '工业 (制造/出海)', value: 25, color: '#dc2626' },
+                    { label: '能源/原材料 (高股息)', value: 20, color: '#ef4444' },
+                    { label: '其他', value: 25, color: '#94a3b8' }
+                ],
+                insight: "美国股市靠“科技+医药”驱动，反映其创新与消费霸权；中国股市靠“金融+工业”支撑，反映其资产负债表重构与制造立国的底色。"
+            },
+            inventory: {
+                title: "模块二：库存周期的“显微镜”",
+                intro: "谁在挨饿？谁在吃撑？不要相信宏观PMI，要深入中观行业的“产成品存货”与“营收”增速。库存周期是判断行业景气度最精准的温度计。",
+                points: [
+                    { x: 30, y: 40, label: '算力硬件/光模块', phase: '主动补库存', desc: '订单排满，景气度爆表。营收增速 > 库存增速。', strategy: '进攻' },
+                    { x: 25, y: 35, label: '船舶制造', phase: '主动补库存', desc: '手持订单覆盖3年以上，长周期繁荣。', strategy: '进攻' },
+                    { x: 20, y: 25, label: '特高压设备', phase: '主动补库存', desc: '电网升级需求强劲。', strategy: '进攻' },
+                    { x: -10, y: 15, label: '消费电子/存储芯片', phase: '被动去库存', desc: '复苏前夜。营收开始回升，库存仍在低位。', strategy: '埋伏' },
+                    { x: -5, y: 10, label: 'CIS传感器', phase: '被动去库存', desc: '受益于华为链及AI手机换机预期。', strategy: '埋伏' },
+                    { x: 40, y: -20, label: '光伏产业链', phase: '产能过剩', desc: '全环节亏损去库，痛苦的价格战。', strategy: '规避' },
+                    { x: 35, y: -15, label: '锂电材料', phase: '产能过剩', desc: '需密切观察2024-2025产能利用率。', strategy: '规避' },
+                    { x: 10, y: -10, label: '房地产建材', phase: '产能过剩', desc: '受竣工端拖累，需求不足。', strategy: '规避' }
+                ]
+            },
+            supplyChain: {
+                title: "模块三：供应链重构 (China+1)",
+                intro: "“脱钩”的本质是效率让位于安全。这不仅仅是风险，更是资本扩张的新机遇。我们需要区分“被动流失”的低端产能和“主动出海”的资本扩张。",
+                losers: {
+                    title: "打击面：低端制造流失",
+                    items: ["纺织服装", "简单家具", "低端电子组装"],
+                    destinations: ["越南", "墨西哥", "印度"],
+                    impact: "订单永久性流失，面临极大挑战。"
+                },
+                winners: {
+                    title: "扩张面：资本与技术出海",
+                    items: ["汽车零部件", "PCB电路板", "工程机械"],
+                    logic: "规避关税 + 贴近客户。中国提供核心设备与材料（铜箔、玻纤布），输出工程师红利。",
+                    impact: "抢占日韩台份额，实现全球化资本扩张。"
+                },
+                substitution: [
+                    { name: "成熟制程芯片 (28nm+)", progress: 85, desc: "国产化率极高，开始内卷并走向出海。" },
+                    { name: "工业母机/新材料", progress: 45, desc: "攻坚战阶段。航空航天与军工是核心牵引力。" },
+                    { name: "大飞机产业链", progress: 30, desc: "一旦突破，将通过军转民带动巨大内需。" }
+                ]
+            },
+            titans: {
+                title: "模块四：三大世纪产业对决",
+                intro: "未来10年，中美将在AI、新能源与老经济领域展开巅峰对决。这是一场关于算力霸权、能源革命与实物资产定价权的较量。",
+                cards: [
+                    {
+                        title: "AI 与 半导体",
+                        us: "算力基建化 + 应用泡沫",
+                        cn: "封锁下突围 + 华为昇腾生态",
+                        analysis: "美国2026年面临基建增速放缓，需验证应用端PMF（产品市场匹配）。中国若能达到A100的80%性能，将迎来算力重估。",
+                        verdict: "美股看应用落地，A股看算力底座。"
+                    },
+                    {
+                        title: "新能源与电动车 (EV)",
+                        us: "关税壁垒 + IRA法案",
+                        cn: "全产业链统治力 + 成本碾压",
+                        analysis: "中国最大的瓶颈不是技术，而是市场准入。出路在于“技术授权+本地化建厂”（如零跑模式）。",
+                        verdict: "单纯卖车出海难，输出技术与当地建厂是王道。"
+                    },
+                    {
+                        title: "老经济 (大宗/红利)",
+                        us: "再工业化尝试",
+                        cn: "中国制造溢价 + 资产重估",
+                        analysis: "出海造船与工程机械走出牛市，是因为竞争力跨越了“低价”阶段。水电煤气因高股息与ROE修复成为类债券资产。",
+                        verdict: "拥抱“看得见、摸得着”的实物资产。"
+                    }
+                ]
+            },
+            strategy: {
+                title: "投资启示录",
+                intro: "摘下眼镜，把宏观叙事翻译成操作指南。2023-2026是一个旧范式碎裂、新范式建立的窗口期。",
+                tips: [
+                    { category: "宏观", action: "关注", target: "铜矿ETF (COPX)", reason: "若2025衰退导致大跌，是建仓良机（物理缺口）。" },
+                    { category: "宏观", action: "规避", target: "美国地产依赖型 (木材/家电)", reason: "利率高位抑制复苏。" },
+                    { category: "供应链", action: "关注", target: "墨西哥(EWW) / 越南(VNM) ETF", reason: "买的不是新兴市场，是“China+1”的配套红利。" },
+                    { category: "供应链", action: "关注", target: "A股汽配/工程机械出海龙头", reason: "海外产能布局完善的企业。" },
+                    { category: "AI科技", action: "关注", target: "美股软件ETF (IGV)", reason: "应用端黑马爆发地。" },
+                    { category: "AI科技", action: "埋伏", target: "A股消费电子/CIS芯片", reason: "复苏逻辑叠加国产替代。" },
+                    { category: "红利", action: "配置", target: "中证红利 / 港股通高息", reason: "垄断特许经营权+涨价预期，抵御宏观错位的硬通货。" }
+                ]
+            }
+        };
+
+        let currentTab = 'macro';
+
+        // --- Core Rendering Functions ---
+
+        function init() {
+            renderNav();
+            renderContent(currentTab);
+        }
+
+        function renderNav() {
+            const tabs = [
+                { id: 'macro', label: '1. 宏观全景' },
+                { id: 'inventory', label: '2. 库存周期' },
+                { id: 'supplyChain', label: '3. 供应链重构' },
+                { id: 'titans', label: '4. 产业对决' },
+                { id: 'strategy', label: '★ 投资启示' }
+            ];
+            
+            const navContainer = document.getElementById('nav-container');
+            navContainer.innerHTML = tabs.map(tab => `
+                <button 
+                    onclick="switchTab('${tab.id}')"
+                    class="pb-3 text-sm md:text-base font-medium whitespace-nowrap transition-colors duration-200 ${currentTab === tab.id ? 'tab-active' : 'text-stone-500 hover:text-stone-800'}"
+                >
+                    ${tab.label}
+                </button>
+            `).join('');
+        }
+
+        function switchTab(tabId) {
+            currentTab = tabId;
+            renderNav();
+            renderContent(tabId);
+        }
+
+        function renderContent(tabId) {
+            const container = document.getElementById('main-content');
+            
+            // Shared Header for each section
+            let sectionData = reportData[tabId];
+            let contentHTML = `
+                <div class="mb-8 animate-fade-in">
+                    <h2 class="text-2xl font-bold text-slate-800 mb-2">${sectionData.title}</h2>
+                    <p class="text-stone-600 max-w-4xl border-l-4 border-stone-300 pl-4 italic bg-stone-100 py-2 rounded-r">${sectionData.intro}</p>
+                </div>
+            `;
+
+            if (tabId === 'macro') {
+                contentHTML += `
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- Commodities Chart -->
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200">
+                            <h3 class="text-lg font-bold mb-4 text-emerald-800 flex items-center">
+                                <span class="mr-2 text-xl">⛏️</span> 大宗商品水位诊断
+                            </h3>
+                            <div class="chart-container">
+                                <canvas id="commoditiesChart"></canvas>
+                            </div>
+                            <div class="mt-4 text-sm text-stone-500">
+                                <span class="inline-block w-3 h-3 rounded-full bg-emerald-600 mr-1"></span> 全球定价 (铜/油)
+                                <span class="inline-block w-3 h-3 rounded-full bg-stone-400 mr-1 ml-3"></span> 中国定价 (锂/镍)
+                                <p class="mt-2 text-xs">* 气泡大小代表战略重要性。X轴：价格水位，Y轴：期限结构 (越高越紧缺)</p>
+                            </div>
+                        </div>
+
+                        <!-- Stock Market Structure -->
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200">
+                            <h3 class="text-lg font-bold mb-4 text-slate-800 flex items-center">
+                                <span class="mr-2 text-xl">⚖️</span> 股市肌肉结构对比
+                            </h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div class="text-center">
+                                    <div class="chart-container" style="height:200px;">
+                                        <canvas id="usStockChart"></canvas>
+                                    </div>
+                                    <p class="mt-2 font-bold text-blue-700">美国：科技+消费</p>
+                                </div>
+                                <div class="text-center">
+                                    <div class="chart-container" style="height:200px;">
+                                        <canvas id="cnStockChart"></canvas>
+                                    </div>
+                                    <p class="mt-2 font-bold text-red-700">中国：制造+金融</p>
+                                </div>
+                            </div>
+                            <div class="mt-4 bg-blue-50 p-3 rounded-lg text-sm text-slate-700">
+                                <strong>核心洞察：</strong> ${sectionData.insight}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (tabId === 'inventory') {
+                contentHTML += `
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 mb-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg font-bold text-slate-800">库存时钟 (Inventory Clock)</h3>
+                            <span class="text-xs bg-stone-100 text-stone-500 px-2 py-1 rounded">点击气泡查看诊断</span>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="inventoryChart"></canvas>
+                        </div>
+                        <div id="inventory-detail" class="mt-6 p-4 bg-stone-50 border border-stone-200 rounded-lg hidden">
+                            <!-- Details injected via JS on click -->
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                        <div class="p-4 bg-green-50 border border-green-100 rounded-lg">
+                            <strong class="text-green-800 block mb-1">↗ 主动补库存 (繁荣)</strong>
+                            <p>营收↑ 库存↑。供不应求，订单排满。如：算力硬件、造船。</p>
+                        </div>
+                        <div class="p-4 bg-blue-50 border border-blue-100 rounded-lg">
+                            <strong class="text-blue-800 block mb-1">↘ 被动去库存 (复苏前夜)</strong>
+                            <p>营收↑ 库存↓。需求回暖，库存见底。如：消费电子、存储。</p>
+                        </div>
+                        <div class="p-4 bg-red-50 border border-red-100 rounded-lg">
+                            <strong class="text-red-800 block mb-1">↙ 产能过剩 (寒冬)</strong>
+                            <p>营收↓ 库存↑/↓。价格战，清库存。如：光伏、锂电。</p>
+                        </div>
+                    </div>
+                `;
+            } else if (tabId === 'supplyChain') {
+                contentHTML += `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <!-- Losers -->
+                        <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-red-400 card-hover">
+                            <h3 class="text-lg font-bold text-red-800 mb-3">${sectionData.losers.title}</h3>
+                            <p class="text-sm text-stone-600 mb-4">${sectionData.losers.impact}</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                ${sectionData.losers.items.map(item => `<span class="px-2 py-1 bg-red-50 text-red-700 text-xs rounded">${item}</span>`).join('')}
+                            </div>
+                            <div class="text-sm text-stone-500">
+                                流向 ➔ <span class="font-medium text-stone-800">${sectionData.losers.destinations.join(', ')}</span>
+                            </div>
+                        </div>
+
+                        <!-- Winners -->
+                        <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-emerald-500 card-hover">
+                            <h3 class="text-lg font-bold text-emerald-800 mb-3">${sectionData.winners.title}</h3>
+                            <p class="text-sm text-stone-600 mb-4">${sectionData.winners.logic}</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                ${sectionData.winners.items.map(item => `<span class="px-2 py-1 bg-emerald-50 text-emerald-700 text-xs rounded">${item}</span>`).join('')}
+                            </div>
+                            <div class="text-sm text-stone-500">
+                                策略 ➔ <span class="font-medium text-stone-800">全球化布局，抢占日韩份额</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200">
+                        <h3 class="text-lg font-bold text-slate-800 mb-6 flex items-center">
+                            <span class="mr-2">🛡️</span> 科技封锁下的“内需替代”进度表
+                        </h3>
+                        <div class="space-y-6">
+                            ${sectionData.substitution.map(sub => `
+                                <div>
+                                    <div class="flex justify-between text-sm mb-1">
+                                        <span class="font-medium text-slate-700">${sub.name}</span>
+                                        <span class="text-blue-600 font-bold">${sub.progress}%</span>
+                                    </div>
+                                    <div class="w-full bg-stone-200 rounded-full h-2.5">
+                                        <div class="bg-blue-600 h-2.5 rounded-full" style="width: ${sub.progress}%"></div>
+                                    </div>
+                                    <p class="text-xs text-stone-500 mt-1">${sub.desc}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } else if (tabId === 'titans') {
+                contentHTML += `
+                    <div class="space-y-6">
+                        ${sectionData.cards.map(card => `
+                            <div class="bg-white rounded-xl shadow-sm border border-stone-200 overflow-hidden card-hover">
+                                <div class="bg-stone-50 px-6 py-4 border-b border-stone-200 flex items-center justify-between">
+                                    <h3 class="font-bold text-lg text-slate-800">${card.title}</h3>
+                                    <span class="text-xs font-mono text-stone-400">VS</span>
+                                </div>
+                                <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6 relative">
+                                    <!-- Divider -->
+                                    <div class="hidden md:block absolute left-1/2 top-6 bottom-6 w-px bg-stone-200"></div>
+                                    
+                                    <!-- US Side -->
+                                    <div class="text-center md:text-left pr-0 md:pr-4">
+                                        <div class="text-xs font-bold text-blue-600 uppercase tracking-wider mb-1">United States</div>
+                                        <h4 class="font-bold text-slate-800 mb-2">${card.us}</h4>
+                                    </div>
+                                    
+                                    <!-- CN Side -->
+                                    <div class="text-center md:text-right pl-0 md:pl-4">
+                                        <div class="text-xs font-bold text-red-600 uppercase tracking-wider mb-1">China</div>
+                                        <h4 class="font-bold text-slate-800 mb-2">${card.cn}</h4>
+                                    </div>
+                                </div>
+                                <div class="px-6 pb-6 pt-2">
+                                    <div class="bg-stone-50 p-4 rounded-lg text-sm border border-stone-100">
+                                        <p class="mb-2 text-slate-700"><strong>分析：</strong>${card.analysis}</p>
+                                        <p class="text-stone-900 font-bold">👉 结论：${card.verdict}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (tabId === 'strategy') {
+                contentHTML += `
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm whitespace-nowrap md:whitespace-normal">
+                                <thead class="bg-stone-100 text-stone-600">
+                                    <tr>
+                                        <th class="p-4">领域</th>
+                                        <th class="p-4">动作</th>
+                                        <th class="p-4">标的 / 方向</th>
+                                        <th class="p-4">核心逻辑</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-stone-100">
+                                    ${sectionData.tips.map(tip => `
+                                        <tr class="hover:bg-stone-50 transition-colors">
+                                            <td class="p-4 font-medium text-stone-500">${tip.category}</td>
+                                            <td class="p-4">
+                                                <span class="px-2 py-1 rounded text-xs font-bold ${tip.action === '关注' || tip.action === '配置' ? 'bg-green-100 text-green-700' : (tip.action === '埋伏' ? 'bg-blue-100 text-blue-700' : 'bg-red-100 text-red-700')}">
+                                                    ${tip.action}
+                                                </span>
+                                            </td>
+                                            <td class="p-4 font-bold text-slate-800">${tip.target}</td>
+                                            <td class="p-4 text-stone-600">${tip.reason}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="mt-8 p-6 bg-stone-800 text-stone-100 rounded-xl text-center">
+                        <h3 class="text-xl font-bold mb-2">最终诊断</h3>
+                        <p class="opacity-90 max-w-2xl mx-auto">
+                            2023-2026年，最大的机会不在于博弈AI的终极梦想，而在于捕捉中美周期错位带来的<span class="text-yellow-400 font-bold">实物资产定价权</span>，以及中国制造业在逆全球化中被迫进化出的<span class="text-yellow-400 font-bold">全球竞争力</span>。
+                        </p>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = contentHTML;
+
+            // Trigger Chart Rendering after DOM injection
+            if (tabId === 'macro') {
+                renderCommoditiesChart();
+                renderStockCharts();
+            } else if (tabId === 'inventory') {
+                renderInventoryChart();
+            }
+        }
+
+        // --- Chart Rendering Functions ---
+
+        function renderCommoditiesChart() {
+            const ctx = document.getElementById('commoditiesChart').getContext('2d');
+            
+            // Transform data for Bubble Chart: x=Price, y=TermStructure, r=Radius
+            const data = reportData.macro.commodities.map(c => ({
+                x: c.priceLevel,
+                y: c.termStructure,
+                r: c.r,
+                label: c.label,
+                desc: c.desc,
+                type: c.type
+            }));
+
+            new Chart(ctx, {
+                type: 'bubble',
+                data: {
+                    datasets: [{
+                        label: '大宗商品',
+                        data: data,
+                        backgroundColor: (context) => {
+                            const val = context.raw?.type;
+                            return val === 'global' ? 'rgba(5, 150, 105, 0.6)' : 'rgba(220, 38, 38, 0.6)'; // Green for Global, Red for China
+                        },
+                        borderColor: (context) => {
+                            const val = context.raw?.type;
+                            return val === 'global' ? 'rgba(5, 150, 105, 1)' : 'rgba(220, 38, 38, 1)';
+                        }
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            title: { display: true, text: '当前价格水位 (低 -> 高)' },
+                            min: 0, max: 100,
+                            grid: { display: false }
+                        },
+                        y: {
+                            title: { display: true, text: '期限结构紧张度 (供需缺口)' },
+                            min: 0, max: 100,
+                            grid: { color: '#e7e5e4' }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.raw.label + ': ' + context.raw.desc;
+                                }
+                            }
+                        },
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+
+        function renderStockCharts() {
+            // US Stock Chart
+            new Chart(document.getElementById('usStockChart').getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: reportData.macro.stocksUS.map(d => d.label),
+                    datasets: [{
+                        data: reportData.macro.stocksUS.map(d => d.value),
+                        backgroundColor: reportData.macro.stocksUS.map(d => d.color),
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } } }
+                }
+            });
+
+            // China Stock Chart
+            new Chart(document.getElementById('cnStockChart').getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: reportData.macro.stocksCN.map(d => d.label),
+                    datasets: [{
+                        data: reportData.macro.stocksCN.map(d => d.value),
+                        backgroundColor: reportData.macro.stocksCN.map(d => d.color),
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } } }
+                }
+            });
+        }
+
+        function renderInventoryChart() {
+            const ctx = document.getElementById('inventoryChart').getContext('2d');
+            const inventoryChart = new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: '行业位置',
+                        data: reportData.inventory.points.map(p => ({ x: p.x, y: p.y, raw: p })),
+                        backgroundColor: (ctx) => {
+                            const x = ctx.raw?.x;
+                            const y = ctx.raw?.y;
+                            if (x > 0 && y > 0) return 'rgba(22, 163, 74, 0.7)'; // Boom (Green)
+                            if (x < 0 && y > 0) return 'rgba(37, 99, 235, 0.7)'; // Recovery (Blue)
+                            if (y < 0) return 'rgba(220, 38, 38, 0.7)'; // Bust (Red)
+                            return 'rgba(156, 163, 175, 0.7)';
+                        },
+                        pointRadius: 8,
+                        pointHoverRadius: 12
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    onClick: (e, elements) => {
+                        if (elements.length > 0) {
+                            const index = elements[0].index;
+                            const dataPoint = reportData.inventory.points[index];
+                            showInventoryDetail(dataPoint);
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: { display: true, text: '库存增速 (YoY)' },
+                            grid: { color: (ctx) => ctx.tick.value === 0 ? '#444' : '#e5e7eb', lineWidth: (ctx) => ctx.tick.value === 0 ? 2 : 1 },
+                            suggestedMin: -20, suggestedMax: 50
+                        },
+                        y: {
+                            title: { display: true, text: '营收增速 (YoY)' },
+                            grid: { color: (ctx) => ctx.tick.value === 0 ? '#444' : '#e5e7eb', lineWidth: (ctx) => ctx.tick.value === 0 ? 2 : 1 },
+                            suggestedMin: -30, suggestedMax: 50
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.raw.raw.label;
+                                }
+                            }
+                        },
+                        annotation: {
+                            // Can add labels for quadrants here if plugin enabled, using standard grid lines for now
+                        }
+                    }
+                }
+            });
+        }
+
+        function showInventoryDetail(data) {
+            const detailBox = document.getElementById('inventory-detail');
+            detailBox.classList.remove('hidden');
+            detailBox.innerHTML = `
+                <h4 class="font-bold text-lg text-slate-800">${data.label}</h4>
+                <div class="flex items-center gap-2 mt-1 mb-2">
+                    <span class="px-2 py-0.5 rounded text-xs bg-stone-200 text-stone-700 font-bold">${data.phase}</span>
+                    <span class="text-sm font-semibold ${data.strategy === '进攻' ? 'text-green-600' : (data.strategy === '规避' ? 'text-red-600' : 'text-blue-600')}">建议：${data.strategy}</span>
+                </div>
+                <p class="text-stone-600 text-sm">${data.desc}</p>
+            `;
+        }
+
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', init);
+
+    </script>
+</body>
+</html>

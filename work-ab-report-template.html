@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AB实验分析报告</title>
+<style>
+/* ── 重置 & 基础 ───────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 14px; scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: #F5F6FA;
+  color: #1A1A2E;
+  line-height: 1.6;
+}
+
+/* ── 顶部栏 ────────────────────────────────────────────────────── */
+#header {
+  background: linear-gradient(135deg, #1E3A5F 0%, #2E6099 100%);
+  color: #fff;
+  padding: 20px 32px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 12px rgba(0,0,0,.25);
+}
+#header h1 { font-size: 18px; font-weight: 700; letter-spacing: .5px; }
+#header .meta-row {
+  display: flex; gap: 24px; margin-top: 6px;
+  font-size: 12px; opacity: .85; flex-wrap: wrap;
+}
+#header .meta-row span { display: flex; align-items: center; gap: 4px; }
+
+/* ── 导航 Tab ──────────────────────────────────────────────────── */
+#nav {
+  background: #fff;
+  border-bottom: 1px solid #E0E4EF;
+  display: flex;
+  padding: 0 32px;
+  overflow-x: auto;
+  position: sticky;
+  top: 72px;
+  z-index: 90;
+}
+.nav-tab {
+  padding: 12px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #666;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+  transition: color .2s, border-color .2s;
+}
+.nav-tab:hover { color: #2E6099; }
+.nav-tab.active { color: #E8580A; border-bottom-color: #E8580A; }
+
+/* ── 内容区 ────────────────────────────────────────────────────── */
+#content { max-width: 1200px; margin: 24px auto; padding: 0 24px 48px; }
+.section { display: none; }
+.section.active { display: block; }
+
+/* ── 卡片 ──────────────────────────────────────────────────────── */
+.card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.08);
+  padding: 20px 24px;
+  margin-bottom: 20px;
+}
+.card-title {
+  font-size: 15px; font-weight: 700;
+  color: #1E3A5F; margin-bottom: 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+.card-title::before {
+  content: ""; display: inline-block;
+  width: 4px; height: 16px;
+  background: #E8580A; border-radius: 2px;
+}
+.section-label {
+  font-size: 12px; font-weight: 600;
+  color: #888; text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+/* ── 实验组样本信息栏 ───────────────────────────────────────────── */
+.group-pills { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
+.group-pill {
+  padding: 5px 12px; border-radius: 20px;
+  font-size: 12px; font-weight: 600;
+}
+.pill-ctrl  { background: #EEF2FF; color: #3730A3; }
+.pill-a     { background: #ECFDF5; color: #065F46; }
+.pill-b     { background: #FFF7ED; color: #92400E; }
+.pill-c     { background: #FDF2F8; color: #831843; }
+
+/* ── KPI 卡片网格 ───────────────────────────────────────────────── */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+.kpi-card {
+  border: 1px solid #E8ECF4;
+  border-radius: 8px;
+  padding: 14px 16px;
+  background: #FAFBFE;
+}
+.kpi-name { font-size: 13px; font-weight: 600; color: #333; margin-bottom: 10px; }
+.badge-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.badge {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 6px 10px; border-radius: 6px;
+  min-width: 72px; flex: 1;
+}
+.badge .badge-group { font-size: 10px; font-weight: 600; opacity: .75; margin-bottom: 2px; }
+.badge .badge-uplift { font-size: 15px; font-weight: 700; }
+.badge .badge-sig { font-size: 10px; margin-top: 1px; }
+.badge-pos  { background: #D1FAE5; color: #065F46; }
+.badge-neg  { background: #FEE2E2; color: #991B1B; }
+.badge-neu  { background: #F1F5F9; color: #475569; }
+.badge-pos-ns { background: #ECFDF5; color: #34D399; }
+.badge-neg-ns { background: #FEF2F2; color: #FCA5A5; }
+
+/* ── 总结横幅 ───────────────────────────────────────────────────── */
+.verdict-bar {
+  padding: 14px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 16px;
+  line-height: 1.7;
+}
+.verdict-positive { background: #ECFDF5; border-left: 4px solid #10B981; color: #065F46; }
+.verdict-negative { background: #FEF2F2; border-left: 4px solid #EF4444; color: #991B1B; }
+.verdict-neutral  { background: #FFF7ED; border-left: 4px solid #F59E0B; color: #92400E; }
+.verdict-info     { background: #EFF6FF; border-left: 4px solid #3B82F6; color: #1E40AF; }
+
+/* ── 业务伤害矩阵 ───────────────────────────────────────────────── */
+.damage-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.damage-table th {
+  background: #F1F5F9; padding: 8px 12px;
+  text-align: center; font-weight: 600; color: #475569;
+  border-bottom: 2px solid #E0E4EF;
+}
+.damage-table th:first-child { text-align: left; }
+.damage-table td {
+  padding: 9px 12px; border-bottom: 1px solid #F1F5F9;
+  text-align: center; vertical-align: middle;
+}
+.damage-table td:first-child { text-align: left; font-weight: 600; color: #334155; }
+.damage-table tr:hover td { background: #F8FAFC; }
+.cell-pos  { color: #059669; font-weight: 600; }
+.cell-neg  { color: #DC2626; font-weight: 600; }
+.cell-neu  { color: #64748B; }
+.sig-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-left: 4px; }
+.sig-dot-yes { background: currentColor; }
+.sig-dot-no  { background: #CBD5E1; }
+
+/* ── 弹窗策略对比 ───────────────────────────────────────────────── */
+.popup-compare { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+.popup-col {
+  border-radius: 8px; padding: 16px;
+  border: 2px solid transparent;
+}
+.popup-col.winner { border-color: #10B981; }
+.popup-col-title { font-size: 13px; font-weight: 700; margin-bottom: 12px; }
+.popup-stat { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 12px; }
+.popup-stat .label { color: #666; }
+.popup-stat .value { font-weight: 600; }
+.popup-winner-badge {
+  display: inline-block; font-size: 10px; font-weight: 700;
+  background: #10B981; color: #fff;
+  padding: 2px 8px; border-radius: 10px; margin-left: 6px;
+}
+
+/* ── 建议卡片 ───────────────────────────────────────────────────── */
+.rec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.rec-item {
+  padding: 14px 16px; border-radius: 8px;
+  border-left: 4px solid #3B82F6;
+  background: #F8FAFF;
+}
+.rec-item.urgent { border-color: #EF4444; background: #FFF5F5; }
+.rec-item.good   { border-color: #10B981; background: #F0FDF4; }
+.rec-item.caution{ border-color: #F59E0B; background: #FFFBEB; }
+.rec-label { font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px; }
+.rec-text  { font-size: 13px; line-height: 1.6; color: #333; }
+
+/* ── 详细数据表 ─────────────────────────────────────────────────── */
+.detail-table-wrap { overflow-x: auto; }
+.detail-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.detail-table th {
+  background: #1E3A5F; color: #fff;
+  padding: 8px 10px; text-align: right; white-space: nowrap;
+  font-weight: 600; font-size: 11px;
+}
+.detail-table th:nth-child(1),
+.detail-table th:nth-child(2) { text-align: left; }
+.detail-table td {
+  padding: 7px 10px; border-bottom: 1px solid #F0F2F8;
+  text-align: right; white-space: nowrap;
+}
+.detail-table td:nth-child(1),
+.detail-table td:nth-child(2) { text-align: left; }
+.detail-table tr:hover td { background: #F8F9FE; }
+.detail-table .group-sep td {
+  background: #EEF2FF; font-weight: 600; font-size: 11px;
+  color: #3730A3; padding: 5px 10px;
+}
+.td-pos { color: #059669; font-weight: 600; }
+.td-neg { color: #DC2626; font-weight: 600; }
+.td-sig { background: #FEF9C3; }
+
+/* ── 新奇效应图 ─────────────────────────────────────────────────── */
+.chart-container { position: relative; }
+#novelty-canvas { width: 100%; }
+.chart-legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 10px; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #555; }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+/* ── 响应式 ─────────────────────────────────────────────────────── */
+@media (max-width: 720px) {
+  #content { padding: 0 12px 32px; }
+  .kpi-grid { grid-template-columns: 1fr; }
+  .popup-compare { grid-template-columns: 1fr; }
+  .rec-grid { grid-template-columns: 1fr; }
+}
+
+/* ── 子 Tab（section 内部切换）───────────────────────────────────── */
+.sub-tab-nav {
+  display: flex; gap: 6px; flex-wrap: wrap;
+  border-bottom: 1px solid #E8ECF4; margin-bottom: 14px;
+}
+.sub-tab {
+  padding: 7px 14px; font-size: 12px; font-weight: 600;
+  color: #888; border-bottom: 2px solid transparent;
+  cursor: pointer; transition: color .18s, border-color .18s;
+}
+.sub-tab.active { color: #1E3A5F; border-bottom-color: #1E3A5F; }
+.sub-pane { display: none; }
+.sub-pane.active { display: block; }
+
+/* ── 入口迁移流向图 ────────────────────────────────────────────── */
+.flow-wrap {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+}
+.flow-panel { position: relative; }
+.flow-panel-title {
+  text-align: center; font-size: 12px; font-weight: 700;
+  color: #475569; margin-bottom: 8px;
+  padding: 4px 0; background: #F8FAFC; border-radius: 6px;
+}
+.flow-svg { width: 100%; display: block; }
+
+/* ── 用户群卡片 ─────────────────────────────────────────────────── */
+.user-group-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.user-group-card {
+  border-radius: 8px; border: 1px solid #E8ECF4;
+  padding: 14px 16px; background: #FAFBFE;
+}
+.ug-icon { font-size: 20px; margin-bottom: 6px; }
+.ug-name { font-size: 13px; font-weight: 700; color: #1E3A5F; margin-bottom: 4px; }
+.ug-desc { font-size: 11px; color: #888; margin-bottom: 10px; line-height: 1.5; }
+.ug-finding {
+  font-size: 12px; color: #334155; background: #EFF6FF;
+  border-left: 3px solid #3B82F6; padding: 6px 10px;
+  border-radius: 0 4px 4px 0; margin-bottom: 10px; line-height: 1.5;
+}
+.ug-metrics { display: flex; flex-direction: column; gap: 6px; }
+.ug-metric-row {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 12px;
+}
+.ug-metric-name { color: #666; }
+
+/* ── 分层对比表（老客/新客行结构）────────────────────────────────── */
+.segment-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.segment-table th {
+  background: #F1F5F9; padding: 7px 10px;
+  text-align: right; font-weight: 600; color: #475569;
+  border-bottom: 2px solid #E0E4EF;
+}
+.segment-table th:first-child { text-align: left; }
+.segment-table th:nth-child(2) { text-align: left; }
+.segment-table td {
+  padding: 7px 10px; border-bottom: 1px solid #F1F5F9;
+  text-align: right; vertical-align: middle;
+}
+.segment-table td:first-child,
+.segment-table td:nth-child(2) { text-align: left; }
+.segment-table .seg-header td {
+  background: #1E3A5F; color: #fff; font-weight: 700;
+  font-size: 11px; letter-spacing: .3px;
+}
+
+/* ── 漏斗图（顺风车链路）──────────────────────────────────────────── */
+.funnel-wrap { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.funnel-col { display: flex; flex-direction: column; align-items: center; gap: 0; }
+.funnel-col-title {
+  font-size: 11px; font-weight: 700; color: #475569;
+  text-align: center; margin-bottom: 8px; white-space: nowrap;
+}
+.funnel-stage {
+  width: 100%; display: flex; flex-direction: column;
+  align-items: center; margin-bottom: 2px;
+}
+.funnel-bar-wrap { width: 100%; display: flex; justify-content: center; margin-bottom: 2px; }
+.funnel-bar {
+  height: 36px; border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: #fff;
+  transition: width .3s;
+}
+.funnel-label { font-size: 10px; color: #888; text-align: center; white-space: nowrap; }
+.funnel-arrow { font-size: 12px; color: #CBD5E1; margin: 2px 0; }
+.funnel-conv { font-size: 10px; color: #64748B; background: #F8FAFC; padding: 2px 6px; border-radius: 10px; margin: 3px 0; }
+
+/* ── 指标索引横向对比（网约车漏斗）──────────────────────────────── */
+.index-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.index-table th {
+  background: #1E3A5F; color: #fff; padding: 7px 10px;
+  text-align: right; font-weight: 600;
+}
+.index-table th:first-child { text-align: left; }
+.index-table td { padding: 7px 10px; border-bottom: 1px solid #F1F5F9; text-align: right; }
+.index-table td:first-child { text-align: left; font-weight: 600; color: #334155; }
+.idx-pos { color: #059669; font-weight: 700; }
+.idx-neg { color: #DC2626; font-weight: 700; }
+.idx-base { color: #94A3B8; }
+
+/* ── 工具类 ─────────────────────────────────────────────────────── */
+.mt8  { margin-top: 8px; }
+.mt16 { margin-top: 16px; }
+.text-sm { font-size: 12px; color: #777; }
+.bold { font-weight: 700; }
+@media (max-width: 720px) {
+  .user-group-grid { grid-template-columns: 1fr; }
+  .funnel-wrap { grid-template-columns: 1fr 1fr; }
+  .flow-wrap { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ 顶部栏 ════════════════════════════════════════════════════ -->
+<div id="header">
+  <h1 id="hdr-title">加载中…</h1>
+  <div class="meta-row" id="hdr-meta"></div>
+</div>
+
+<!-- ══ 导航 Tab ════════════════════════════════════════════════════ -->
+<div id="nav">
+  <div class="nav-tab active" data-sec="q1">Q1 能全量推吗</div>
+  <div class="nav-tab" data-sec="q2">Q2 顶导迁移</div>
+  <div class="nav-tab" data-sec="q3">Q3 旁侧业务</div>
+  <div class="nav-tab" data-sec="q4">Q4 最优弹窗</div>
+  <div class="nav-tab" data-sec="q5">Q5 行动建议</div>
+  <div class="nav-tab" data-sec="taxi">核心打车业务</div>
+  <div class="nav-tab" data-sec="detail">详细数据</div>
+  <div class="nav-tab" data-sec="novelty">新奇效应</div>
+</div>
+
+<!-- ══ 内容区 ════════════════════════════════════════════════════ -->
+<div id="content">
+
+  <!-- Q1 -------------------------------------------------------- -->
+  <div class="section active" id="sec-q1">
+    <div class="card">
+      <div class="card-title">Q1 · 实验整体是否有推全量的价值？</div>
+      <div id="q1-verdict"></div>
+      <div class="section-label">各实验组 × 核心指标</div>
+      <div class="kpi-grid" id="q1-kpi-grid"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">实验分组概况</div>
+      <div class="group-pills" id="group-pills"></div>
+      <div class="text-sm mt8" id="group-notes"></div>
+    </div>
+  </div>
+
+  <!-- Q2 -------------------------------------------------------- -->
+  <div class="section" id="sec-q2">
+    <div class="card">
+      <div class="card-title">Q2 · 顶导迁移工作量与用户适应情况</div>
+      <div id="q2-verdict"></div>
+
+      <!-- 子 Tab 导航 -->
+      <div class="sub-tab-nav">
+        <div class="sub-tab active" data-sub="q2" data-pane="q2-flow">入口流量迁移图</div>
+        <div class="sub-tab" data-sub="q2" data-pane="q2-segment">新老客 × 底导习惯分层</div>
+        <div class="sub-tab" data-sub="q2" data-pane="q2-usergroups">三类业务用户群</div>
+      </div>
+
+      <!-- 子面板：入口流量迁移 -->
+      <div class="sub-pane active" id="q2-flow">
+        <div class="section-label">入口点击 DAU 结构对比（对照组 vs 实验组B，指数化，对照组=100）</div>
+        <div class="flow-wrap mt8" id="q2-flow-chart"></div>
+        <div class="text-sm mt8" id="q2-flow-note"></div>
+      </div>
+
+      <!-- 子面板：新老客分层 -->
+      <div class="sub-pane" id="q2-segment">
+        <div class="section-label">新老客 × 底导习惯分层 · 核心指标 CUPED提升%</div>
+        <div class="detail-table-wrap mt8">
+          <table class="segment-table" id="q2-seg-table"></table>
+        </div>
+        <div class="text-sm mt8" id="q2-seg-note"></div>
+      </div>
+
+      <!-- 子面板：三类业务用户群 -->
+      <div class="sub-pane" id="q2-usergroups">
+        <div class="section-label">三类重点业务用户群专项分析</div>
+        <div class="user-group-grid mt8" id="q2-ug-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q3 -------------------------------------------------------- -->
+  <div class="section" id="sec-q3">
+    <div class="card">
+      <div class="card-title">Q3 · 旁侧业务影响扫描</div>
+      <div id="q3-verdict"></div>
+      <div class="section-label mt8">业务线 × 实验组 影响矩阵（CUPED相对提升%，● = 显著）</div>
+      <div class="detail-table-wrap mt8">
+        <table class="damage-table" id="q3-table"></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q4 -------------------------------------------------------- -->
+  <div class="section" id="sec-q4">
+    <div class="card">
+      <div class="card-title">Q4 · 哪种弹窗策略最优？</div>
+      <div id="q4-verdict"></div>
+      <div class="popup-compare mt16" id="q4-popup-compare"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">弹窗策略 × 核心业务 综合打分</div>
+      <div id="q4-score-grid" class="kpi-grid"></div>
+    </div>
+  </div>
+
+  <!-- Q5 -------------------------------------------------------- -->
+  <div class="section" id="sec-q5">
+    <div class="card">
+      <div class="card-title">Q5 · 综合建议</div>
+      <div id="q5-main-rec"></div>
+      <div class="rec-grid mt16" id="q5-rec-grid"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">风险提示</div>
+      <div id="q5-risks"></div>
+    </div>
+  </div>
+
+  <!-- 核心打车业务 ---------------------------------------------- -->
+  <div class="section" id="sec-taxi">
+    <div class="card">
+      <div class="card-title">核心打车业务 · 综合判断</div>
+      <div id="taxi-verdict"></div>
+    </div>
+
+    <!-- 网约车 -->
+    <div class="card">
+      <div class="card-title">网约车 · 访问→呼单→完单 漏斗（索引，对照组=100）</div>
+      <div class="detail-table-wrap mt8">
+        <table class="index-table" id="wc-funnel-table"></table>
+      </div>
+      <div class="mt16">
+        <div class="section-label">新老客分层 · 网约车完单量 CUPED提升%</div>
+        <div class="kpi-grid mt8" id="wc-segment-grid"></div>
+      </div>
+    </div>
+
+    <!-- 顺风车 -->
+    <div class="card">
+      <div class="card-title">顺风车（乘客侧）· 冒泡 → 呼单 → 完单 链路</div>
+      <div class="text-sm" id="sfz-note"></div>
+      <div class="funnel-wrap mt16" id="sfz-funnel"></div>
+      <div class="mt16">
+        <div class="section-label">各实验组 × 链路关键转化率</div>
+        <div class="detail-table-wrap mt8">
+          <table class="index-table" id="sfz-conv-table"></table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 详细数据 --------------------------------------------------- -->
+  <div class="section" id="sec-detail">
+    <div class="card">
+      <div class="card-title">CUPED 完整结果表</div>
+      <div class="text-sm mb8">底色黄色 = 显著结果；P值 &lt; 0.05 视为显著</div>
+      <div class="detail-table-wrap mt8">
+        <table class="detail-table" id="detail-table"></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 新奇效应 --------------------------------------------------- -->
+  <div class="section" id="sec-novelty">
+    <div class="card">
+      <div class="card-title">新奇效应追踪 · 每日 vs 对照组 相对提升%</div>
+      <div class="text-sm" id="novelty-meta"></div>
+      <div class="chart-container mt16">
+        <canvas id="novelty-canvas" height="280"></canvas>
+      </div>
+      <div class="chart-legend" id="novelty-legend"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">新奇效应判断</div>
+      <div id="novelty-verdict"></div>
+    </div>
+  </div>
+
+</div><!-- /content -->
+
+
+<!-- ══ 数据层（render_report.py 将替换此占位符）════════════════════ -->
+<script>
+// render_report.py 会把 __REPORT_DATA_JSON__ 替换为真实 JSON。
+// 预览模式下该标识符未定义，try-catch 捕获后由下方 mock 块填充。
+try { window.D = __REPORT_DATA_JSON__; } catch(e) { /* mock will fill */ }
+</script>
+
+<!-- ══ Mock 数据（仅模板预览用，生产环境由上方注入覆盖）══════════ -->
+<script>
+(function() {
+  // 真实数据已注入则跳过
+  if (window.D && window.D._source === 'real') return;
+
+  window.D = {
+    _source: 'mock',
+    meta: {
+      exp_name:   "首页二期改版实验（顶导+弹窗策略）",
+      exp_id:     "EXP_2024_HP_V2",
+      date_range: { start: "2024-03-01", end: "2024-04-10", days: 41 },
+      data_as_of: "2024-04-10",
+      generated_at: "2024-04-11 10:45",
+      groups: [
+        { id: "control_group",   label: "对照组（老首页）",      n: 3450000, pill: "pill-ctrl" },
+        { id: "new_no_popups",   label: "实验组A · 无弹窗",      n: 1152000, pill: "pill-a" },
+        { id: "new_less_popups", label: "实验组B · 少弹窗",      n: 1149000, pill: "pill-b" },
+        { id: "new_more_popups", label: "实验组C · 多弹窗",      n: 1151000, pill: "pill-c" }
+      ],
+      group_notes: "三个实验组共用同一新版首页框架（顶导+新底导），唯一差异为弹窗投放策略。AA期：2024-02-15 至 2024-02-29，各组均通过平衡检验。"
+    },
+
+    // ── Q1：核心指标 ──────────────────────────────────────────────
+    q1: {
+      verdict: {
+        type: "positive",
+        text: "新首页框架（实验组A·无弹窗）对核心完单类指标呈正向趋势，网约车完单量显著提升 +1.4%。弹窗策略对结果影响显著——少弹窗（B）保持正向，多弹窗（C）拉低核心指标至显著负向。整体判断：<strong>框架有推全量价值，建议以少弹窗方案推出</strong>。"
+      },
+      kpis: [
+        {
+          name: "滴滴完单量",
+          groups: [
+            { label: "A·无弹", uplift: +1.1, is_sig: false },
+            { label: "B·少弹", uplift: +0.6, is_sig: false },
+            { label: "C·多弹", uplift: -1.2, is_sig: true  }
+          ]
+        },
+        {
+          name: "网约车完单量",
+          groups: [
+            { label: "A·无弹", uplift: +1.4, is_sig: true  },
+            { label: "B·少弹", uplift: +0.8, is_sig: false },
+            { label: "C·多弹", uplift: -1.5, is_sig: true  }
+          ]
+        },
+        {
+          name: "平台DAU",
+          groups: [
+            { label: "A·无弹", uplift: +0.9, is_sig: false },
+            { label: "B·少弹", uplift: +0.5, is_sig: false },
+            { label: "C·多弹", uplift: -0.8, is_sig: false }
+          ]
+        },
+        {
+          name: "货运DAU",
+          groups: [
+            { label: "A·无弹", uplift: -0.3, is_sig: false },
+            { label: "B·少弹", uplift: -0.7, is_sig: false },
+            { label: "C·多弹", uplift: -1.8, is_sig: true  }
+          ]
+        },
+        {
+          name: "公交DAU",
+          groups: [
+            { label: "A·无弹", uplift: +2.4, is_sig: true  },
+            { label: "B·少弹", uplift: +1.8, is_sig: true  },
+            { label: "C·多弹", uplift: +0.6, is_sig: false }
+          ]
+        },
+        {
+          name: "顺风车完单量",
+          groups: [
+            { label: "A·无弹", uplift: +0.5, is_sig: false },
+            { label: "B·少弹", uplift: +0.2, is_sig: false },
+            { label: "C·多弹", uplift: -0.9, is_sig: false }
+          ]
+        }
+      ]
+    },
+
+    // ── Q2：用户分层 ──────────────────────────────────────────────
+    q2: {
+      verdict: {
+        type: "info",
+        text: "新用户（30天内首次入组）对新首页接受度显著更高，网约车完单量 +2.1%（显著）；老用户（依赖底导习惯）短期内存在轻微适应成本，但30天期无显著负向。<strong>顶导迁移风险可控</strong>，建议在全量阶段配合底导引导提示降低老用户摩擦。"
+      },
+      note: "* 用户分层依据：实验期首7天内访问次数 × 历史底导点击率。新用户 = 30天内首次使用滴滴 App 或历史底导点击率 < 20%。",
+      segments: [
+        {
+          name: "网约车完单量",
+          new_user:  [{ label: "A·无弹", uplift: +2.1, is_sig: true }, { label: "B·少弹", uplift: +1.5, is_sig: true }, { label: "C·多弹", uplift: -0.8, is_sig: false }],
+          old_user:  [{ label: "A·无弹", uplift: +0.4, is_sig: false }, { label: "B·少弹", uplift: +0.1, is_sig: false }, { label: "C·多弹", uplift: -2.1, is_sig: true }]
+        },
+        {
+          name: "顶导点击DAU",
+          new_user:  [{ label: "A·无弹", uplift: +18.4, is_sig: true }, { label: "B·少弹", uplift: +16.9, is_sig: true }, { label: "C·多弹", uplift: +14.2, is_sig: true }],
+          old_user:  [{ label: "A·无弹", uplift: +12.1, is_sig: true }, { label: "B·少弹", uplift: +11.3, is_sig: true }, { label: "C·多弹", uplift: +9.8,  is_sig: true }]
+        }
+      ]
+    },
+
+    // ── Q3：旁侧业务 ──────────────────────────────────────────────
+    q3: {
+      verdict: {
+        type: "neutral",
+        text: "多数旁侧业务在实验组A/B 下无显著损伤；机酒火三项均无显著变化，说明新顶导入口曝光增加但未显著拉升订单（认知期）。<strong>实验组C（多弹窗）对货运DAU造成显著负向</strong>，是主要伤害来源，建议在弹窗策略决策中重点关注。"
+      },
+      businesses: [
+        { name: "货运DAU",    a: { v: -0.3, sig: false }, b: { v: -0.7, sig: false }, c: { v: -1.8, sig: true  } },
+        { name: "货运完单",   a: { v: -0.1, sig: false }, b: { v: -0.5, sig: false }, c: { v: -1.4, sig: true  } },
+        { name: "顺风车DAU",  a: { v: +0.3, sig: false }, b: { v: +0.1, sig: false }, c: { v: -0.6, sig: false } },
+        { name: "顺风车完单", a: { v: +0.5, sig: false }, b: { v: +0.2, sig: false }, c: { v: -0.9, sig: false } },
+        { name: "机票DAU",    a: { v: +0.8, sig: false }, b: { v: +0.6, sig: false }, c: { v: +0.2, sig: false } },
+        { name: "酒店DAU",    a: { v: +0.5, sig: false }, b: { v: +0.3, sig: false }, c: { v: -0.1, sig: false } },
+        { name: "火车票DAU",  a: { v: +0.6, sig: false }, b: { v: +0.4, sig: false }, c: { v: +0.0, sig: false } },
+        { name: "公交DAU",    a: { v: +2.4, sig: true  }, b: { v: +1.8, sig: true  }, c: { v: +0.6, sig: false } },
+        { name: "公交完单",   a: { v: +1.9, sig: true  }, b: { v: +1.4, sig: false }, c: { v: +0.3, sig: false } },
+        { name: "公交开卡",   a: { v: +3.1, sig: true  }, b: { v: +2.2, sig: true  }, c: { v: +0.8, sig: false } }
+      ]
+    },
+
+    // ── Q4：弹窗策略 ──────────────────────────────────────────────
+    q4: {
+      verdict: {
+        type: "positive",
+        text: "<strong>实验组B（少弹窗）为最优弹窗策略</strong>：在保留弹窗业务拉动价值的同时，对核心完单和货运等旁侧业务的干扰最小；实验组A（无弹窗）核心体验最佳但牺牲了弹窗带单收益；实验组C（多弹窗）对体验损伤明显，不建议作为全量方案。"
+      },
+      columns: [
+        {
+          id: "new_no_popups",
+          title: "实验组A · 无弹窗",
+          winner: false,
+          bg: "#F0FDF4",
+          stats: [
+            { label: "弹窗曝光次数", value: "— 无弹窗 —" },
+            { label: "弹窗点击率",   value: "N/A" },
+            { label: "弹窗带单量",   value: "— 无 —" },
+            { label: "网约车完单↑",  value: "+1.4% ●" },
+            { label: "货运DAU↑",     value: "-0.3% ○" },
+            { label: "用户投诉率",   value: "最低" }
+          ],
+          summary: "体验最纯净，核心指标最优，但放弃了弹窗的业务拉动价值。"
+        },
+        {
+          id: "new_less_popups",
+          title: "实验组B · 少弹窗",
+          winner: true,
+          bg: "#ECFDF5",
+          stats: [
+            { label: "弹窗人均曝光",   value: "1.2次/日" },
+            { label: "弹窗点击率",     value: "8.4%" },
+            { label: "弹窗带单量↑",   value: "+6.2万单 ●" },
+            { label: "网约车完单↑",   value: "+0.8% ○" },
+            { label: "货运DAU↑",       value: "-0.7% ○" },
+            { label: "用户投诉率",     value: "低" }
+          ],
+          summary: "在弹窗收益与用户体验之间取得最佳平衡，推荐为全量方案。"
+        },
+        {
+          id: "new_more_popups",
+          title: "实验组C · 多弹窗",
+          winner: false,
+          bg: "#FEF2F2",
+          stats: [
+            { label: "弹窗人均曝光",   value: "3.8次/日" },
+            { label: "弹窗点击率",     value: "5.1%（疲劳↓）" },
+            { label: "弹窗带单量↑",   value: "+4.1万单 ○" },
+            { label: "网约车完单↑",   value: "-1.5% ●" },
+            { label: "货运DAU↑",       value: "-1.8% ●" },
+            { label: "用户投诉率",     value: "明显高于对照组" }
+          ],
+          summary: "弹窗过多导致用户疲劳，点击率下降，同时显著损伤核心体验。不推荐。"
+        }
+      ]
+    },
+
+    // ── Q5：建议 ──────────────────────────────────────────────────
+    q5: {
+      main_rec: {
+        type: "positive",
+        text: "综合 41 天实验数据，建议 <strong>以实验组B（少弹窗）方案推全量</strong>，预期可带来网约车完单 +0.8%（不显著，仍正向）、公交开卡 +2.2%（显著）、弹窗额外带单约6万单/日，同时货运 DAU 无显著损伤。推全量节点建议在顶导习惯养成引导（底导辅助提示）上线后同步执行。"
+      },
+      items: [
+        { type: "good",    label: "推全量建议", text: "以实验组B（少弹窗）为全量方案，预估核心指标无显著损伤，弹窗带单约+6万/日。" },
+        { type: "good",    label: "顶导策略",   text: "顶导迁移风险可控；建议全量前1周在底导「出行」入口增加蒙层引导提示，降低老用户摩擦。" },
+        { type: "caution", label: "持续监控",   text: "全量后继续观察货运、顺风车旁侧指标7天，如出现显著负向立即启动回滚预案。" },
+        { type: "caution", label: "弹窗频控",   text: "在少弹窗策略下建议弹窗日频控≤1次/用户，避免随活动增加演变为多弹窗体验。" }
+      ],
+      risks: [
+        { level: "中", text: "新奇效应尚未完全消退（见「新奇效应」tab），公交开卡的正向提升可能部分来自新鲜感，建议全量后4周复看。" },
+        { level: "低", text: "顺风车B端（司机侧）入口移至个人中心，本次实验未覆盖B端样本，需另行评估司机体验影响。" },
+        { level: "低", text: "机酒火DAU正向但不显著，顶导新入口的长尾渗透效应可能需要更长周期才能显现，建议推全量后30天复盘。" }
+      ]
+    },
+
+    // ── 详细数据表 ────────────────────────────────────────────────
+    detail: [
+      {
+        group: "实验组A · 无弹窗 vs 对照组",
+        rows: [
+          { metric_cn: "网约车完单量", metric_eng: "wc_order_cnt",   n_c: "345.0万", n_t: "115.2万", raw_c: "0.1462", raw_t: "0.1482", cuped_c: "0.1461", cuped_t: "0.1481", uplift: "+1.37%", abs: "+15.8万", p: "0.0210", sig: true, aa: "✅" },
+          { metric_cn: "滴滴完单量",   metric_eng: "didi_order_cnt", n_c: "345.0万", n_t: "115.2万", raw_c: "0.2015", raw_t: "0.2037", cuped_c: "0.2014", cuped_t: "0.2036", uplift: "+1.09%", abs: "+25.3万", p: "0.0840", sig: false, aa: "✅" },
+          { metric_cn: "公交DAU",      metric_eng: "gj_dau",         n_c: "345.0万", n_t: "115.2万", raw_c: "0.0382", raw_t: "0.0393", cuped_c: "0.0381", cuped_t: "0.0392", uplift: "+2.89%", abs: "+1.27万", p: "0.0012", sig: true, aa: "✅" },
+          { metric_cn: "公交开卡量",   metric_eng: "gj_card_cnt",    n_c: "345.0万", n_t: "115.2万", raw_c: "0.0051", raw_t: "0.0053", cuped_c: "0.0051", cuped_t: "0.0053", uplift: "+3.92%", abs: "+0.23万", p: "0.0080", sig: true, aa: "✅" },
+          { metric_cn: "货运DAU",      metric_eng: "hy_dau",         n_c: "345.0万", n_t: "115.2万", raw_c: "0.0841", raw_t: "0.0838", cuped_c: "0.0840", cuped_t: "0.0837", uplift: "-0.36%", abs: "-0.35万", p: "0.4210", sig: false, aa: "✅" },
+          { metric_cn: "顺风车完单",   metric_eng: "sfz_order_cnt",  n_c: "345.0万", n_t: "115.2万", raw_c: "0.0124", raw_t: "0.0125", cuped_c: "0.0124", cuped_t: "0.0125", uplift: "+0.81%", abs: "+0.09万", p: "0.3150", sig: false, aa: "✅" }
+        ]
+      },
+      {
+        group: "实验组B · 少弹窗 vs 对照组",
+        rows: [
+          { metric_cn: "网约车完单量", metric_eng: "wc_order_cnt",   n_c: "345.0万", n_t: "114.9万", raw_c: "0.1462", raw_t: "0.1474", cuped_c: "0.1461", cuped_t: "0.1472", uplift: "+0.75%", abs: "+8.6万",  p: "0.1340", sig: false, aa: "✅" },
+          { metric_cn: "滴滴完单量",   metric_eng: "didi_order_cnt", n_c: "345.0万", n_t: "114.9万", raw_c: "0.2015", raw_t: "0.2027", cuped_c: "0.2014", cuped_t: "0.2026", uplift: "+0.60%", abs: "+13.7万", p: "0.2010", sig: false, aa: "✅" },
+          { metric_cn: "公交DAU",      metric_eng: "gj_dau",         n_c: "345.0万", n_t: "114.9万", raw_c: "0.0382", raw_t: "0.0389", cuped_c: "0.0381", cuped_t: "0.0388", uplift: "+1.84%", abs: "+0.81万", p: "0.0180", sig: true, aa: "✅" },
+          { metric_cn: "公交开卡量",   metric_eng: "gj_card_cnt",    n_c: "345.0万", n_t: "114.9万", raw_c: "0.0051", raw_t: "0.0052", cuped_c: "0.0051", cuped_t: "0.0052", uplift: "+1.96%", abs: "+0.11万", p: "0.0390", sig: true, aa: "✅" },
+          { metric_cn: "货运DAU",      metric_eng: "hy_dau",         n_c: "345.0万", n_t: "114.9万", raw_c: "0.0841", raw_t: "0.0835", cuped_c: "0.0840", cuped_t: "0.0834", uplift: "-0.71%", abs: "-0.69万", p: "0.2840", sig: false, aa: "✅" },
+          { metric_cn: "顺风车完单",   metric_eng: "sfz_order_cnt",  n_c: "345.0万", n_t: "114.9万", raw_c: "0.0124", raw_t: "0.0124", cuped_c: "0.0124", cuped_t: "0.0124", uplift: "+0.00%", abs: "+0.00万", p: "0.9820", sig: false, aa: "✅" }
+        ]
+      },
+      {
+        group: "实验组C · 多弹窗 vs 对照组",
+        rows: [
+          { metric_cn: "网约车完单量", metric_eng: "wc_order_cnt",   n_c: "345.0万", n_t: "115.1万", raw_c: "0.1462", raw_t: "0.1440", cuped_c: "0.1461", cuped_t: "0.1439", uplift: "-1.51%", abs: "-17.3万", p: "0.0060", sig: true, aa: "✅" },
+          { metric_cn: "滴滴完单量",   metric_eng: "didi_order_cnt", n_c: "345.0万", n_t: "115.1万", raw_c: "0.2015", raw_t: "0.1991", cuped_c: "0.2014", cuped_t: "0.1990", uplift: "-1.19%", abs: "-27.6万", p: "0.0320", sig: true, aa: "✅" },
+          { metric_cn: "公交DAU",      metric_eng: "gj_dau",         n_c: "345.0万", n_t: "115.1万", raw_c: "0.0382", raw_t: "0.0384", cuped_c: "0.0381", cuped_t: "0.0383", uplift: "+0.52%", abs: "+0.23万", p: "0.4100", sig: false, aa: "✅" },
+          { metric_cn: "公交开卡量",   metric_eng: "gj_card_cnt",    n_c: "345.0万", n_t: "115.1万", raw_c: "0.0051", raw_t: "0.0051", cuped_c: "0.0051", cuped_t: "0.0051", uplift: "+0.00%", abs: "+0.00万", p: "0.9120", sig: false, aa: "✅" },
+          { metric_cn: "货运DAU",      metric_eng: "hy_dau",         n_c: "345.0万", n_t: "115.1万", raw_c: "0.0841", raw_t: "0.0826", cuped_c: "0.0840", cuped_t: "0.0825", uplift: "-1.79%", abs: "-1.73万", p: "0.0088", sig: true, aa: "✅" },
+          { metric_cn: "顺风车完单",   metric_eng: "sfz_order_cnt",  n_c: "345.0万", n_t: "115.1万", raw_c: "0.0124", raw_t: "0.0123", cuped_c: "0.0124", cuped_t: "0.0123", uplift: "-0.81%", abs: "-0.09万", p: "0.3210", sig: false, aa: "✅" }
+        ]
+      }
+    ],
+
+    // ── Q2 扩展数据 ───────────────────────────────────────────────
+    q2_ext: {
+      // 入口点击 DAU 结构（指数，对照组=100）
+      entry_flow: {
+        entries: ['底导-出行', '底导-货运', '金刚位', '顶导', '弹窗'],
+        ctrl:  [100,  100, 100,  100, null],
+        trt_a: [ 78,   79, 104,  312, null],
+        trt_b: [ 80,   80, 103,  298,   82],
+        trt_c: [ 81,   80, 101,  285,  168],
+        note:  '顶导 DAU 大幅提升（+198%~212%），底导-出行 DAU 相应下降约20%，说明用户入口已从底导向顶导迁移；金刚位受影响较小（+1%~4%）。'
+      },
+      // 新老客 × 底导习惯 分层
+      segment_table: {
+        headers: ['用户分层', '指标', 'A·无弹', 'B·少弹', 'C·多弹'],
+        rows: [
+          { seg: '新客（30日内首次）', metric: '网约车完单量', a: { v: +2.1, sig: true  }, b: { v: +1.5, sig: true  }, c: { v: -0.8, sig: false } },
+          { seg: '',                    metric: '顶导点击DAU',  a: { v: +26.4, sig: true  }, b: { v: +24.1, sig: true  }, c: { v: +21.3, sig: true  } },
+          { seg: '',                    metric: '底导点击DAU',  a: { v: -8.2,  sig: false }, b: { v: -7.1,  sig: false }, c: { v: -6.9,  sig: false } },
+          { seg: '底导习惯老客',        metric: '网约车完单量', a: { v: +0.2,  sig: false }, b: { v: -0.1,  sig: false }, c: { v: -2.8,  sig: true  } },
+          { seg: '',                    metric: '顶导点击DAU',  a: { v: +9.8,  sig: true  }, b: { v: +8.6,  sig: true  }, c: { v: +7.1,  sig: true  } },
+          { seg: '',                    metric: '底导点击DAU',  a: { v: -18.4, sig: true  }, b: { v: -16.2, sig: true  }, c: { v: -15.8, sig: true  } },
+          { seg: '',                    metric: '会话时长',     a: { v: -1.2,  sig: false }, b: { v: -0.8,  sig: false }, c: { v: -2.4,  sig: true  } },
+          { seg: '非底导习惯老客',      metric: '网约车完单量', a: { v: +1.6,  sig: true  }, b: { v: +1.0,  sig: false }, c: { v: -1.1,  sig: false } },
+          { seg: '',                    metric: '顶导点击DAU',  a: { v: +18.1, sig: true  }, b: { v: +16.4, sig: true  }, c: { v: +14.2, sig: true  } },
+          { seg: '',                    metric: '底导点击DAU',  a: { v: -4.2,  sig: false }, b: { v: -3.8,  sig: false }, c: { v: -3.5,  sig: false } }
+        ],
+        note: '用户分层定义——新客：实验期30天内首次使用滴滴App；底导习惯老客：历史7天底导点击≥5次且非新客（约占样本32%）；非底导习惯老客：剩余老客群体。'
+      },
+      // 三类业务用户群
+      user_groups: [
+        {
+          name: '车主侧（顺风车司乘）',
+          icon: '🚗',
+          desc: '历史有顺风车冒泡/接单行为的用户，约占实验样本12%',
+          finding: '顶导新增顺风车入口可见性提升，但冒泡→呼单→完单链路各环节转化率无显著变化，顺风车用户对新顶导适应良好，迁移成本低。',
+          metrics: [
+            { name: '顺风车DAU',  a: { v: +1.8, sig: false }, b: { v: +1.1, sig: false }, c: { v: -0.9, sig: false } },
+            { name: '顺风车呼单', a: { v: +0.9, sig: false }, b: { v: +0.5, sig: false }, c: { v: -1.2, sig: false } },
+            { name: '顺风车完单', a: { v: +0.5, sig: false }, b: { v: +0.2, sig: false }, c: { v: -0.9, sig: false } }
+          ]
+        },
+        {
+          name: '货运活跃用户',
+          icon: '🚚',
+          desc: '近30天有货运DAU行为的用户，约占实验样本8%',
+          finding: '新顶导「货运」Tab使货运专属用户曝光路径缩短，A/B组货运DAU无显著损伤；C组多弹窗显著打扰了货运使用场景（-3.2%，显著），是主要伤害来源。',
+          metrics: [
+            { name: '货运DAU',  a: { v: +0.5, sig: false }, b: { v: +0.2, sig: false }, c: { v: -3.2, sig: true  } },
+            { name: '货运完单', a: { v: +0.3, sig: false }, b: { v: +0.1, sig: false }, c: { v: -2.8, sig: true  } },
+            { name: '货运DAU（新货主）', a: { v: +3.1, sig: false }, b: { v: +2.4, sig: false }, c: { v: +0.8, sig: false } }
+          ]
+        },
+        {
+          name: '旅行意向用户（机酒火）',
+          icon: '✈️',
+          desc: '近60天有机酒火浏览或完单行为的用户，约占实验样本18%',
+          finding: '顶导「旅行」Tab曝光大幅提升（+38%~+45%），但完单尚无显著拉升，属认知期；C组多弹窗反而降低旅行类点击意愿。长周期（全量后30天）可能看到转化。',
+          metrics: [
+            { name: '旅行Tab点击DAU', a: { v: +45.2, sig: true  }, b: { v: +38.7, sig: true  }, c: { v: +28.1, sig: true  } },
+            { name: '机票DAU',        a: { v: +2.1,  sig: false }, b: { v: +1.4,  sig: false }, c: { v: +0.2,  sig: false } },
+            { name: '酒店DAU',        a: { v: +1.8,  sig: false }, b: { v: +1.2,  sig: false }, c: { v: -0.3,  sig: false } }
+          ]
+        }
+      ]
+    },
+
+    // ── 核心打车业务 ───────────────────────────────────────────────
+    core_taxi: {
+      verdict: {
+        type: "positive",
+        text: "网约车：A组（无弹窗）完单量显著正向（+1.37%），B组维持正向（不显著）；新首页对网约车核心业务无负面影响，新老客均受益于新首页框架。顺风车（乘客侧）：三实验组冒泡→呼单→完单各环节转化率与对照组无显著差异，说明顶导迁移对顺风车链路透明无损；C组略有负向但不显著。<strong>核心打车业务在A/B组下均安全，无需降级处理。</strong>"
+      },
+      // 网约车漏斗（索引，对照组=100）
+      wc_funnel: {
+        stages: ['访问DAU', '打车入口点击', '呼单', '完单'],
+        groups: [
+          { label: '对照组',  values: [100.0, 100.0, 100.0, 100.0], color: '#94A3B8' },
+          { label: 'A·无弹',  values: [101.4, 102.8, 103.2, 101.4], color: '#10B981' },
+          { label: 'B·少弹',  values: [100.9, 101.5, 101.8, 100.8], color: '#F59E0B' },
+          { label: 'C·多弹',  values: [ 99.2,  98.1,  97.8,  98.5], color: '#EF4444' }
+        ]
+      },
+      // 网约车新老客分层
+      wc_segment: [
+        { seg: '新客（30日内首次）',  groups: [{ label: 'A·无弹', uplift: +2.1, is_sig: true }, { label: 'B·少弹', uplift: +1.5, is_sig: true  }, { label: 'C·多弹', uplift: -0.8, is_sig: false }] },
+        { seg: '底导习惯老客',        groups: [{ label: 'A·无弹', uplift: +0.2, is_sig: false }, { label: 'B·少弹', uplift: -0.1, is_sig: false }, { label: 'C·多弹', uplift: -2.8, is_sig: true  }] },
+        { seg: '非底导习惯老客',      groups: [{ label: 'A·无弹', uplift: +1.6, is_sig: true }, { label: 'B·少弹', uplift: +1.0, is_sig: false }, { label: 'C·多弹', uplift: -1.1, is_sig: false }] }
+      ],
+      // 顺风车链路（乘客侧）
+      sfz: {
+        note: '⚠️ 以下均为乘客侧（C端）数据；司机侧（B端）入口已迁移至「个人中心」，本次实验未覆盖B端样本，需另行评估。',
+        // 各阶段绝对值（人均次数/日）
+        stages: ['冒泡（DAU）', '呼单', '完单'],
+        funnel_cols: [
+          { label: '对照组', values: [100.0, 72.4, 61.8], color: '#94A3B8', conv: ['72.4%', '85.4%'] },
+          { label: 'A·无弹', values: [101.8, 73.5, 62.5], color: '#10B981', conv: ['72.2%', '85.0%'] },
+          { label: 'B·少弹', values: [101.1, 72.9, 62.2], color: '#F59E0B', conv: ['72.1%', '85.3%'] },
+          { label: 'C·多弹', values: [ 99.3, 70.7, 59.9], color: '#EF4444', conv: ['71.2%', '84.7%'] }
+        ],
+        conv_table: {
+          headers: ['转化节点', '对照组', 'A·无弹', 'B·少弹', 'C·多弹', 'C vs 对照'],
+          rows: [
+            { name: '冒泡→呼单 转化率', values: ['72.4%', '72.2%', '72.1%', '71.2%'], delta_c: '-1.2% ○' },
+            { name: '呼单→完单 转化率', values: ['85.4%', '85.0%', '85.3%', '84.7%'], delta_c: '-0.7% ○' },
+            { name: '冒泡→完单 总转化',  values: ['61.8%', '61.4%', '61.5%', '60.3%'], delta_c: '-1.5% ○' }
+          ]
+        }
+      }
+    },
+
+    // ── 新奇效应（每日快照，前25天）──────────────────────────────
+    novelty: {
+      metric: "网约车完单量（日均人均值 vs 对照组 %）",
+      dates: ["3/1","3/3","3/5","3/7","3/9","3/11","3/13","3/15","3/17","3/19","3/21","3/23","3/25"],
+      series: [
+        { label: "A·无弹窗", color: "#10B981", values: [3.2, 2.8, 2.5, 2.1, 1.8, 1.7, 1.5, 1.4, 1.3, 1.3, 1.4, 1.5, 1.4] },
+        { label: "B·少弹窗", color: "#F59E0B", values: [2.1, 1.9, 1.6, 1.2, 0.9, 0.8, 0.7, 0.7, 0.8, 0.7, 0.8, 0.8, 0.8] },
+        { label: "C·多弹窗", color: "#EF4444", values: [-0.3, -0.6, -0.9, -1.1, -1.3, -1.4, -1.4, -1.5, -1.5, -1.6, -1.5, -1.5, -1.5] }
+      ],
+      verdict: {
+        type: "neutral",
+        text: "实验组A（无弹窗）的正向提升在前10天内存在明显衰减趋势（3.2% → 1.3%），第2周后趋于稳定在 +1.3%~+1.5% 区间，说明存在<strong>轻微新奇效应</strong>，但残留正向效果真实有效。实验组C（多弹窗）的负向影响从上线即存在且持续加深，<strong>非新奇效应所致</strong>，是实质性体验损伤。建议全量后持续追踪实验组B（少弹窗）的稳定性，预计在4周内收敛。"
+      }
+    }
+  };
+})();
+</script>
+
+<!-- ══ 渲染逻辑 ════════════════════════════════════════════════════ -->
+<script>
+// ── 工具 ──────────────────────────────────────────────────────────
+function fmtN(n) {
+  if (n == null) return '-';
+  n = Number(n);
+  if (n >= 1e8)  return (n/1e8).toFixed(2) + '亿';
+  if (n >= 1e4)  return (n/1e4).toFixed(1) + '万';
+  return n.toLocaleString();
+}
+function pct(v, decimals=2) {
+  return (v >= 0 ? '+' : '') + Number(v).toFixed(decimals) + '%';
+}
+function el(tag, cls, inner='') {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (inner) e.innerHTML = inner;
+  return e;
+}
+function badgeClass(uplift, is_sig) {
+  if (is_sig  && uplift > 0) return 'badge badge-pos';
+  if (is_sig  && uplift < 0) return 'badge badge-neg';
+  if (!is_sig && uplift > 0) return 'badge badge-pos-ns';
+  if (!is_sig && uplift < 0) return 'badge badge-neg-ns';
+  return 'badge badge-neu';
+}
+function sigLabel(is_sig) { return is_sig ? '● 显著' : '○ 不显著'; }
+
+// ── 主导航 ────────────────────────────────────────────────────────
+document.querySelectorAll('.nav-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('sec-' + tab.dataset.sec).classList.add('active');
+  });
+});
+
+// ── 子 Tab（section 内部）──────────────────────────────────────────
+document.addEventListener('click', e => {
+  const t = e.target.closest('.sub-tab');
+  if (!t) return;
+  const group = t.dataset.sub;
+  const paneId = t.dataset.pane;
+  // 同组 tab
+  document.querySelectorAll(`.sub-tab[data-sub="${group}"]`).forEach(s => s.classList.remove('active'));
+  t.classList.add('active');
+  // 同组 pane：只在同一 card 内查找
+  const card = t.closest('.card');
+  card.querySelectorAll('.sub-pane').forEach(p => p.classList.remove('active'));
+  document.getElementById(paneId).classList.add('active');
+});
+
+// ── 渲染入口 ──────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  window.D = window.D || {};
+  renderHeader();
+  renderQ1();
+  renderQ2();
+  renderQ3();
+  renderQ4();
+  renderQ5();
+  renderCoreTaxi();
+  renderDetail();
+  renderNovelty();
+});
+
+// ── Header ────────────────────────────────────────────────────────
+function renderHeader() {
+  const m = D.meta;
+  document.title = m.exp_name + ' · AB实验报告';
+  document.getElementById('hdr-title').textContent = m.exp_name;
+  const meta = document.getElementById('hdr-meta');
+  const totalN = m.groups.reduce((s, g) => s + (g.n || 0), 0);
+  [
+    ['📅', `${m.date_range.start} ~ ${m.date_range.end}（${m.date_range.days}天）`],
+    ['👥', `总样本 ${fmtN(totalN)}`],
+    ['🔄', `数据截至 ${m.data_as_of}`],
+    ['⏰', `报告生成 ${m.generated_at}`],
+  ].forEach(([icon, txt]) => {
+    const s = document.createElement('span');
+    s.innerHTML = `${icon} ${txt}`;
+    meta.appendChild(s);
+  });
+}
+
+// ── Q1 ────────────────────────────────────────────────────────────
+function renderQ1() {
+  const q = D.q1;
+  const v = q.verdict;
+  document.getElementById('q1-verdict').innerHTML =
+    `<div class="verdict-bar verdict-${v.type}">${v.text}</div>`;
+
+  // 实验组 pills
+  const pills = document.getElementById('group-pills');
+  D.meta.groups.forEach(g => {
+    const p = el('div', `group-pill ${g.pill}`);
+    p.textContent = g.label + '  n=' + fmtN(g.n);
+    pills.appendChild(p);
+  });
+  document.getElementById('group-notes').textContent = D.meta.group_notes;
+
+  // KPI 网格
+  const grid = document.getElementById('q1-kpi-grid');
+  q.kpis.forEach(kpi => {
+    const card = el('div', 'kpi-card');
+    card.innerHTML = `<div class="kpi-name">${kpi.name}</div>`;
+    const row = el('div', 'badge-row');
+    kpi.groups.forEach(g => {
+      const b = el('div', badgeClass(g.uplift, g.is_sig));
+      b.innerHTML = `<span class="badge-group">${g.label}</span>
+                     <span class="badge-uplift">${pct(g.uplift)}</span>
+                     <span class="badge-sig">${sigLabel(g.is_sig)}</span>`;
+      row.appendChild(b);
+    });
+    card.appendChild(row);
+    grid.appendChild(card);
+  });
+}
+
+// ── Q2 ────────────────────────────────────────────────────────────
+function renderQ2() {
+  const q = D.q2;
+  const qx = D.q2_ext;
+  document.getElementById('q2-verdict').innerHTML =
+    `<div class="verdict-bar verdict-${q.verdict.type}">${q.verdict.text}</div>`;
+
+  // ── 入口流量迁移图 ──────────────────────────────────────────────
+  const ef = qx.entry_flow;
+  const flowWrap = document.getElementById('q2-flow-chart');
+  const entryColors = ['#3B82F6','#8B5CF6','#10B981','#E8580A','#F59E0B'];
+  // 两列：对照组 vs 实验组B
+  [
+    { label: '对照组', vals: ef.ctrl },
+    { label: '实验组B（少弹窗·推荐）', vals: ef.trt_b }
+  ].forEach(panel => {
+    const wrap = el('div', 'flow-panel');
+    wrap.innerHTML = `<div class="flow-panel-title">${panel.label}</div>`;
+    // 水平条形图
+    const barArea = el('div', '');
+    barArea.style.cssText = 'display:flex;flex-direction:column;gap:8px;padding:0 8px';
+    ef.entries.forEach((name, i) => {
+      const v = panel.vals[i];
+      if (v === null) return; // 弹窗对照组不存在
+      const barRow = el('div', '');
+      barRow.style.cssText = 'display:flex;align-items:center;gap:8px;font-size:12px';
+      const labelEl = el('div', '');
+      labelEl.style.cssText = 'width:80px;text-align:right;color:#555;flex-shrink:0;font-size:11px';
+      labelEl.textContent = name;
+      const barBg = el('div', '');
+      barBg.style.cssText = 'flex:1;background:#F1F5F9;border-radius:4px;height:22px;position:relative;overflow:hidden';
+      const barFill = el('div', '');
+      const w = Math.min(v, 400) / 4; // scale: 400 max → 100% width
+      barFill.style.cssText = `width:${w}%;height:100%;background:${entryColors[i]};border-radius:4px;opacity:.85;transition:width .4s;display:flex;align-items:center;justify-content:flex-end;padding-right:6px`;
+      barFill.innerHTML = `<span style="color:#fff;font-size:10px;font-weight:700">${v}</span>`;
+      barBg.appendChild(barFill);
+      const diffEl = el('div', '');
+      diffEl.style.cssText = 'width:44px;text-align:left;font-size:11px;font-weight:700;flex-shrink:0';
+      const diff = panel.vals === ef.ctrl ? 0 : (ef.ctrl[i] !== null ? v - ef.ctrl[i] : null);
+      if (diff !== null && diff !== 0) {
+        diffEl.style.color = diff > 0 ? '#059669' : '#DC2626';
+        diffEl.textContent = (diff > 0 ? '+' : '') + diff;
+      }
+      barRow.appendChild(labelEl);
+      barRow.appendChild(barBg);
+      barRow.appendChild(diffEl);
+      barArea.appendChild(barRow);
+    });
+    wrap.appendChild(barArea);
+    // legend
+    const legend = el('div', '');
+    legend.style.cssText = 'font-size:10px;color:#94A3B8;text-align:center;margin-top:6px';
+    legend.textContent = '指数（对照组=100）';
+    wrap.appendChild(legend);
+    flowWrap.appendChild(wrap);
+  });
+  document.getElementById('q2-flow-note').textContent = ef.note;
+
+  // ── 新老客 × 底导习惯分层表 ─────────────────────────────────────
+  const st = qx.segment_table;
+  const tbl = document.getElementById('q2-seg-table');
+  const thead = tbl.createTHead();
+  const hr = thead.insertRow();
+  st.headers.forEach(h => {
+    const th = document.createElement('th'); th.textContent = h; hr.appendChild(th);
+  });
+  const tbody = tbl.createTBody();
+  let lastSeg = '';
+  st.rows.forEach(row => {
+    const tr = tbody.insertRow();
+    const isSepRow = row.seg !== '' && row.seg !== lastSeg;
+    if (isSepRow) {
+      lastSeg = row.seg;
+      tr.className = 'seg-header';
+      const tdSeg = tr.insertCell(); tdSeg.textContent = row.seg;
+    } else {
+      tr.insertCell().textContent = '';
+    }
+    tr.insertCell().textContent = row.metric;
+    [row.a, row.b, row.c].forEach(cell => {
+      const td = tr.insertCell();
+      const cls = cell.v > 0 ? 'cell-pos' : cell.v < 0 ? 'cell-neg' : 'cell-neu';
+      td.innerHTML = `<span class="${cls}">${pct(cell.v)}</span>
+                      <span class="sig-dot ${cell.sig ? 'sig-dot-yes' : 'sig-dot-no'} ${cls}"></span>`;
+    });
+  });
+  document.getElementById('q2-seg-note').textContent = st.note;
+
+  // ── 三类业务用户群 ──────────────────────────────────────────────
+  const ugGrid = document.getElementById('q2-ug-grid');
+  qx.user_groups.forEach(ug => {
+    const card = el('div', 'user-group-card');
+    let metricsHtml = ug.metrics.map(m => {
+      const badges = [m.a, m.b, m.c].map((g, gi) => {
+        const label = ['A','B','C'][gi];
+        const cls = g.sig && g.v > 0 ? '#059669' : g.sig && g.v < 0 ? '#DC2626' : '#64748B';
+        return `<span style="font-size:11px;color:${cls};font-weight:${g.sig?700:400}">${label}:${pct(g.v)}</span>`;
+      }).join(' ');
+      return `<div class="ug-metric-row">
+        <span class="ug-metric-name">${m.name}</span>
+        <span style="display:flex;gap:8px">${badges}</span>
+      </div>`;
+    }).join('');
+    card.innerHTML = `<div class="ug-icon">${ug.icon}</div>
+      <div class="ug-name">${ug.name}</div>
+      <div class="ug-desc">${ug.desc}</div>
+      <div class="ug-finding">${ug.finding}</div>
+      <div class="ug-metrics">${metricsHtml}</div>`;
+    ugGrid.appendChild(card);
+  });
+}
+
+// ── 核心打车业务 ──────────────────────────────────────────────────
+function renderCoreTaxi() {
+  const ct = D.core_taxi;
+  if (!ct) return;
+
+  document.getElementById('taxi-verdict').innerHTML =
+    `<div class="verdict-bar verdict-${ct.verdict.type}">${ct.verdict.text}</div>`;
+
+  // 网约车漏斗索引表
+  const wf = ct.wc_funnel;
+  const wTbl = document.getElementById('wc-funnel-table');
+  const wHead = wTbl.createTHead();
+  const whr = wHead.insertRow();
+  ['环节', ...wf.groups.map(g => g.label)].forEach(h => {
+    const th = document.createElement('th'); th.textContent = h; whr.appendChild(th);
+  });
+  const wBody = wTbl.createTBody();
+  wf.stages.forEach((stage, si) => {
+    const tr = wBody.insertRow();
+    tr.insertCell().textContent = stage;
+    wf.groups.forEach(g => {
+      const td = tr.insertCell();
+      const v = g.values[si];
+      td.textContent = v.toFixed(1);
+      td.className = v > 100.5 ? 'idx-pos' : v < 99.5 ? 'idx-neg' : 'idx-base';
+    });
+  });
+
+  // 网约车新老客
+  const segGrid = document.getElementById('wc-segment-grid');
+  ct.wc_segment.forEach(seg => {
+    const card = el('div', 'kpi-card');
+    card.innerHTML = `<div class="kpi-name">${seg.seg}</div>`;
+    const row = el('div', 'badge-row');
+    seg.groups.forEach(g => {
+      const b = el('div', badgeClass(g.uplift, g.is_sig));
+      b.innerHTML = `<span class="badge-group">${g.label}</span>
+                     <span class="badge-uplift">${pct(g.uplift)}</span>
+                     <span class="badge-sig">${sigLabel(g.is_sig)}</span>`;
+      row.appendChild(b);
+    });
+    card.appendChild(row);
+    segGrid.appendChild(card);
+  });
+
+  // 顺风车说明
+  document.getElementById('sfz-note').textContent = ct.sfz.note;
+
+  // 顺风车漏斗
+  const sfzWrap = document.getElementById('sfz-funnel');
+  ct.sfz.funnel_cols.forEach(col => {
+    const div = el('div', 'funnel-col');
+    div.innerHTML = `<div class="funnel-col-title" style="color:${col.color}">${col.label}</div>`;
+    const maxVal = Math.max(...ct.sfz.funnel_cols.flatMap(c => c.values));
+    col.values.forEach((v, vi) => {
+      const stage = el('div', 'funnel-stage');
+      const barWrap = el('div', 'funnel-bar-wrap');
+      const bar = el('div', 'funnel-bar');
+      const w = Math.round(v / maxVal * 100);
+      bar.style.cssText = `width:${w}%;background:${col.color};opacity:.85`;
+      bar.textContent = v.toFixed(1);
+      barWrap.appendChild(bar);
+      stage.appendChild(barWrap);
+      const lbl = el('div', 'funnel-label');
+      lbl.textContent = ct.sfz.stages[vi];
+      stage.appendChild(lbl);
+      div.appendChild(stage);
+      if (vi < col.conv.length) {
+        const arrow = el('div', 'funnel-arrow'); arrow.textContent = '↓';
+        const conv = el('div', 'funnel-conv'); conv.textContent = col.conv[vi];
+        div.appendChild(arrow);
+        div.appendChild(conv);
+      }
+    });
+    sfzWrap.appendChild(div);
+  });
+
+  // 顺风车转化率表
+  const convData = ct.sfz.conv_table;
+  const cTbl = document.getElementById('sfz-conv-table');
+  const cHead = cTbl.createTHead();
+  const chr = cHead.insertRow();
+  convData.headers.forEach(h => {
+    const th = document.createElement('th'); th.textContent = h; chr.appendChild(th);
+  });
+  const cBody = cTbl.createTBody();
+  convData.rows.forEach(row => {
+    const tr = cBody.insertRow();
+    tr.insertCell().textContent = row.name;
+    row.values.forEach(v => tr.insertCell().textContent = v);
+    const dtd = tr.insertCell();
+    dtd.textContent = row.delta_c;
+    dtd.className = row.delta_c.startsWith('+') ? 'idx-pos' :
+                    row.delta_c.startsWith('-') ? 'idx-neg' : 'idx-base';
+  });
+}
+
+// ── Q3 ────────────────────────────────────────────────────────────
+function renderQ3() {
+  const q = D.q3;
+  document.getElementById('q3-verdict').innerHTML =
+    `<div class="verdict-bar verdict-${q.verdict.type}">${q.verdict.text}</div>`;
+
+  const tbl = document.getElementById('q3-table');
+  // 表头
+  const thead = tbl.createTHead();
+  const hrow = thead.insertRow();
+  ['业务指标', 'A·无弹窗', 'B·少弹窗', 'C·多弹窗'].forEach((h, i) => {
+    const th = document.createElement('th');
+    th.textContent = h;
+    hrow.appendChild(th);
+  });
+  // 表体
+  const tbody = tbl.createTBody();
+  q.businesses.forEach(b => {
+    const tr = tbody.insertRow();
+    tr.insertCell().textContent = b.name;
+    [b.a, b.b, b.c].forEach(cell => {
+      const td = tr.insertCell();
+      const cls = cell.v > 0 ? 'cell-pos' : cell.v < 0 ? 'cell-neg' : 'cell-neu';
+      td.innerHTML = `<span class="${cls}">${pct(cell.v)}</span>
+                      <span class="sig-dot ${cell.sig ? 'sig-dot-yes' : 'sig-dot-no'} ${cls}"></span>`;
+    });
+  });
+}
+
+// ── Q4 ────────────────────────────────────────────────────────────
+function renderQ4() {
+  const q = D.q4;
+  document.getElementById('q4-verdict').innerHTML =
+    `<div class="verdict-bar verdict-${q.verdict.type}">${q.verdict.text}</div>`;
+
+  const cmp = document.getElementById('q4-popup-compare');
+  q.columns.forEach(col => {
+    const div = el('div', `popup-col${col.winner ? ' winner' : ''}`);
+    div.style.background = col.bg;
+    let statsHtml = col.stats.map(s =>
+      `<div class="popup-stat"><span class="label">${s.label}</span><span class="value">${s.value}</span></div>`
+    ).join('');
+    div.innerHTML = `<div class="popup-col-title">${col.title}${col.winner ? '<span class="popup-winner-badge">推荐</span>' : ''}</div>
+                     ${statsHtml}
+                     <div class="text-sm mt8">${col.summary}</div>`;
+    cmp.appendChild(div);
+  });
+
+  // Q4 核心指标 badges (复用 Q1 KPI 卡片格式，按弹窗策略维度)
+  const scoreGrid = document.getElementById('q4-score-grid');
+  if (D.q1 && D.q1.kpis) {
+    D.q1.kpis.slice(0, 4).forEach(kpi => {
+      const card = el('div', 'kpi-card');
+      card.innerHTML = `<div class="kpi-name">${kpi.name}</div>`;
+      const row = el('div', 'badge-row');
+      kpi.groups.forEach(g => {
+        const b = el('div', badgeClass(g.uplift, g.is_sig));
+        b.innerHTML = `<span class="badge-group">${g.label}</span>
+                       <span class="badge-uplift">${pct(g.uplift)}</span>
+                       <span class="badge-sig">${sigLabel(g.is_sig)}</span>`;
+        row.appendChild(b);
+      });
+      card.appendChild(row);
+      scoreGrid.appendChild(card);
+    });
+  }
+}
+
+// ── Q5 ────────────────────────────────────────────────────────────
+function renderQ5() {
+  const q = D.q5;
+  document.getElementById('q5-main-rec').innerHTML =
+    `<div class="verdict-bar verdict-${q.main_rec.type}">${q.main_rec.text}</div>`;
+
+  const recGrid = document.getElementById('q5-rec-grid');
+  q.items.forEach(item => {
+    const d = el('div', `rec-item ${item.type}`);
+    d.innerHTML = `<div class="rec-label">${item.label}</div><div class="rec-text">${item.text}</div>`;
+    recGrid.appendChild(d);
+  });
+
+  const risks = document.getElementById('q5-risks');
+  q.risks.forEach(r => {
+    const d = el('div', 'verdict-bar verdict-neutral mt8');
+    d.innerHTML = `<strong>[风险·${r.level}]</strong> ${r.text}`;
+    risks.appendChild(d);
+  });
+}
+
+// ── 详细数据表 ────────────────────────────────────────────────────
+function renderDetail() {
+  const tbl = document.getElementById('detail-table');
+  const thead = tbl.createTHead();
+  const hrow = thead.insertRow();
+  ['实验组', '指标', 'n(对照)', 'n(实验)', 'CUPED均值(对照)', 'CUPED均值(实验)', 'CUPED提升%', '绝对变化', 'P值', '显著', 'AA期']
+    .forEach(h => {
+      const th = document.createElement('th');
+      th.textContent = h;
+      hrow.appendChild(th);
+    });
+
+  const tbody = tbl.createTBody();
+  D.detail.forEach(grp => {
+    // 分组分隔行
+    const sep = tbody.insertRow();
+    sep.className = 'group-sep';
+    const sepCell = sep.insertCell();
+    sepCell.colSpan = 11;
+    sepCell.textContent = grp.group;
+
+    grp.rows.forEach(r => {
+      const tr = tbody.insertRow();
+      if (r.sig) tr.className = 'td-sig';
+      [
+        '', r.metric_cn,
+        r.n_c, r.n_t,
+        r.cuped_c, r.cuped_t,
+        r.uplift, r.abs,
+        r.p, r.sig ? '显著 ●' : '不显著',
+        r.aa
+      ].forEach((val, i) => {
+        const td = tr.insertCell();
+        td.textContent = val;
+        if (i === 6) {
+          td.className = val.startsWith('+') ? 'td-pos' : val.startsWith('-') ? 'td-neg' : '';
+        }
+      });
+    });
+  });
+}
+
+// ── 新奇效应折线图（纯 Canvas，无依赖）────────────────────────────
+function renderNovelty() {
+  const nov = D.novelty;
+  document.getElementById('novelty-meta').textContent = '追踪指标：' + nov.metric;
+
+  const v = nov.verdict;
+  document.getElementById('novelty-verdict').innerHTML =
+    `<div class="verdict-bar verdict-${v.type}">${v.text}</div>`;
+
+  const canvas = document.getElementById('novelty-canvas');
+  const W = canvas.parentElement.clientWidth || 800;
+  canvas.width  = W;
+  canvas.height = 280;
+
+  const ctx = canvas.getContext('2d');
+  const PAD = { top: 20, right: 20, bottom: 40, left: 52 };
+  const cw = W - PAD.left - PAD.right;
+  const ch = canvas.height - PAD.top - PAD.bottom;
+
+  // 计算值域
+  const allVals = nov.series.flatMap(s => s.values);
+  const minV = Math.min(...allVals) - 0.5;
+  const maxV = Math.max(...allVals) + 0.5;
+  const range = maxV - minV || 1;
+  const dates = nov.dates;
+  const n = dates.length;
+
+  const xPos = i => PAD.left + (i / (n - 1)) * cw;
+  const yPos = v => PAD.top + (1 - (v - minV) / range) * ch;
+
+  // 零线
+  ctx.strokeStyle = '#CBD5E1';
+  ctx.lineWidth = 1;
+  ctx.setLineDash([4, 4]);
+  ctx.beginPath();
+  ctx.moveTo(PAD.left, yPos(0));
+  ctx.lineTo(PAD.left + cw, yPos(0));
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Y 轴刻度
+  ctx.fillStyle = '#94A3B8';
+  ctx.font = '10px system-ui';
+  ctx.textAlign = 'right';
+  for (let tick = Math.ceil(minV); tick <= Math.floor(maxV); tick++) {
+    const y = yPos(tick);
+    ctx.fillText(tick + '%', PAD.left - 6, y + 3);
+    ctx.strokeStyle = '#F1F5F9';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(PAD.left, y);
+    ctx.lineTo(PAD.left + cw, y);
+    ctx.stroke();
+  }
+
+  // X 轴日期
+  ctx.fillStyle = '#94A3B8';
+  ctx.textAlign = 'center';
+  ctx.font = '10px system-ui';
+  dates.forEach((d, i) => {
+    if (i % 2 === 0) ctx.fillText(d, xPos(i), PAD.top + ch + 18);
+  });
+
+  // 折线
+  nov.series.forEach(s => {
+    ctx.strokeStyle = s.color;
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    s.values.forEach((v, i) => {
+      if (i === 0) ctx.moveTo(xPos(i), yPos(v));
+      else ctx.lineTo(xPos(i), yPos(v));
+    });
+    ctx.stroke();
+
+    // 端点圆
+    s.values.forEach((v, i) => {
+      ctx.fillStyle = s.color;
+      ctx.beginPath();
+      ctx.arc(xPos(i), yPos(v), 3.5, 0, Math.PI * 2);
+      ctx.fill();
+    });
+  });
+
+  // 图例
+  const legend = document.getElementById('novelty-legend');
+  nov.series.forEach(s => {
+    const item = el('div', 'legend-item');
+    const dot = el('div', 'legend-dot');
+    dot.style.background = s.color;
+    item.appendChild(dot);
+    item.appendChild(document.createTextNode(s.label));
+    legend.appendChild(item);
+  });
+}
+</script>
+
+</body>
+</html>

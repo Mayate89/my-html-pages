@@ -1,0 +1,1932 @@
+<!DOCTYPE html>
+<!-- saved from url=(0243)file:///Users/didi/Desktop/AB%E5%88%86%E6%9E%90_%E6%96%B0%E9%A6%96%E9%A1%B5%E4%BA%8C%E6%9C%9F_20260423/APP8.0%E9%A6%96%E9%A1%B5%E9%A1%B9%E7%9B%AE%E4%BA%8C%E6%9C%9F%E5%AE%9E%E9%AA%8C%E5%88%86%E6%9E%90%E8%AF%84%E4%BC%B0(14%E5%A4%A9%EF%BC%89.html -->
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>滴滴APP8.0首页二期实验 | UT-DS团队</title>
+<style>
+  /* --- 滴滴品牌 & 现代 SaaS 色系 --- */
+  :root {
+    --sidebar-width: 260px;
+    --sidebar-bg: #1A1A1A;
+    --sidebar-hover: #2C2C2C;
+    --sidebar-text: #A3A3A3;
+    --sidebar-active-bg: #2C2C2C;
+    --sidebar-active-text: #FFFFFF;
+    
+    --bg-app: #F7F8FA;
+    --bg-card: #FFFFFF;
+    --text-h: #1D2129;
+    --text-p: #4E5969;
+    --text-muted: #86909C;
+    
+    --primary: #FF7D00;           /* 滴滴桔 */
+    --primary-light: #FFF2E8;     
+    --border: #E5E6EB;
+    
+    --success: #00B42A;           /* 涨 - 绿 */
+    --success-bg: rgba(0, 180, 42, 0.08);
+    --danger: #F53F3F;            /* 跌 - 红 */
+    --danger-bg: rgba(245, 63, 63, 0.08);
+    --warning: #FF7D00;           
+    
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 10px rgba(0, 0, 0, 0.04);
+    
+    --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background-color: var(--bg-app);
+    color: var(--text-p);
+    line-height: 1.5;
+    display: flex;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* --- 侧边栏 --- */
+  .sidebar {
+    width: var(--sidebar-width); background: var(--sidebar-bg); color: #fff;
+    position: fixed; height: 100vh; display: flex; flex-direction: column; z-index: 100;
+    transition: transform var(--transition);
+  }
+  .sidebar.collapsed { transform: translateX(-100%); }
+  
+  .brand { padding: 32px 24px 20px; border-bottom: 1px solid #333; position: relative;}
+  .brand h1 { font-size: 18px; font-weight: 600; color: #FFF; line-height: 1.4; margin-bottom: 12px;}
+  .brand-logo { color: var(--primary); font-weight: 800; font-size: 20px; margin-right: 4px;}
+  .meta-tag {
+    display: inline-block; background: #333; color: #CCC; font-size: 11px;
+    padding: 4px 8px; border-radius: 4px; margin: 0 4px 6px 0;
+  }
+  .nav-menu { padding: 20px 0; flex: 1; overflow-y: auto;}
+  .nav-item {
+    padding: 14px 24px; color: var(--sidebar-text); text-decoration: none;
+    font-size: 14px; display: block; border-left: 3px solid transparent; font-weight: 500;
+  }
+  .nav-item:hover { background: var(--sidebar-hover); color: var(--sidebar-active-text); }
+  .nav-item.active { background: var(--sidebar-active-bg); color: var(--sidebar-active-text); border-left-color: var(--primary); }
+
+  /* 附录分隔线 */
+  .nav-divider { height: 1px; background: #333; margin: 10px 24px; }
+
+  /* --- 主内容区 --- */
+  .main-content { margin-left: var(--sidebar-width); padding: 32px 48px; flex: 1; max-width: 1400px; transition: margin-left var(--transition); }
+  .main-content.expanded { margin-left: 0; }
+
+  /* --- 关键结论 Highlight 模块 --- */
+  .highlight-module {
+    background: #FFF; border-radius: 8px; box-shadow: var(--shadow-sm); border: 1px solid var(--primary);
+    margin-bottom: 40px; overflow: hidden;
+  }
+  .highlight-header {
+    background: var(--primary-light); padding: 12px 20px; display: flex; align-items: center; gap: 16px;
+    border-bottom: 1px solid #FFE4D0;
+  }
+  .sidebar-toggle-btn {
+    background: #FFF; border: 1px solid #E5E6EB; border-radius: 8px; width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-muted);
+    box-shadow: var(--shadow-md); transition: all 0.2s; z-index: 1000;
+  }
+  .sidebar-toggle-btn:hover { color: var(--primary); border-color: var(--primary); box-shadow: 0 4px 12px rgba(255, 125, 0, 0.15); }
+  .sidebar-toggle-btn.fixed {
+    position: fixed; top: 16px; left: 276px;
+  }
+  .sidebar-toggle-btn.fixed.collapsed { left: 16px; }
+  .highlight-title { font-size: 16px; font-weight: 600; color: #B35700; display: flex; align-items: center; gap: 8px;}
+  .highlight-content {
+    padding: 20px; font-size: 14px; color: var(--text-h); line-height: 1.8;
+    min-height: 80px; outline: none; transition: background 0.2s;
+  }
+  .highlight-content:focus { background: #FAFAFA; }
+  .highlight-content p { margin-bottom: 8px; }
+  .highlight-content p:last-child { margin-bottom: 0; }
+  .edit-hint { font-size: 11px; color: var(--text-muted); float: right; margin-top: -10px;}
+
+  .section-title { font-size: 20px; font-weight: 600; color: var(--text-h); margin: 48px 0 20px; display: flex; align-items: center; gap: 10px; }
+  .section-title::before { content: ""; display: block; width: 5px; height: 18px; background: var(--primary); border-radius: 4px; }
+
+  /* --- 卡片与布局 --- */
+  .card { background: var(--bg-card); border-radius: 12px; padding: 24px; margin-bottom: 24px; border: 1px solid var(--border); }
+  .card-header { font-size: 16px; font-weight: 600; margin-bottom: 16px; color: var(--text-h); display: flex; justify-content: space-between; align-items: center; }
+  
+  /* 局部数据切换按钮 */
+  .local-toggle-group { display: flex; background: #F2F3F5; border-radius: 6px; padding: 3px; }
+  .local-toggle-btn {
+    border: none; background: transparent; padding: 4px 12px; font-size: 12px; font-weight: 600;
+    color: var(--text-muted); border-radius: 4px; cursor: pointer; transition: 0.2s;
+  }
+  .local-toggle-btn.active { background: #FFF; color: var(--text-h); box-shadow: var(--shadow-sm); }
+
+  /* --- 高级数据表格 --- */
+  .data-table-wrap { overflow-x: auto; margin-bottom: 16px; border: 1px solid var(--border); border-radius: 8px;}
+  .data-table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: right; }
+  .data-table th { background: #F7F8FA; padding: 12px 16px; font-weight: 600; color: var(--text-muted); border-bottom: 1px solid var(--border); white-space: nowrap;}
+  .data-table th:first-child { text-align: left; position: sticky; left: 0; background: #F7F8FA; z-index: 2;}
+  .data-table td { padding: 14px 16px; border-bottom: 1px solid var(--border); color: var(--text-h); }
+  .data-table td:first-child { text-align: left; font-weight: 600; position: sticky; left: 0; background: #FFF; z-index: 1;}
+  .data-table tr:hover td { background: #FDFDFD; }
+  
+  /* 热力图单元格高亮 */
+  .cell-pos { background: var(--success-bg); color: var(--success); font-weight: 600;}
+  .cell-neg { background: var(--danger-bg); color: var(--danger); font-weight: 600;}
+  .cell-neu { color: var(--text-p); }
+  .cell-marg { background: rgba(245, 63, 63, 0.04); color: var(--danger); font-weight: 600; }
+  .sig-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-left: 6px; vertical-align: middle;}
+  .sig-dot.yes { background-color: currentColor; }
+  .sig-dot.no { background-color: transparent; }
+
+  /* 子指标分组分隔线 */
+  .col-divider { border-left: 2px solid #4A5568 !important; }
+
+  /* --- 弹窗评价提取模块 --- */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .popup-eval-box { padding: 20px; border-radius: 8px; border: 1px solid var(--border); background: #FAFAFA; }
+  .eval-title { font-size: 14px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;}
+  .eval-list { list-style: none; padding: 0; font-size: 13px;}
+  .eval-list li { margin-bottom: 8px; display: flex; align-items: flex-start; gap: 8px;}
+  .eval-list li::before { content: "•"; color: var(--primary); font-weight: bold;}
+
+  /* --- 业务线 Tabs --- */
+  .biz-tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 24px; gap: 32px;}
+  .biz-tab { padding: 12px 0; cursor: pointer; font-size: 15px; font-weight: 600; color: var(--text-muted); position: relative;}
+  .biz-tab.active { color: var(--primary); }
+  .biz-tab.active::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 3px; background: var(--primary); border-radius: 3px 3px 0 0; }
+  .tab-pane { display: none; }
+  .tab-pane.active { display: block; animation: fadeIn 0.3s; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  /* --- 连环替代法拆解图 --- */
+  .chain-row { display: flex; align-items: center; margin: 16px 0; }
+  .chain-node { flex: 1; text-align: center; background: #FFF; border: 1px solid var(--border); padding: 16px; border-radius: 6px;}
+  .chain-node.alert { border-color: var(--danger); box-shadow: 0 0 0 1px var(--danger); }
+  .chain-title { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
+  .chain-val { font-size: 16px; font-weight: 700; color: var(--text-h); }
+  .chain-operator { margin: 0 16px; font-size: 20px; color: #C9CDD4; font-weight: 300;}
+
+  /* 代码占位区 */
+  .code-placeholder { background: #282C34; color: #ABB2BF; padding: 20px; border-radius: 8px; font-family: monospace; font-size: 13px; white-space: pre-wrap;}
+
+  /* --- 瀑布图样式 --- */
+  .waterfall-chart {
+    background: #FAFBFC;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .waterfall-header {
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  .waterfall-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-h);
+  }
+  .waterfall-container {
+    display: flex;
+    height: 280px;
+    position: relative;
+  }
+  .waterfall-yaxis {
+    width: 50px;
+    height: 250px;
+    position: relative;
+    margin-right: 10px;
+  }
+  .y-tick {
+    position: absolute;
+    right: 8px;
+    transform: translateY(50%);
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+  .waterfall-bars {
+    flex: 1;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    height: 250px;
+    position: relative;
+    padding-bottom: 0;
+  }
+  .bar-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 70px;
+    position: relative;
+  }
+  .bar-wrapper {
+    width: 42px;
+    height: 250px;
+    position: relative;
+    background: rgba(0,0,0,0.02);
+    border-radius: 4px;
+  }
+  .bar {
+    position: absolute;
+    width: 100%;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+  }
+  .bar.baseline-bar {
+    background: linear-gradient(180deg, #64748b 0%, #94a3b8 100%);
+    box-shadow: 0 2px 8px rgba(100, 116, 139, 0.3);
+    border-radius: 3px;
+  }
+  .bar.pos {
+    background: linear-gradient(180deg, #10b981 0%, #34d399 100%);
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+  }
+  .bar.neg {
+    background: linear-gradient(180deg, #ef4444 0%, #f87171 100%);
+    box-shadow: 0 -2px 8px rgba(239, 68, 68, 0.3);
+  }
+  .bar.total-bar {
+    background: linear-gradient(180deg, #6366f1 0%, #818cf8 100%);
+    box-shadow: 0 -2px 8px rgba(99, 102, 241, 0.4);
+  }
+  .bar-label {
+    margin-top: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-h);
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  /* 底部数值标签 */
+  .waterfall-labels {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px dashed var(--border);
+    margin-left: 50px; /* 与Y轴宽度对齐 */
+  }
+  .label-group {
+    width: 70px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .label-group .label-val {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+  .label-group .label-desc {
+    display: block;
+    font-size: 10px;
+    color: var(--text-muted);
+  }
+  .label-group.baseline .label-val { color: #64748b; }
+  .label-group.pos .label-val { color: var(--success); }
+  .label-group.neg .label-val { color: var(--danger); }
+  .label-group.total .label-val { color: #6366f1; }
+
+  /* 归因解读样式 */
+  .attribution-insight {
+    background: #FFF;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .insight-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-h);
+    margin-bottom: 12px;
+  }
+  .insight-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .insight-item {
+    display: flex;
+    gap: 12px;
+    padding: 10px 12px;
+    background: #FAFBFC;
+    border-radius: 6px;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .insight-item.highlight {
+    background: #FFF7ED;
+    border: 1px solid #FED7AA;
+  }
+  .insight-label {
+    font-weight: 600;
+    color: var(--text-h);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .insight-desc {
+    color: var(--text-p);
+  }
+  .pos-text { color: var(--success); font-weight: 600; }
+  .neg-text { color: var(--danger); font-weight: 600; }
+
+  /* 可编辑结论区块 */
+  .conclusion-block {
+    background: #FFF7ED;
+    border: 1px solid #FED7AA;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    color: var(--text-h);
+    line-height: 1.7;
+    outline: none;
+    transition: all 0.2s;
+  }
+  .conclusion-block:focus {
+    background: #FFF;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(255, 125, 0, 0.1);
+  }
+  .conclusion-block::before {
+    content: "👉 结论：";
+    font-weight: 600;
+    color: var(--primary);
+  }
+  .note-block {
+    background: #FAFBFC;
+    border: 1px dashed var(--border);
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin-top: 12px;
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+</style>
+</head>
+<body>
+
+  <!-- 侧边栏 -->
+  <aside class="sidebar collapsed" id="sidebar">
+    <div class="brand">
+      <h1><span class="brand-logo">DiDi</span>8.0首页二期实验</h1>
+      <div>
+        <span class="meta-tag">APP80_test_exp_002</span>
+        <span class="meta-tag">新首页样本: 482万</span>
+      </div>
+      <div style="font-size: 11px; color: #888; margin-top: 8px;">AB: 26.03.15-03.28 | UT-DS团队</div>
+    </div>
+    <nav class="nav-menu">
+      <a href="#sec-q1" class="nav-item" onclick="navTo(event)">1. 策略能不能推全？</a>
+      <a href="#sec-q2" class="nav-item" onclick="navTo(event)">2. 顶导逻辑检验</a>
+      <a href="#sec-q3-click" class="nav-item" onclick="navTo(event)">3. 首页点击</a>
+      <div class="nav-divider"></div>
+      <a href="#sec-appendix" class="nav-item" onclick="navTo(event)" style="color:#FFF;">📁 附录</a>
+    </nav>
+  </aside>
+
+  <!-- 侧边栏切换按钮 (固定位置) -->
+  <button class="sidebar-toggle-btn fixed collapsed" id="toggle-sidebar" title="收起/展开侧边栏">
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg>
+  </button>
+
+  <!-- 主内容 -->
+  <main class="main-content expanded" id="main-content">
+    
+    <!-- Highlight 模块 (替代原先的Top-bar) -->
+    <div class="highlight-module">
+      <div class="highlight-header">
+        <div class="highlight-title">🎯 Highlight </div>
+      </div>
+      <div class="highlight-content" contenteditable="true" spellcheck="false">
+        <span class="edit-hint">✏️ edit</span>
+        <div class="_1e2pyhhi" style="margin-top: 8px; white-space-collapse: preserve; word-break: break-word; line-height: 20px; min-height: 20px; color: rgb(51, 51, 51); font-family: -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, Roboto, Ubuntu, &quot;Helvetica Neue&quot;, Helvetica, Arial, &quot;PingFang SC&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, 微软雅黑, sans-serif;"><span class="">1.四个顶导的二期策略叠加激进引导后负向仍然会扩大（平台GMV-0.30%），两次实验已经说明</span><span style="font-weight: bolder;">产品迭代应坚持精细化、低打扰的引导原则，激进引导策略不可取</span><span class="">。</span></div><div class="_1e2pyhhi" style="margin-top: 8px; white-space-collapse: preserve; word-break: break-word; line-height: 20px; min-height: 20px; color: rgb(51, 51, 51); font-family: -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, Roboto, Ubuntu, &quot;Helvetica Neue&quot;, Helvetica, Arial, &quot;PingFang SC&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, 微软雅黑, sans-serif;"><span class="">2. 二期策略，在无引导的情况下，对平台GMV会带来0.19%的负向（</span>接近显著），分业务来看</div><ul class="_1e2pyhhb" style="list-style-position: initial; list-style-image: initial; padding-left: 16px; color: rgb(51, 51, 51); font-family: -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, Roboto, Ubuntu, &quot;Helvetica Neue&quot;, Helvetica, Arial, &quot;PingFang SC&quot;, &quot;Microsoft YaHei UI&quot;, &quot;Microsoft YaHei&quot;, 微软雅黑, sans-serif;"><li><span style="font-weight: bolder;">网约车业务：GMV 接近负向 0.20%（主要受损方）</span><span class="">&nbsp;从转化漏斗看，负向从 DAU 环节即开始显现，</span><span style="font-weight: bolder;">DAU 流失贡献了约七成的负向</span><span class="">。同时观察到用户冒泡比价行为增加、ASP 下降，推测有部分价敏用户回流至网约车，但这部分增量</span><span style="font-weight: bolder;">不足以对冲网约车自身的下滑</span><span class="">。</span><div></div></li><li><span style="font-weight: bolder;">货运业务：DAU增长收敛不显著，也无交易增量</span><span class="">&nbsp;4顶导上线后视觉引导效果加强，叠加货运独有的角标样式，吸引了部分用户点击，但</span><span style="font-weight: bolder;">流量暂未转化为交易</span><span class="">。</span><div></div></li><li><span style="font-weight: bolder;">旅行业务：机票DAU显著下降23.2%，火车票DAU显著下降28.2%</span><span class="">，&nbsp;从底导迁移至顶导后，</span><span style="font-weight: bolder;">原有底导用户未完成完整迁移</span><span class="">，入口变更造成用户流失。</span><div></div></li><li><span style="font-weight: bolder;">车主业务：DAU 显著下降22.6%，存在长期隐患</span><span class="">&nbsp;顺风车司机中有一部分找不到原入口，约66%顶底导流失用户迁移至金刚位（顺风车金刚位DAU+6.6%），因此</span><span style="font-weight: bolder;">短期内顺风车运力未受影响</span><span class="">。但车主流量下降将削弱车主端的导流能力，</span><span style="font-weight: bolder;">长期将影响顺风车司机拉新、网约车司机拉新、加油、充电等业务的拉新效率</span><span class="">。</span></li></ul>
+      </div><b><b>
+    </b></b></div><b><b>
+
+    <!-- ==========================================
+         Q1: 策略能不能推全？纯框架与弹窗剥离
+         ========================================== -->
+    </b></b><section id="sec-q1"><b><b>
+      <h2 class="section-title">1. 策略能不能推全？(纯框架底线与弹窗策略)</h2>
+      
+      </b></b><div class="card" id="card-q1-1"><b><b>
+        <div class="card-header">
+          <span>1.1 纯产品框架比对 (实验组-无引导新首页 vs 对照组-旧首页)</span>
+          <div class="local-toggle-group">
+            <button class="local-toggle-btn" onclick="switchLocalData(this, &#39;abs&#39;)">日均全量推演</button>
+            <button class="local-toggle-btn active" onclick="switchLocalData(this, &#39;pct&#39;)">相对变化 (%)</button>
+          </div>
+        </div>
+        <div class="conclusion-block" contenteditable="true" spellcheck="false">纯框架变动存在风险。网约车DAU显著负向(-0.16%)，车主DAU大幅下跌(-22.56%)，旅行线(机票-23.15%/火车票-28.23%)DAU显著下滑，火车票GMV显著负向(-16.93%)；货运DAU正向(+2.78%)但不显著。因此建议 (a) 优先排查网约车业务负向原因；(b) 持续观测顺风车（供给），考虑对顺风车车主流量做承接/迁移策略。</div>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>业务线维度</th>
+                <th>DAU</th>
+                <th>完单量</th>
+                <th>完单 GMV</th>
+                <th style="display:none;">保守弹窗额外影响</th>
+                <th style="display:none;">激进弹窗额外影响</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>平台</td>
+                <td class="cell-neu"><span class="data-var" data-abs="-" data-pct="-">-</span> <span class="sig-dot no"></span></td>
+                <td class="cell-neu"><span class="data-var" data-abs="-4,521" data-pct="-0.12%">-0.12%</span> <span class="sig-dot no"></span></td>
+                <td class="cell-neu"><span class="data-var" data-abs="-18.43万" data-pct="-0.19%">-0.19%</span> <span class="sig-dot no"></span></td>
+                <td style="display:none;" class="cell-pos"><span class="data-var" data-abs="+9.67万">+9.67万</span> <span class="sig-dot no"></span></td>
+                <td style="display:none;" class="cell-neg"><span class="data-var" data-abs="-11.25万">-11.25万</span> <span class="sig-dot yes"></span></td>
+              </tr>
+              <tr>
+                <td>网约车 (主业红线)</td>
+                <td class="cell-neg"><span class="data-var" data-abs="-6,725" data-pct="-0.16%">-0.16%</span> <span class="sig-dot yes"></span></td>
+                <td class="cell-neu"><span class="data-var" data-abs="-3,287" data-pct="-0.10%">-0.10%</span> <span class="sig-dot no"></span></td>
+                <td class="cell-neu"><span class="data-var" data-abs="-16.89万" data-pct="-0.20%">-0.20%</span> <span class="sig-dot no"></span></td>
+                <td style="display:none;" class="cell-pos"><span class="data-var" data-abs="+1,428">+1,428</span> <span class="sig-dot no"></span></td>
+                <td style="display:none;" class="cell-neu"><span class="data-var" data-abs="+356">+356</span> <span class="sig-dot no"></span></td>
+              </tr>
+              <tr>
+                <td>顺风车</td>
+                <td class="cell-neu"><span class="data-var" data-abs="-8,634" data-pct="-0.95%">-0.95%</span> <span class="sig-dot no"></span></td>
+                <td class="cell-neu"><span class="data-var" data-abs="-418" data-pct="-0.32%">-0.32%</span> <span class="sig-dot no"></span></td>
+                <td class="cell-neu"><span class="data-var" data-abs="-1.45万" data-pct="-0.25%">-0.25%</span> <span class="sig-dot no"></span></td>
+                <td style="display:none;" class="cell-neg"><span class="data-var" data-abs="-287">-287</span> <span class="sig-dot no"></span></td>
+                <td style="display:none;" class="cell-pos"><span class="data-var" data-abs="+1,856">+1,856</span> <span class="sig-dot no"></span></td>
+              </tr>
+              <tr>
+                <td>货运</td>
+                <td class="cell-neu"><span class="data-var" data-abs="+3,256" data-pct="+2.78%">+2.78%</span> <span class="sig-dot no"></span></td>
+                <td class="cell-neu"><span class="data-var" data-abs="-198" data-pct="-1.18%">-1.18%</span> <span class="sig-dot no"></span></td>
+                <td class="cell-neu"><span class="data-var" data-abs="-1.12万" data-pct="-1.56%">-1.56%</span> <span class="sig-dot no"></span></td>
+                <td style="display:none;" class="cell-pos"><span class="data-var" data-abs="+4,923">+4,923</span> <span class="sig-dot no"></span></td>
+                <td style="display:none;" class="cell-pos"><span class="data-var" data-abs="+7,382">+7,382</span> <span class="sig-dot no"></span></td>
+              </tr>
+              <tr>
+                <td>车主</td>
+                <td class="cell-neg"><span class="data-var" data-abs="-33,847" data-pct="-22.56%">-22.56%</span> <span class="sig-dot yes"></span></td>
+                <td class="cell-neu"><span class="data-var" data-abs="-118" data-pct="-2.84%">-2.84%</span> <span class="sig-dot no"></span></td>
+                <td class="cell-neu"><span class="data-var" data-abs="-" data-pct="-">-</span> <span class="sig-dot no"></span></td>
+                <td style="display:none;" class="cell-neu"><span class="data-var" data-abs="+98">+98</span> <span class="sig-dot no"></span></td>
+                <td style="display:none;" class="cell-neu"><span class="data-var" data-abs="+756">+756</span> <span class="sig-dot no"></span></td>
+              </tr>
+              <tr>
+                <td>机票</td>
+                <td class="cell-neg"><span class="data-var" data-abs="-5,786" data-pct="-23.15%">-23.15%</span> <span class="sig-dot yes"></span></td>
+                <td class="cell-neu"><span class="data-var" data-abs="-13" data-pct="-9.87%">-9.87%</span> <span class="sig-dot no"></span></td>
+                <td class="cell-neu"><span class="data-var" data-abs="-1.34万" data-pct="-14.32%">-14.32%</span> <span class="sig-dot no"></span></td>
+                <td style="display:none;" class="cell-pos"><span class="data-var" data-abs="+792">+792</span> <span class="sig-dot no"></span></td>
+                <td style="display:none;" class="cell-pos"><span class="data-var" data-abs="+1,543">+1,543</span> <span class="sig-dot no"></span></td>
+              </tr>
+              <tr>
+                <td>酒店</td>
+                <td class="cell-neu"><span class="data-var" data-abs="-637" data-pct="-6.85%">-6.85%</span> <span class="sig-dot no"></span></td>
+                <td class="cell-neu"><span class="data-var" data-abs="-1" data-pct="-0.96%">-0.96%</span> <span class="sig-dot no"></span></td>
+                <td class="cell-neu"><span class="data-var" data-abs="+0.09万" data-pct="+2.51%">+2.51%</span> <span class="sig-dot no"></span></td>
+                <td style="display:none;" class="cell-pos"><span class="data-var" data-abs="+502">+502</span> <span class="sig-dot no"></span></td>
+                <td style="display:none;" class="cell-pos"><span class="data-var" data-abs="+723">+723</span> <span class="sig-dot no"></span></td>
+              </tr>
+              <tr>
+                <td>火车票</td>
+                <td class="cell-neg"><span class="data-var" data-abs="-20,025" data-pct="-34.67%">-34.67%</span> <span class="sig-dot yes"></span></td>
+                <td class="cell-neu"><span class="data-var" data-abs="-25" data-pct="-4.72%">-4.72%</span> <span class="sig-dot no"></span></td>
+                <td class="cell-neg"><span class="data-var" data-abs="-1.48万" data-pct="-16.93%">-16.93%</span> <span class="sig-dot yes"></span></td>
+                <td style="display:none;" class="cell-pos"><span class="data-var" data-abs="+1,513">+1,513</span> <span class="sig-dot no"></span></td>
+                <td style="display:none;" class="cell-pos"><span class="data-var" data-abs="+3,572">+3,572</span> <span class="sig-dot no"></span></td>
+              </tr>
+              <tr>
+                <td>能源</td>
+                <td class="cell-neu"><span class="data-var" data-abs="-849" data-pct="-1.34%">-1.34%</span> <span class="sig-dot no"></span></td>
+                <td class="cell-neu"><span class="data-var" data-abs="+78" data-pct="+0.38%">+0.38%</span> <span class="sig-dot no"></span></td>
+                <td class="cell-neu"><span class="data-var" data-abs="+1.78万" data-pct="+1.03%">+1.03%</span> <span class="sig-dot no"></span></td>
+                <td style="display:none;" class="cell-pos"><span class="data-var" data-abs="+85">+85</span> <span class="sig-dot no"></span></td>
+                <td style="display:none;" class="cell-neg"><span class="data-var" data-abs="-269">-269</span> <span class="sig-dot no"></span></td>
+              </tr>
+              <tr>
+                <td>租车</td>
+                <td class="cell-neu"><span class="data-var" data-abs="-391" data-pct="-1.58%">-1.58%</span> <span class="sig-dot no"></span></td>
+                <td class="cell-neu"><span class="data-var" data-abs="+6" data-pct="+0.92%">+0.92%</span> <span class="sig-dot no"></span></td>
+                <td class="cell-neu"><span class="data-var" data-abs="-0.76万" data-pct="-3.25%">-3.25%</span> <span class="sig-dot no"></span></td>
+                <td style="display:none;" class="cell-neg"><span class="data-var" data-abs="-102">-102</span> <span class="sig-dot no"></span></td>
+                <td style="display:none;" class="cell-neu"><span class="data-var" data-abs="+68">+68</span> <span class="sig-dot no"></span></td>
+              </tr>
+              <tr>
+                <td>代驾</td>
+                <td class="cell-neu"><span class="data-var" data-abs="+528" data-pct="+0.54%">+0.54%</span> <span class="sig-dot no"></span></td>
+                <td class="cell-neu"><span class="data-var" data-abs="+43" data-pct="+0.08%">+0.08%</span> <span class="sig-dot no"></span></td>
+                <td class="cell-neu"><span class="data-var" data-abs="+1.63万" data-pct="+0.48%">+0.48%</span> <span class="sig-dot no"></span></td>
+                <td style="display:none;" class="cell-neg"><span class="data-var" data-abs="-197">-197</span> <span class="sig-dot no"></span></td>
+                <td style="display:none;" class="cell-neg"><span class="data-var" data-abs="-316">-316</span> <span class="sig-dot no"></span></td>
+              </tr>
+              <tr>
+                <td>青桔</td>
+                <td class="cell-neu"><span class="data-var" data-abs="-488" data-pct="-0.40%">-0.40%</span> <span class="sig-dot no"></span></td>
+                <td class="cell-neu"><span class="data-var" data-abs="-616" data-pct="-0.33%">-0.33%</span> <span class="sig-dot no"></span></td>
+                <td class="cell-neu"><span class="data-var" data-abs="-0.37万" data-pct="-0.85%">-0.85%</span> <span class="sig-dot no"></span></td>
+                <td style="display:none;" class="cell-neg"><span class="data-var" data-abs="-19">-19</span> <span class="sig-dot no"></span></td>
+                <td style="display:none;" class="cell-neg"><span class="data-var" data-abs="-18">-18</span> <span class="sig-dot no"></span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card-header" style="margin-top: 32px;">1.2 弹窗策略评估 (组B/组C 相对 组A 带来的额外影响)</div>
+        <div class="conclusion-block" contenteditable="true" spellcheck="false">弹窗策略效果分化。保守弹窗显著优于激进弹窗：平台GMV方面，保守弹窗额外贡献+9.67万/日，有效弥补框架损失；激进弹窗反而加剧损失-11.25万/日（显著）。货运DAU是最大受益者，保守弹窗额外+4,923人，激进弹窗额外+7,382人（均显著）。网约车DAU方面，保守弹窗部分弥补框架损失（额外+1,428人），激进弹窗效果较弱（额外+356人）。车主DAU弹窗影响有限，框架损失仍是主因。</div>
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          <div class="popup-eval-box" style="border-top: 3px solid var(--success);">
+            <div class="eval-title" style="color:var(--success);">✅ 弹窗带来的额外正向红利</div>
+            <ul class="eval-list">
+              <li><strong>保守弹窗（少弹窗）：</strong>平台GMV额外 <b>+9.67万/日</b>，货运DAU额外 <b>+4,923人</b>，网约车DAU额外 <b>+1,428人</b>，火车票DAU额外 <b>+1,513人</b>。</li>
+              <li><strong>激进弹窗（多弹窗）：</strong>货运DAU额外 <b>+7,382人</b>（显著），火车票DAU额外 <b>+3,572人</b>，机票DAU额外 <b>+1,543人</b>，顺风车DAU额外 <b>+1,856人</b>。</li>
+            </ul>
+          </div>
+          <div class="popup-eval-box" style="border-top: 3px solid var(--danger);">
+            <div class="eval-title" style="color:var(--danger);">❌ 弹窗导致的负向损失</div>
+            <ul class="eval-list">
+              <li><strong>激进弹窗：</strong>平台GMV额外损失 <b>-11.25万/日</b>（显著），代驾DAU额外 <b>-316人</b>，能源DAU额外 <b>-269人</b>。</li>
+              <li><strong>保守弹窗：</strong>顺风车DAU额外 <b>-287人</b>，代驾DAU额外 <b>-197人</b>。</li>
+            </ul>
+          </div>
+        </div>
+        <div style="font-size:13px; color:var(--text-muted); margin-top:16px;">
+          * 逻辑说明：日均全量推演 = CUPED变化% × 对照组均值 × 全平台DAU(1,889万) ÷ 14天。"弹窗额外影响" = 引导组推演值 - 无引导组推演值，表示弹窗在产品框架基础上带来的增量影响。带有背景色且带圆点(●)的即为 P&lt;0.05 显著变化。
+        </div>
+
+    <!-- ==========================================
+         Q2: 顶导大考 (防弹三模块)
+         ========================================== -->
+    <section id="sec-q2">
+      <h2 class="section-title">2. 顶导逻辑检验：起效了吗？</h2>
+      
+      <!-- 业务 Tab -->
+      <div class="biz-tabs">
+        <div class="biz-tab" onclick="switchTab(0)">🚗 出行</div>
+        <div class="biz-tab" onclick="switchTab(1)">🚚 送货（快送）</div>
+        <div class="biz-tab" onclick="switchTab(2)">✈️ 旅行</div>
+        <div class="biz-tab active" onclick="switchTab(3)">🚗 车主</div>
+      </div>
+
+      <!-- ================= 出行(打车) Tab ================= -->
+      <div class="tab-pane">
+        <!-- 模块 A -->
+        <div class="card">
+          <div class="card-header">
+            <span>模块 A：大盘定生死（新首页 vs 旧首页）</span>
+            <div class="local-toggle-group">
+              <button class="local-toggle-btn active" onclick="switchLocalData(this, &#39;abs&#39;)">日均全量推演</button>
+              <button class="local-toggle-btn" onclick="switchLocalData(this, &#39;pct&#39;)">相对变化</button>
+            </div>
+          </div>
+          <div class="conclusion-block" contenteditable="true" spellcheck="false">打车DAU三组均显著负向，保守弹窗部分弥补（额外+1,428人），激进弹窗效果弱（额外+356人）。打车完单量：保守弹窗实现正向（+278单/日），额外贡献+3,624单；激进弹窗加剧损失（-7,543●）。打车GMV：保守弹窗大幅收窄损失（-4.89万 vs -16.89万），额外贡献+11.85万/日；激进弹窗加剧损失（-22.37万●）。</div>
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead><tr><th>打车大盘指标</th><th>对照组均值</th><th>无引导组</th><th>保守引导组</th><th>激进引导组</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>打车DAU</td>
+                  <td>2.65</td>
+                  <td class="cell-neg"><span class="data-var" data-abs="-6,725" data-pct="-0.16%">-0.16%</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-neg"><span class="data-var" data-abs="-5,298" data-pct="-0.12%">-0.12%</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-neg"><span class="data-var" data-abs="-6,369" data-pct="-0.15%">-0.15%</span> <span class="sig-dot yes"></span></td>
+                </tr>
+                <tr>
+                  <td>打车完单量</td>
+                  <td>2.08</td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-3,287" data-pct="-0.10%">-0.10%</span></td>
+                  <td class="cell-pos"><span class="data-var" data-abs="+278" data-pct="+0.01%">+0.01%</span></td>
+                  <td class="cell-neg"><span class="data-var" data-abs="-7,543" data-pct="-0.22%">-0.22%</span> <span class="sig-dot yes"></span></td>
+                </tr>
+                <tr>
+                  <td>打车GMV</td>
+                  <td>51.82</td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-16.89万" data-pct="-0.20%">-0.20%</span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-4.89万" data-pct="-0.06%">-0.06%</span></td>
+                  <td class="cell-neg"><span class="data-var" data-abs="-22.37万" data-pct="-0.26%">-0.26%</span> <span class="sig-dot yes"></span></td>
+                </tr>
+                <tr>
+                  <td>↳ 冒泡UV（人天）</td>
+                  <td>1.83</td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-3,186" data-pct="-0.11%">-0.11%</span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-1,458" data-pct="-0.05%">-0.05%</span></td>
+                  <td class="cell-neg"><span class="data-var" data-abs="-4,372" data-pct="-0.15%">-0.15%</span> <span class="sig-dot yes"></span></td>
+                </tr>
+                <tr>
+                  <td>↳ 呼单UV（人天）</td>
+                  <td>1.44</td>
+                  <td class="cell-neg"><span class="data-var" data-abs="-3,567" data-pct="-0.16%">-0.16%</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-1,501" data-pct="-0.07%">-0.07%</span></td>
+                  <td class="cell-neg"><span class="data-var" data-abs="-4,778" data-pct="-0.21%">-0.21%</span> <span class="sig-dot yes"></span></td>
+                </tr>
+                <tr>
+                  <td>↳ 完单UV（人天）</td>
+                  <td>1.33</td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-2,696" data-pct="-0.13%">-0.13%</span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-461" data-pct="-0.02%">-0.02%</span></td>
+                  <td class="cell-neg"><span class="data-var" data-abs="-3,645" data-pct="-0.17%">-0.17%</span> <span class="sig-dot yes"></span></td>
+                </tr>
+                <tr style="border-top: 2px solid var(--border);">
+                  <td>↳ 终点完单量</td>
+                  <td>0.9936</td>
+                  <td class="cell-neg"><span class="data-var" data-abs="-7,812" data-pct="-0.48%">-0.48%</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-neg"><span class="data-var" data-abs="-5,032" data-pct="-0.31%">-0.31%</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-neg"><span class="data-var" data-abs="-8,078" data-pct="-0.50%">-0.50%</span> <span class="sig-dot yes"></span></td>
+                </tr>
+                <tr>
+                  <td>↳ 猜你想去完单量</td>
+                  <td>0.9482</td>
+                  <td class="cell-pos"><span class="data-var" data-abs="+4,421" data-pct="+0.29%">+0.29%</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-pos"><span class="data-var" data-abs="+7,082" data-pct="+0.46%">+0.46%</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="+3,542" data-pct="+0.24%">+0.24%</span></td>
+                </tr>
+                <tr>
+                  <td>↳ 金刚位完单量</td>
+                  <td>0.0138</td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-714" data-pct="-4.26%">-4.26%</span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-777" data-pct="-4.63%">-4.63%</span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-793" data-pct="-4.73%">-4.73%</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 模块 B：连环替代归因分析 -->
+        <div class="card">
+          <div class="card-header">
+            <span>模块 B：打车GMV下降归因（连环替代法 · 无引导组 vs 对照组）</span>
+          </div>
+          <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">
+            * 漏斗分解：GMV = 打车DAU × 人均冒泡PV × 冒呼率 × 呼完率 × 单均GMV，逐环节替换计算边际贡献
+          </p>
+
+          <!-- 瀑布图 -->
+          <div class="waterfall-chart">
+            <div class="waterfall-container">
+              <!-- Y轴刻度 - 范围8500~8700万 -->
+              <div class="waterfall-yaxis">
+                <div class="y-tick" style="bottom:100%;"><span>8700</span></div>
+                <div class="y-tick" style="bottom:75%;"><span>8650</span></div>
+                <div class="y-tick" style="bottom:50%;"><span>8600</span></div>
+                <div class="y-tick" style="bottom:25%;"><span>8550</span></div>
+                <div class="y-tick" style="bottom:0%;"><span>8500</span></div>
+              </div>
+
+              <!-- 瀑布柱 - 范围8500~8700万(200万)，累积最高8658.74万 -->
+              <!-- 瀑布累积路径: 8589.32 → 8576.18 → 8635.42 → 8571.28 → 8574.76 → 8566.43 -->
+              <div class="waterfall-bars">
+                <!-- 对照组GMV（基准）= 8589.32万 -->
+                <div class="bar-group baseline">
+                  <div class="bar-wrapper">
+                    <div class="bar baseline-bar" style="height:calc((8589.32 - 8500) / 200 * 100%); bottom:0;"></div>
+                  </div>
+                  <div class="bar-label">对照组GMV</div>
+                </div>
+
+                <!-- DAU规模: 8589.32 → 8576.18, 柱子在8576.18~8589.32 -->
+                <div class="bar-group">
+                  <div class="bar-wrapper">
+                    <div class="bar neg" style="height:calc(13.14 / 200 * 100%); bottom:calc((8576.18 - 8500) / 200 * 100%);"></div>
+                  </div>
+                  <div class="bar-label">DAU规模</div>
+                </div>
+
+                <!-- 人均冒泡PV: 8576.18 → 8635.42, 柱子在8576.18~8635.42 -->
+                <div class="bar-group">
+                  <div class="bar-wrapper">
+                    <div class="bar pos" style="height:calc(59.24 / 200 * 100%); bottom:calc((8576.18 - 8500) / 200 * 100%);"></div>
+                  </div>
+                  <div class="bar-label">人均冒泡PV</div>
+                </div>
+
+                <!-- 冒呼率: 8635.42 → 8571.28, 柱子在8571.28~8635.42 -->
+                <div class="bar-group">
+                  <div class="bar-wrapper">
+                    <div class="bar neg" style="height:calc(64.14 / 200 * 100%); bottom:calc((8571.28 - 8500) / 200 * 100%);"></div>
+                  </div>
+                  <div class="bar-label">冒呼率</div>
+                </div>
+
+                <!-- 呼完率: 8571.28 → 8574.76, 柱子在8571.28~8574.76 -->
+                <div class="bar-group">
+                  <div class="bar-wrapper">
+                    <div class="bar pos" style="height:calc(3.48 / 200 * 100%); bottom:calc((8571.28 - 8500) / 200 * 100%);"></div>
+                  </div>
+                  <div class="bar-label">呼完率</div>
+                </div>
+
+                <!-- 单均GMV: 8574.76 → 8566.43, 柱子在8566.43~8574.76 -->
+                <div class="bar-group">
+                  <div class="bar-wrapper">
+                    <div class="bar neg" style="height:calc(8.33 / 200 * 100%); bottom:calc((8566.43 - 8500) / 200 * 100%);"></div>
+                  </div>
+                  <div class="bar-label">单均GMV</div>
+                </div>
+
+                <!-- 无引导组GMV（终值）= 8566.43万 -->
+                <div class="bar-group total">
+                  <div class="bar-wrapper">
+                    <div class="bar total-bar" style="height:calc((8566.43 - 8500) / 200 * 100%); bottom:0;"></div>
+                  </div>
+                  <div class="bar-label">无引导组GMV</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 底部数值标签 -->
+            <div class="waterfall-labels">
+              <div class="label-group baseline"><span class="label-val">8589.32万</span><span class="label-desc">基准值</span></div>
+              <div class="label-group neg"><span class="label-val">-13.14万</span><span class="label-desc">贡献 76.8%</span></div>
+              <div class="label-group pos"><span class="label-val">+59.24万</span><span class="label-desc">贡献 -346.2%</span></div>
+              <div class="label-group neg"><span class="label-val">-64.14万</span><span class="label-desc">贡献 375.1%</span></div>
+              <div class="label-group pos"><span class="label-val">+3.48万</span><span class="label-desc">贡献 -20.3%</span></div>
+              <div class="label-group neg"><span class="label-val">-8.33万</span><span class="label-desc">贡献 48.7%</span></div>
+              <div class="label-group total"><span class="label-val">8566.43万</span><span class="label-desc">变化 -17.11万</span></div>
+            </div>
+          </div>
+
+          <!-- 归因解读 -->
+          <div class="attribution-insight">
+            <div class="insight-title">🔍 归因解读（基于CUPED调整后均值 · 日均全量推演）</div>
+            <div class="insight-content">
+              <div class="insight-item highlight">
+                <span class="insight-label">⚠️ 冒泡与冒呼率的"对冲"</span>
+                <span class="insight-desc">人均冒泡PV增加带来<span class="pos-text">+59.24万</span>正向贡献，但冒呼率下降导致<span class="neg-text">-64.14万</span>负向贡献，两者几乎完全抵消。用户更多冒泡，但转化为呼单的比例同步下降，<b>推测存在用户首次冒泡时因体验阻碍呼单动作，或价格影响呼单意愿的可能，从而产生用户重复冒泡，积累负向体验后流失</b>。</span>
+              </div>
+              <div class="insight-item highlight">
+                <span class="insight-label">⚠️ DAU规模与单均GMV是主要损失来源</span>
+                <span class="insight-desc">排除对冲后，GMV下降主要由<b>打车DAU规模(-13.14万, 贡献76.8%)</b>和<b>单均GMV(-8.33万, 贡献48.7%)</b>主导。DAU减少说明新首页框架对用户留存/活跃产生了负面影响。</span>
+              </div>
+              <div class="insight-item">
+                <span class="insight-label">✅ 呼完率稳定</span>
+                <span class="insight-desc">呼完率仅贡献+3.48万（-20.3%），用户一旦发起呼单，完单能力未受影响，供给端表现稳定。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= 货运 Tab ================= -->
+      <div class="tab-pane">
+        <!-- 模块 A -->
+        <div class="card">
+          <div class="card-header">
+            <span>模块 A：大盘定生死（三组相对对照组的变化）</span>
+            <div class="local-toggle-group">
+              <button class="local-toggle-btn" onclick="switchLocalData(this, &#39;abs&#39;)">日均全量推演</button>
+              <button class="local-toggle-btn active" onclick="switchLocalData(this, &#39;pct&#39;)">相对变化</button>
+            </div>
+          </div>
+          <div class="conclusion-block" contenteditable="true" spellcheck="false">货运顶底导CTR基本持平（约+0.02~0.03pp，不显著），弹窗曝光人天保守组+10.18万、激进组+13.35万均显著正向。货运DAU保守组+1.23万(p=0.0268)、激进组+1.61万(p=0.0209)显著正向，无引导组+5,023不显著。完单量和GMV均无显著变化。</div>
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead><tr><th>货运大盘指标</th><th>对照组均值</th><th>无引导组</th><th>保守引导组</th><th>激进引导组</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>货运顶底导CTR</td>
+                  <td>1.08%</td>
+                  <td class="cell-neu"><span class="data-var" data-abs="1.10%" data-pct="+0.02pp">+0.02pp</span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="1.10%" data-pct="+0.02pp">+0.02pp</span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="1.11%" data-pct="+0.03pp">+0.03pp</span></td>
+                </tr>
+                <tr>
+                  <td>货运弹窗曝光人天</td>
+                  <td>0.0002</td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-66" data-pct="-">-</span></td>
+                  <td class="cell-pos"><span class="data-var" data-abs="+10.18万" data-pct="-">-</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-pos"><span class="data-var" data-abs="+13.35万" data-pct="-">-</span> <span class="sig-dot yes"></span></td>
+                </tr>
+                <tr>
+                  <td>货运DAU</td>
+                  <td>0.0716</td>
+                  <td class="cell-neu"><span class="data-var" data-abs="+3,256" data-pct="+2.78%">+2.78%</span></td>
+                  <td class="cell-pos"><span class="data-var" data-abs="+8,185" data-pct="+6.85%">+6.85%</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-pos"><span class="data-var" data-abs="+1.06万" data-pct="+8.92%">+8.92%</span> <span class="sig-dot yes"></span></td>
+                </tr>
+                <tr style="background:#f8f9fa;">
+                  <td>　├─ 顶底导DAU</td>
+                  <td>0.0269</td>
+                  <td class="cell-pos"><span class="data-var" data-abs="+6,126" data-pct="+13.68%">+13.68%</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-pos"><span class="data-var" data-abs="+6,315" data-pct="+14.10%">+14.10%</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-pos"><span class="data-var" data-abs="+6,504" data-pct="+14.53%">+14.53%</span> <span class="sig-dot yes"></span></td>
+                </tr>
+                <tr style="background:#f8f9fa;">
+                  <td>　├─ 金刚位DAU</td>
+                  <td>0.0170</td>
+                  <td class="cell-pos"><span class="data-var" data-abs="+3,187" data-pct="+11.25%">+11.25%</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-pos"><span class="data-var" data-abs="+2,962" data-pct="+10.45%">+10.45%</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-pos"><span class="data-var" data-abs="+3,259" data-pct="+11.51%">+11.51%</span> <span class="sig-dot yes"></span></td>
+                </tr>
+                <tr style="background:#f8f9fa;">
+                  <td>　└─ 弹窗DAU</td>
+                  <td>0.0054</td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-165" data-pct="-1.85%">-1.85%</span></td>
+                  <td class="cell-pos"><span class="data-var" data-abs="+5,118" data-pct="+57.42%">+57.42%</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-pos"><span class="data-var" data-abs="+6,942" data-pct="+77.91%">+77.91%</span> <span class="sig-dot yes"></span></td>
+                </tr>
+                <tr>
+                  <td>货运完单量</td>
+                  <td>0.0102</td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-198" data-pct="-1.18%">-1.18%</span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-152" data-pct="-0.89%">-0.89%</span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="+45" data-pct="+0.27%">+0.27%</span></td>
+                </tr>
+                <tr>
+                  <td>货运GMV</td>
+                  <td>0.43元</td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-1.12万" data-pct="-1.56%">-1.56%</span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-4,993" data-pct="-0.70%">-0.70%</span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-0.54万" data-pct="-0.76%">-0.76%</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 模块 B -->
+        <div class="card">
+          <div class="card-header">
+            <span>模块 B：货运生命周期下钻 — 各用户群体入口分布变化</span>
+            <div class="local-toggle-group">
+              <button class="local-toggle-btn active" onclick="switchLocalData(this, &#39;abs&#39;)">绝对变化量</button>
+              <button class="local-toggle-btn" onclick="switchLocalData(this, &#39;pct&#39;)">相对变化幅度</button>
+            </div>
+          </div>
+          <div class="conclusion-block" contenteditable="true" spellcheck="false">"有dau但无完单"用户(占比74%)是主要增量来源，货运DAU显著提升+3,642，顶底导DAU提升+6,132，金刚位DAU提升+2,671。活跃用户(0.26%)顶底导DAU显著下降(-921)，主要向金刚位(+662)迁移。弹窗DAU整体下降，无引导策略下弹窗入口使用减少。</div>
+          <div style="font-size:13px; color:var(--text-muted); margin-bottom:12px;">
+            * 说明：按货运生命周期分组，展示无引导组相对对照组的指标变化。带背景色且带圆点(●)表示CUPED显著(p&lt;0.05)。
+          </div>
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>用户分类</th>
+                  <th>用户占比</th>
+                  <th>无引导组<br>货运DAU变化</th>
+                  <th class="col-divider">无引导组<br>顶底导DAU变化</th>
+                  <th>无引导组<br>金刚位DAU变化</th>
+                  <th>无引导组<br>弹窗DAU变化</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b>货运纯新用户</b></td>
+                  <td>13.52%</td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-369" data-pct="-4.32%">-4.32%</span> <span class="sig-dot no"></span></td>
+                  <td class="cell-neu col-divider"><span class="data-var" data-abs="-2" data-pct="-0.2%">-0.2%</span> <span class="sig-dot no"></span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="+29" data-pct="+7.2%">+7.2%</span> <span class="sig-dot no"></span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-9" data-pct="-42.7%">-42.7%</span> <span class="sig-dot no"></span></td>
+                </tr>
+                <tr>
+                  <td><b>有dau但无完单</b></td>
+                  <td>76.84%</td>
+                  <td class="cell-pos"><span class="data-var" data-abs="+3,642" data-pct="+2.75%">+2.75%</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-pos col-divider"><span class="data-var" data-abs="+6,132" data-pct="+32.7%">+32.7%</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-pos"><span class="data-var" data-abs="+2,671" data-pct="+34.2%">+34.2%</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-110" data-pct="-32.6%">-32.6%</span> <span class="sig-dot no"></span></td>
+                </tr>
+                <tr>
+                  <td><b>新客</b></td>
+                  <td>0.27%</td>
+                  <td class="cell-neu"><span class="data-var" data-abs="0" data-pct="+0.0%">+0.0%</span> <span class="sig-dot no"></span></td>
+                  <td class="cell-pos col-divider"><span class="data-var" data-abs="+148" data-pct="+63.5%">+63.5%</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-neg"><span class="data-var" data-abs="-109" data-pct="-14.6%">-14.6%</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-5" data-pct="-27.9%">-27.9%</span> <span class="sig-dot no"></span></td>
+                </tr>
+                <tr>
+                  <td><b>活跃</b></td>
+                  <td>0.21%</td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-131" data-pct="-0.99%">-0.99%</span> <span class="sig-dot no"></span></td>
+                  <td class="cell-neg col-divider"><span class="data-var" data-abs="-921" data-pct="-53.3%">-53.3%</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-pos"><span class="data-var" data-abs="+662" data-pct="+21.6%">+21.6%</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="+2" data-pct="+0.8%">+0.8%</span> <span class="sig-dot no"></span></td>
+                </tr>
+                <tr>
+                  <td><b>沉默</b></td>
+                  <td>0.18%</td>
+                  <td class="cell-neg"><span class="data-var" data-abs="-89" data-pct="-4.71%">-4.71%</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-neg col-divider"><span class="data-var" data-abs="-36" data-pct="-13.0%">-13.0%</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-22" data-pct="-3.4%">-3.4%</span> <span class="sig-dot no"></span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-5" data-pct="-35.2%">-35.2%</span> <span class="sig-dot no"></span></td>
+                </tr>
+                <tr>
+                  <td><b>流失</b></td>
+                  <td>7.15%</td>
+                  <td class="cell-neu"><span class="data-var" data-abs="+202" data-pct="+0.75%">+0.75%</span> <span class="sig-dot no"></span></td>
+                  <td class="cell-pos col-divider"><span class="data-var" data-abs="+842" data-pct="+32.9%">+32.9%</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="+59" data-pct="+1.4%">+1.4%</span> <span class="sig-dot no"></span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-40" data-pct="-7.8%">-7.8%</span> <span class="sig-dot no"></span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ================= 旅行 Tab ================= -->
+      <div class="tab-pane">
+        <!-- 模块 A -->
+        <div class="card">
+          <div class="card-header">
+            <span>模块 A：旅行大盘定生死（三组相对对照组的变化）</span>
+            <div class="local-toggle-group">
+              <button class="local-toggle-btn active" onclick="switchLocalData(this, &#39;abs&#39;)">绝对变化</button>
+              <button class="local-toggle-btn" onclick="switchLocalData(this, &#39;pct&#39;)">相对变化</button>
+            </div>
+          </div>
+          <div class="conclusion-block" contenteditable="true" spellcheck="false">旅行顶底导CTR从1.15%下降至约0.67%（-0.48pp，p≈0.0055），机票/火车票DAU三组均显著负向(-18%~-28%)，酒店DAU变化不显著。旅行完单量/GMV变化均不显著。</div>
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead><tr><th>旅行大盘指标</th><th>对照组均值</th><th>无引导组</th><th>保守引导组</th><th>激进引导组</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>旅行顶底导CTR</td>
+                  <td>1.15%</td>
+                  <td class="cell-neg"><span class="data-var" data-abs="0.67%" data-pct="-0.48pp">-0.48pp</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-neg"><span class="data-var" data-abs="0.67%" data-pct="-0.48pp">-0.48pp</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-neg"><span class="data-var" data-abs="0.67%" data-pct="-0.48pp">-0.48pp</span> <span class="sig-dot yes"></span></td>
+                </tr>
+                <tr>
+                  <td>旅行弹窗曝光人天</td>
+                  <td>0</td>
+                  <td class="cell-neu"><span class="data-var" data-abs="0" data-pct="N/A">0</span></td>
+                  <td class="cell-pos"><span class="data-var" data-abs="+7.66万" data-pct="N/A">+7.66万</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-pos"><span class="data-var" data-abs="+13.01万" data-pct="N/A">+13.01万</span> <span class="sig-dot yes"></span></td>
+                </tr>
+                <tr>
+                  <td>旅行完单量</td>
+                  <td>0.02</td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-38" data-pct="+2.9%">-38</span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="+7" data-pct="+1.5%">+7</span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="+23" data-pct="+2.9%">+23</span></td>
+                </tr>
+                <tr>
+                  <td>旅行GMV</td>
+                  <td>2.48元</td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-2.76万" data-pct="+0.5%">-2.76万</span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-7,328" data-pct="-2.2%">-7,328</span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="+4,949" data-pct="+0.1%">+4,949</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- 机票/酒店/火车票细分 -->
+          <div class="data-table-wrap" style="margin-top:16px;">
+            <table class="data-table">
+              <thead><tr><th>机票/酒店/火车票细分</th><th>对照组均值</th><th>无引导组</th><th>保守引导组</th><th>激进引导组</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>机票DAU</td>
+                  <td>9.63万</td>
+                  <td class="cell-neg"><span class="data-var" data-abs="-5,786" data-pct="-23.15%">-5,786</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-neg"><span class="data-var" data-abs="-4,987" data-pct="-19.86%">-4,987</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-neg"><span class="data-var" data-abs="-4,235" data-pct="-16.86%">-4,235</span> <span class="sig-dot yes"></span></td>
+                </tr>
+                <tr>
+                  <td>机票完单量</td>
+                  <td>0.5</td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-13" data-pct="-9.93%">-13</span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-12" data-pct="-9.28%">-12</span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-4" data-pct="-3.26%">-4</span></td>
+                </tr>
+                <tr>
+                  <td>火车票DAU</td>
+                  <td>22.16万</td>
+                  <td class="cell-neg"><span class="data-var" data-abs="-1.63万" data-pct="-28.23%">-1.63万</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-neg"><span class="data-var" data-abs="-1.48万" data-pct="-25.56%">-1.48万</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-neg"><span class="data-var" data-abs="-1.27万" data-pct="-22.05%">-1.27万</span> <span class="sig-dot yes"></span></td>
+                </tr>
+                <tr>
+                  <td>火车票完单量</td>
+                  <td>2.0</td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-25" data-pct="-4.72%">-25</span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="+8" data-pct="+1.47%">+8</span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="+16" data-pct="+2.93%">+16</span></td>
+                </tr>
+                <tr>
+                  <td>火车票GMV</td>
+                  <td>3,379元</td>
+                  <td class="cell-neg"><span class="data-var" data-abs="-1.48万" data-pct="-16.93%">-1.48万</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-1,939" data-pct="-2.20%">-1,939</span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-4,229" data-pct="-4.80%">-4,229</span></td>
+                </tr>
+                <tr>
+                  <td>酒店DAU</td>
+                  <td>3.62万</td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-637" data-pct="-6.85%">-637</span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-134" data-pct="-1.47%">-134</span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="+88" data-pct="+0.89%">+88</span></td>
+                </tr>
+                <tr>
+                  <td>酒店完单量</td>
+                  <td>0.5</td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-2" data-pct="-0.98%">-2</span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="+6" data-pct="+4.15%">+6</span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="+16" data-pct="+12.04%">+16</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= 车主 Tab ================= -->
+      <div class="tab-pane active">
+        <!-- 模块 A -->
+        <div class="card">
+          <div class="card-header">
+            <span>模块 A：车主大盘定生死（三组相对对照组的变化）</span>
+            <div class="local-toggle-group">
+              <button class="local-toggle-btn active" onclick="switchLocalData(this, &#39;abs&#39;)">绝对变化</button>
+              <button class="local-toggle-btn" onclick="switchLocalData(this, &#39;pct&#39;)">相对变化</button>
+            </div>
+          </div>
+          <div class="conclusion-block" contenteditable="true" spellcheck="false">车主DAU三组均显著下降约22%，车主顶底导CTR从6.22%下降至约4.31%（-1.91pp，p≈0.0036），投放引导弹窗未提升顶导点击率，完单量下降不显著。</div>
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead><tr><th>车主大盘指标</th><th>对照组均值</th><th>无引导组</th><th>保守引导组</th><th>激进引导组</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>车主DAU</td>
+                  <td>0.0927</td>
+                  <td class="cell-neg"><span class="data-var" data-abs="-3.38万" data-pct="-22.56%">-3.38万</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-neg"><span class="data-var" data-abs="-3.37万" data-pct="-22.51%">-3.37万</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-neg"><span class="data-var" data-abs="-3.30万" data-pct="-22.04%">-3.30万</span> <span class="sig-dot yes"></span></td>
+                </tr>
+                <tr>
+                  <td>车主完单量</td>
+                  <td>0.0009</td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-119" data-pct="-2.84%">-119</span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-160" data-pct="-1.62%">-160</span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-230" data-pct="-7.23%">-230</span></td>
+                </tr>
+                <tr>
+                  <td>车主弹窗曝光人天</td>
+                  <td>0</td>
+                  <td class="cell-neu"><span class="data-var" data-abs="+1" data-pct="N/A">+1</span></td>
+                  <td class="cell-pos"><span class="data-var" data-abs="+5.18万" data-pct="N/A">+5.18万</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-pos"><span class="data-var" data-abs="+4.73万" data-pct="N/A">+4.73万</span> <span class="sig-dot yes"></span></td>
+                </tr>
+                <tr>
+                  <td>车主顶底导CTR</td>
+                  <td>6.22%</td>
+                  <td class="cell-neg"><span class="data-var" data-abs="4.31%" data-pct="-1.91pp">-1.91pp</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-neg"><span class="data-var" data-abs="4.32%" data-pct="-1.90pp">-1.90pp</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-neg"><span class="data-var" data-abs="4.32%" data-pct="-1.90pp">-1.90pp</span> <span class="sig-dot yes"></span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 模块 B -->
+        <div class="card">
+          <div class="card-header">
+            <span>模块 B：车主相关指标大盘（三组相对对照组的变化）</span>
+            <div class="local-toggle-group">
+              <button class="local-toggle-btn active" onclick="switchLocalData(this, &#39;abs&#39;)">绝对变化</button>
+              <button class="local-toggle-btn" onclick="switchLocalData(this, &#39;pct&#39;)">相对变化</button>
+            </div>
+          </div>
+          <div class="conclusion-block" contenteditable="true" spellcheck="false">顺风车B端-底导车主入口三组均显著下降约12-15%，但顺风车DAU-金刚位三组均显著上涨约6.5%~7%，说明车主流量从底导迁移到了金刚位。顺风车DAU-车主顶底导三组均显著下降约23%，需关注供给端影响。其他车主相关指标变化不显著。</div>
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead><tr><th>车主相关指标</th><th>对照组总量</th><th>无引导组</th><th>保守引导组</th><th>激进引导组</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>顺风车完单量(B端)</td>
+                  <td>1,261,872</td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-534" data-pct="-0.16%">-0.16%</span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-2,298" data-pct="-0.70%">-0.70%</span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-1,763" data-pct="-0.54%">-0.54%</span></td>
+                </tr>
+                <tr>
+                  <td>顺风车B端-底导车主入口</td>
+                  <td>736,982</td>
+                  <td class="cell-neg"><span class="data-var" data-abs="-2.85万" data-pct="-14.86%">-14.86%</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-neg"><span class="data-var" data-abs="-2.74万" data-pct="-14.33%">-14.33%</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-neg"><span class="data-var" data-abs="-2.93万" data-pct="-15.29%">-15.29%</span> <span class="sig-dot yes"></span></td>
+                </tr>
+                <tr>
+                  <td>顺风车DAU-车主顶底导</td>
+                  <td>1,042,386</td>
+                  <td class="cell-neg"><span class="data-var" data-abs="-6.21万" data-pct="-22.95%">-22.95%</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-neg"><span class="data-var" data-abs="-6.12万" data-pct="-22.60%">-22.60%</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-neg"><span class="data-var" data-abs="-6.14万" data-pct="-22.68%">-22.68%</span> <span class="sig-dot yes"></span></td>
+                </tr>
+                <tr>
+                  <td>顺风车DAU-金刚位</td>
+                  <td>2,390,836</td>
+                  <td class="cell-pos"><span class="data-var" data-abs="+4.12万" data-pct="+6.64%">+6.64%</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-pos"><span class="data-var" data-abs="+4.04万" data-pct="+6.51%">+6.51%</span> <span class="sig-dot yes"></span></td>
+                  <td class="cell-pos"><span class="data-var" data-abs="+4.33万" data-pct="+6.96%">+6.96%</span> <span class="sig-dot yes"></span></td>
+                </tr>
+                <tr>
+                  <td>车主加油-归因完单数</td>
+                  <td>4,158</td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-81" data-pct="-9.45%">-9.45%</span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-79" data-pct="-9.17%">-9.17%</span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-54" data-pct="-6.28%">-6.28%</span></td>
+                </tr>
+                <tr>
+                  <td>车主充电-归因完单数</td>
+                  <td>9,152</td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-85" data-pct="-3.52%">-3.52%</span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-69" data-pct="-2.84%">-2.84%</span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="-216" data-pct="-8.93%">-8.93%</span></td>
+                </tr>
+                <tr>
+                  <td>车主代驾-归因完单数</td>
+                  <td>241</td>
+                  <td class="cell-neu"><span class="data-var" data-abs="+3" data-pct="+52.13%">+52.13%</span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="+3" data-pct="+55.38%">+55.38%</span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="+4" data-pct="+68.12%">+68.12%</span></td>
+                </tr>
+                <tr>
+                  <td>车主租车-归因完单数</td>
+                  <td>6</td>
+                  <td class="cell-neu"><span class="data-var" data-abs="0" data-pct="-19.61%">-19.61%</span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="0" data-pct="+109.38%">+109.38%</span></td>
+                  <td class="cell-neu"><span class="data-var" data-abs="0" data-pct="-17.79%">-17.79%</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 模块 C -->
+        <div class="card">
+          <div class="card-header">
+            <span>模块 C：顺风车C端转化漏斗（三组相对对照组的变化）</span>
+          </div>
+          <div class="conclusion-block" contenteditable="true" spellcheck="false">三组人均冒泡PV均显著提升(+0.68%~+0.76%)，但冒呼率小幅下降(-0.45~-0.71pp)，呼完率小幅提升(+0.06~+0.24pp)。顺风车DAU和完单量均有小幅损失（不显著），需关注B端车主供给端的恢复情况。</div>
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>分组</th>
+                  <th>顺风车DAU</th>
+                  <th>人均冒泡PV</th>
+                  <th>冒呼率</th>
+                  <th>呼完率</th>
+                  <th>顺风车完单量</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b>对照组</b></td>
+                  <td>0.5492</td>
+                  <td>0.6497</td>
+                  <td>23.52%</td>
+                  <td>34.51%</td>
+                  <td>0.0505</td>
+                </tr>
+                <tr>
+                  <td>无引导</td>
+                  <td class="cell-neg"><span class="data-var">-0.96%</span></td>
+                  <td class="cell-pos"><span class="data-var">+0.75%*</span></td>
+                  <td class="cell-neg"><span class="data-var">-0.67pp</span></td>
+                  <td class="cell-pos"><span class="data-var">+0.24pp</span></td>
+                  <td class="cell-neg"><span class="data-var">-0.33%</span></td>
+                </tr>
+                <tr>
+                  <td>保守引导</td>
+                  <td class="cell-neg"><span class="data-var">-0.99%</span></td>
+                  <td class="cell-pos"><span class="data-var">+0.68%*</span></td>
+                  <td class="cell-neg"><span class="data-var">-0.71pp</span></td>
+                  <td class="cell-pos"><span class="data-var">+0.22pp</span></td>
+                  <td class="cell-neg"><span class="data-var">-0.30%</span></td>
+                </tr>
+                <tr>
+                  <td>激进引导</td>
+                  <td class="cell-neg"><span class="data-var">-0.76%</span></td>
+                  <td class="cell-pos"><span class="data-var">+0.76%*</span></td>
+                  <td class="cell-neg"><span class="data-var">-0.45pp</span></td>
+                  <td class="cell-pos"><span class="data-var">+0.06pp</span></td>
+                  <td class="cell-neg"><span class="data-var">-0.32%</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="note-block">
+            <b>指标口径：</b>顺风车DAU：人均活跃天数（对照组为CUPED均值）；人均冒泡PV：对照组为CUPED均值；冒呼率 = 呼单PV / 冒泡PV；呼完率 = 完单PV / 呼单PV；顺风车完单量：对照组为CUPED均值。实验组均为CUPED相对变化率。
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         Q3: 首页点击 - CTR分析
+         ========================================== -->
+    <section id="sec-q3-click">
+      <h2 class="section-title">3. 首页点击</h2>
+
+      <div class="card">
+        <div class="card-header">
+          <span>3.1 顶底导CTR对比（对照组 vs 无引导组）</span>
+        </div>
+        <div class="conclusion-block" contenteditable="true" spellcheck="false">车主顶底导CTR从6.23%下降至4.33%（-1.91pp），点击人天下降25%是主要原因；旅行顶底导CTR从1.15%下降至0.67%（-0.48pp），点击人天下降34%是主要原因。货运顶底导CTR基本持平。</div>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>指标</th>
+                <th>对照组CTR</th>
+                <th>无引导组CTR</th>
+                <th>曝光人天变化</th>
+                <th>点击人天变化</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>货运顶底导</td>
+                <td>1.08%</td>
+                <td class="cell-neu">1.10% (+0.02pp)</td>
+                <td class="cell-neg">-0.21%</td>
+                <td class="cell-neu">+0.79%</td>
+              </tr>
+              <tr>
+                <td><b>车主顶底导</b></td>
+                <td>6.23%</td>
+                <td class="cell-neg">4.33% (-1.91pp)</td>
+                <td class="cell-neg">-0.31%</td>
+                <td class="cell-neg">-25.16%</td>
+              </tr>
+              <tr>
+                <td><b>旅行顶底导</b></td>
+                <td>1.15%</td>
+                <td class="cell-neg">0.67% (-0.48pp)</td>
+                <td class="cell-neg">-0.31%</td>
+                <td class="cell-neg">-34.01%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note-block">
+          <b>解读：</b>新首页对车主和旅行的顶底导入口有显著负面影响。曝光人天普遍微降（约0.1%~0.4%），点击人天的变化是CTR变化的主要驱动因素。
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span>3.2 金刚位CTR对比（对照组 vs 无引导组）</span>
+        </div>
+        <div class="conclusion-block" contenteditable="true" spellcheck="false">金刚位整体CTR从17.24%上升至18.12%（+0.87pp），货运/顺风车/快送金刚CTR均上升。打车金刚CTR小幅下降，其他金刚位CTR变化均不显著。</div>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>指标</th>
+                <th>对照组CTR</th>
+                <th>无引导组CTR</th>
+                <th>曝光人天变化</th>
+                <th>点击人天变化</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>金刚位整体</b></td>
+                <td>17.24%</td>
+                <td class="cell-pos">18.12% (+0.87pp)</td>
+                <td class="cell-neg">-0.11%</td>
+                <td class="cell-pos">+4.00%</td>
+              </tr>
+              <tr>
+                <td>货运金刚（整体）</td>
+                <td>0.60%</td>
+                <td class="cell-pos">0.67% (+0.07pp)</td>
+                <td class="cell-neg">-0.12%</td>
+                <td class="cell-pos">+9.58%</td>
+              </tr>
+              <tr>
+                <td>顺风车金刚</td>
+                <td>11.68%</td>
+                <td class="cell-pos">12.66% (+0.98pp)</td>
+                <td class="cell-neg">-0.12%</td>
+                <td class="cell-pos">+6.65%</td>
+              </tr>
+              <tr>
+                <td>打车金刚</td>
+                <td>1.31%</td>
+                <td class="cell-neu">1.25% (-0.06pp)</td>
+                <td class="cell-neg">-0.12%</td>
+                <td class="cell-neu">-3.84%</td>
+              </tr>
+              <tr>
+                <td>火车票金刚</td>
+                <td>0.08%</td>
+                <td class="cell-neu">0.09% (+0.01pp)</td>
+                <td class="cell-neu">+0.03%</td>
+                <td class="cell-neu">+6.05%</td>
+              </tr>
+              <tr>
+                <td>快送金刚</td>
+                <td>0.34%</td>
+                <td class="cell-pos">0.41% (+0.07pp)</td>
+                <td class="cell-neg">-0.12%</td>
+                <td class="cell-pos">+17.08%</td>
+              </tr>
+              <tr>
+                <td>代驾金刚</td>
+                <td>1.49%</td>
+                <td class="cell-neu">1.51% (+0.02pp)</td>
+                <td class="cell-neu">-0.11%</td>
+                <td class="cell-neu">+0.71%</td>
+              </tr>
+              <tr>
+                <td>公交金刚</td>
+                <td>0.27%</td>
+                <td class="cell-neu">0.27% (持平)</td>
+                <td class="cell-neu">-0.10%</td>
+                <td class="cell-neu">-0.13%</td>
+              </tr>
+              <tr>
+                <td>青桔金刚</td>
+                <td>1.23%</td>
+                <td class="cell-neu">1.27% (+0.03pp)</td>
+                <td class="cell-neu">-0.11%</td>
+                <td class="cell-neu">+0.95%</td>
+              </tr>
+              <tr>
+                <td>能源金刚</td>
+                <td>0.96%</td>
+                <td class="cell-neu">0.97% (+0.01pp)</td>
+                <td class="cell-neu">-0.12%</td>
+                <td class="cell-neu">-0.26%</td>
+              </tr>
+              <tr>
+                <td>特价拼车金刚</td>
+                <td>0.24%</td>
+                <td class="cell-neu">0.24% (-0.01pp)</td>
+                <td class="cell-neu">-0.07%</td>
+                <td class="cell-neu">-1.40%</td>
+              </tr>
+              <tr>
+                <td>送货金刚</td>
+                <td>0.35%</td>
+                <td class="cell-neu">0.35% (持平)</td>
+                <td class="cell-neg">-0.16%</td>
+                <td class="cell-neu">-0.65%</td>
+              </tr>
+              <tr>
+                <td>借钱金刚</td>
+                <td>0.52%</td>
+                <td class="cell-neu">0.49% (-0.03pp)</td>
+                <td class="cell-neg">-0.12%</td>
+                <td class="cell-neu">-5.17%</td>
+              </tr>
+              <tr>
+                <td>充值中心金刚</td>
+                <td>0.20%</td>
+                <td class="cell-neu">0.20% (+0.01pp)</td>
+                <td class="cell-neu">-0.74%</td>
+                <td class="cell-neu">+10.35%</td>
+              </tr>
+              <tr>
+                <td>省钱套餐金刚</td>
+                <td>0.43%</td>
+                <td class="cell-neu">0.43% (持平)</td>
+                <td class="cell-neu">-0.75%</td>
+                <td class="cell-neu">+0.35%</td>
+              </tr>
+              <tr>
+                <td>天天神券金刚</td>
+                <td>0.42%</td>
+                <td class="cell-neu">0.41% (-0.02pp)</td>
+                <td class="cell-neu">-0.52%</td>
+                <td class="cell-neu">-3.53%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note-block">
+          <b>解读：</b>新首页对金刚位整体及货运/顺风车/快送金刚有显著正向影响。顺风车金刚位CTR上升与车主流量从底导迁移至金刚位相呼应（参见2.车主频道模块B）。
+        </div>
+      </div>
+
+      <!-- 3.3 底导 -->
+      <div class="card">
+        <div class="card-header">
+          <span>3.3 底导</span>
+        </div>
+        <div class="conclusion-block" contenteditable="true" spellcheck="false">行程页底导为新首页新增入口，三组实验CTR约3.60%~3.61%；消息底导CTR约7.05%~7.08%；个人中心（我的）底导CTR约17.28%。对照组个人中心底导CTR约17.40%。</div>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>底导入口</th>
+                <th>对照组CTR</th>
+                <th>无引导组CTR</th>
+                <th>保守引导组CTR</th>
+                <th>激进引导组CTR</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>消息</td>
+                <td class="cell-neu">(无入口)</td>
+                <td class="cell-neu">7.08% </td>
+                <td class="cell-neu">7.05% </td>
+                <td class="cell-neu">7.05% </td>
+              </tr>
+              <tr>
+                <td>行程</td>
+                <td class="cell-neu">(无入口)</td>
+                <td class="cell-neu">3.61%</td>
+                <td class="cell-neu">3.60%</td>
+                <td class="cell-neu">3.60%</td>
+              </tr>
+              <tr>
+                <td>我的（个人中心）</td>
+                <td>17.40%</td>
+                <td class="cell-neu">17.28% (-0.12pp)</td>
+                <td class="cell-neu">17.28% (-0.12pp)</td>
+                <td class="cell-neu">17.28% (-0.12pp)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note-block">
+          <b>计算口径：</b>CTR = 底导点击人天 / 底导曝光人天。行程页底导为新首页新增入口，对照组无此入口故CTR为0%。
+        </div>
+      </div>
+
+      <!-- 3.4 行程功能 -->
+      <div class="card">
+        <div class="card-header">
+          <span>3.4 行程功能</span>
+        </div>
+        <div class="conclusion-block" contenteditable="true" spellcheck="false">首页订单容器和个人中心CTR保持稳定，行程页底导CTR约3.60%~3.61%。各入口来源占比中，首页订单容器占比略有下降（58.24%→53.92%~54.05%），新增行程底导占比约8.7%。</div>
+
+        <!-- 组合布局：左侧条形图 + 右侧CTR表格 -->
+        <div style="display: flex; gap: 24px; margin-top: 16px;">
+          <!-- 左侧：行程入口访问UV条形图 -->
+          <div style="flex: 2;">
+            <div style="text-align: center; font-weight: 600; margin-bottom: 12px; color: var(--text-h);">行程入口访问UV构成</div>
+            <div style="display: flex; justify-content: space-around; align-items: flex-end; height: 280px; padding: 20px 16px; background: #FAFBFC; border-radius: 8px; border: 1px solid var(--border);">
+              <!-- 对照组 (总UV: 580.52万，基准高度200px) -->
+              <div style="display: flex; flex-direction: column; align-items: center; width: 90px;">
+                <div style="width: 60px; height: 200px; display: flex; flex-direction: column; justify-content: flex-end;">
+                  <!-- 首页订单容器 58.24% = 117px -->
+                  <div style="background: #3B82F6; height: 117px; border-radius: 4px 4px 0 0; display: flex; align-items: center; justify-content: center; color: #FFF; font-size: 11px; font-weight: 600;">58.24%</div>
+                  <!-- 个人中心 41.76% = 83px -->
+                  <div style="background: #10B981; height: 83px; border-radius: 0 0 4px 4px; display: flex; align-items: center; justify-content: center; color: #FFF; font-size: 11px; font-weight: 600;">41.76%</div>
+                </div>
+                <div style="margin-top: 8px; font-weight: 600; font-size: 12px;">对照组</div>
+                <div style="font-size: 11px; color: var(--text-muted);">580.52万</div>
+              </div>
+              <!-- 无引导组 (总UV: 197.42万，比例197/581=34%，高度68px) -->
+              <div style="display: flex; flex-direction: column; align-items: center; width: 90px;">
+                <div style="width: 60px; height: 68px; display: flex; flex-direction: column; justify-content: flex-end;">
+                  <!-- 首页订单容器 53.92% = 37px -->
+                  <div style="background: #3B82F6; height: 37px; border-radius: 4px 4px 0 0; display: flex; align-items: center; justify-content: center; color: #FFF; font-size: 10px; font-weight: 600;">54%</div>
+                  <!-- 个人中心 37.36% = 25px -->
+                  <div style="background: #10B981; height: 25px; display: flex; align-items: center; justify-content: center; color: #FFF; font-size: 10px; font-weight: 600;">37%</div>
+                  <!-- 行程底导 8.72% = 6px -->
+                  <div style="background: #F97316; height: 6px; border-radius: 0 0 4px 4px;"></div>
+                </div>
+                <div style="margin-top: 8px; font-weight: 600; font-size: 12px;">无引导</div>
+                <div style="font-size: 11px; color: var(--text-muted);">197.42万</div>
+              </div>
+              <!-- 保守引导组 (总UV: 191.28万，比例191/581=33%，高度66px) -->
+              <div style="display: flex; flex-direction: column; align-items: center; width: 90px;">
+                <div style="width: 60px; height: 66px; display: flex; flex-direction: column; justify-content: flex-end;">
+                  <!-- 首页订单容器 54.05% = 36px -->
+                  <div style="background: #3B82F6; height: 36px; border-radius: 4px 4px 0 0; display: flex; align-items: center; justify-content: center; color: #FFF; font-size: 10px; font-weight: 600;">54%</div>
+                  <!-- 个人中心 37.23% = 24px -->
+                  <div style="background: #10B981; height: 24px; display: flex; align-items: center; justify-content: center; color: #FFF; font-size: 10px; font-weight: 600;">37%</div>
+                  <!-- 行程底导 8.72% = 6px -->
+                  <div style="background: #F97316; height: 6px; border-radius: 0 0 4px 4px;"></div>
+                </div>
+                <div style="margin-top: 8px; font-weight: 600; font-size: 12px;">保守引导</div>
+                <div style="font-size: 11px; color: var(--text-muted);">191.28万</div>
+              </div>
+              <!-- 激进引导组 (总UV: 191.23万，比例191/581=33%，高度66px) -->
+              <div style="display: flex; flex-direction: column; align-items: center; width: 90px;">
+                <div style="width: 60px; height: 66px; display: flex; flex-direction: column; justify-content: flex-end;">
+                  <!-- 首页订单容器 53.98% = 36px -->
+                  <div style="background: #3B82F6; height: 36px; border-radius: 4px 4px 0 0; display: flex; align-items: center; justify-content: center; color: #FFF; font-size: 10px; font-weight: 600;">54%</div>
+                  <!-- 个人中心 37.30% = 24px -->
+                  <div style="background: #10B981; height: 24px; display: flex; align-items: center; justify-content: center; color: #FFF; font-size: 10px; font-weight: 600;">37%</div>
+                  <!-- 行程底导 8.72% = 6px -->
+                  <div style="background: #F97316; height: 6px; border-radius: 0 0 4px 4px;"></div>
+                </div>
+                <div style="margin-top: 8px; font-weight: 600; font-size: 12px;">激进引导</div>
+                <div style="font-size: 11px; color: var(--text-muted);">191.23万</div>
+              </div>
+            </div>
+            <!-- 图例 -->
+            <div style="display: flex; justify-content: center; gap: 16px; margin-top: 10px;">
+              <div style="display: flex; align-items: center; gap: 4px;">
+                <div style="width: 12px; height: 12px; background: #3B82F6; border-radius: 2px;"></div>
+                <span style="font-size: 11px; color: var(--text-p);">首页订单容器</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 4px;">
+                <div style="width: 12px; height: 12px; background: #10B981; border-radius: 2px;"></div>
+                <span style="font-size: 11px; color: var(--text-p);">个人中心</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 4px;">
+                <div style="width: 12px; height: 12px; background: #F97316; border-radius: 2px;"></div>
+                <span style="font-size: 11px; color: var(--text-p);">行程底导</span>
+              </div>
+            </div>
+            <!-- 行程底导占比补充说明 -->
+            <div style="text-align: center; font-size: 11px; color: var(--text-muted); margin-top: 4px;">行程底导占比约8.7%（因高度较小，图中未标注数字）</div>
+          </div>
+          <!-- 右侧：CTR数据表格 -->
+          <div style="flex: 1.2;">
+            <div style="text-align: center; font-weight: 600; margin-bottom: 12px; color: var(--text-h);">各入口CTR对比</div>
+            <div class="data-table-wrap" style="border-radius: 8px;">
+              <table class="data-table" style="font-size: 12px;">
+                <thead>
+                  <tr>
+                    <th>入口来源</th>
+                    <th>对照组</th>
+                    <th>无引导</th>
+                    <th>保守引导</th>
+                    <th>激进引导</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>首页订单容器</td>
+                    <td>34.25%</td>
+                    <td class="cell-neu">34.23%</td>
+                    <td class="cell-neu">34.24%</td>
+                    <td class="cell-neu">34.19%</td>
+                  </tr>
+                  <tr>
+                    <td>个人中心</td>
+                    <td>9.14%</td>
+                    <td class="cell-neg">8.49%</td>
+                    <td class="cell-neg">8.45%</td>
+                    <td class="cell-neg">8.47%</td>
+                  </tr>
+                  <tr>
+                    <td>行程页底导</td>
+                    <td class="cell-neu">0%</td>
+                    <td class="cell-neu">3.61%</td>
+                    <td class="cell-neu">3.60%</td>
+                    <td class="cell-neu">3.60%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="note-block" style="margin-top: 16px;">
+          <b>说明：</b>行程入口访问UV整体下降约66%，主要因旧首页行程入口拆分为多个入口。行程页底导为新首页新增入口，占比约8.7%，CTR约3.60%。首页订单容器和个人中心CTR基本稳定，个人中心CTR略有下降。柱状图高度反映各组UV量级，颜色块内数字为入口占比。
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         Q4: 平台与网出逐日变化趋势（移至附录）
+         ========================================== -->
+
+    <!-- 上述section内容已移至附录 -->
+
+    <!-- ==========================================
+         Q5: 生态风险预警 (DID/漏斗) - 已隐藏
+         ========================================== -->
+    <section id="sec-q3" style="display:none;">
+      <h2 class="section-title">3. 连带风险预警（MOCK数据，暂未更新） </h2>
+      
+      <!-- 顺风车预警 -->
+      <div class="card" style="border-color: var(--danger);">
+        <div class="card-header" style="color: var(--danger);">
+          <span>⚠️ 顺风车 GMV 下跌归因 (连环替代法拆解)</span>
+          <div class="local-toggle-group">
+            <button class="local-toggle-btn active" onclick="switchLocalData(this, &#39;abs&#39;)">绝对值</button>
+            <button class="local-toggle-btn" onclick="switchLocalData(this, &#39;pct&#39;)">相对变化</button>
+          </div>
+        </div>
+        
+        <div class="chain-row">
+          <div class="chain-node alert">
+            <div class="chain-title">B端：车主寻入口接单数</div>
+            <div class="chain-val val-neg"><span class="data-var" data-abs="-20万元" data-pct="-4.5%">-4.5%</span></div>
+            <div style="font-size:11px; color:#F53F3F; margin-top:4px;">贡献度：85%</div>
+          </div>
+          <div class="chain-operator">+</div>
+          <div class="chain-node">
+            <div class="chain-title">C端：乘客首页渗透/冒泡</div>
+            <div class="chain-val"><span class="data-var" data-abs="-2万元" data-pct="-0.2%">-0.2%</span></div>
+            <div style="font-size:11px; color:#888; margin-top:4px;">贡献度：5%</div>
+          </div>
+          <div class="chain-operator">+</div>
+          <div class="chain-node">
+            <div class="chain-title">C端：呼单到完单转化率</div>
+            <div class="chain-val"><span class="data-var" data-abs="-3万元" data-pct="-0.8%">-0.8%</span></div>
+            <div style="font-size:11px; color:#888; margin-top:4px;">贡献度：10%</div>
+          </div>
+        </div>
+        <p style="font-size:13px; background:#FFECE8; padding:10px; border-radius:4px; color:#C92A2A;">
+          👉 <strong>实锤：</strong> 绝大部分损失归因于 B端车主供给流失。由于大重构影响，车主"找不到发单入口"。**Action：必须在首页新增顺风车接单独立卡片。**
+        </p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header" style="color: var(--danger);">
+            <span>🔴 信贷业务 (DID漏斗印证)</span>
+            <div class="local-toggle-group">
+              <button class="local-toggle-btn active" onclick="switchLocalData(this, &#39;abs&#39;)">Δ</button>
+              <button class="local-toggle-btn" onclick="switchLocalData(this, &#39;pct&#39;)">%</button>
+            </div>
+          </div>
+          <table class="data-table" style="font-size:12px;">
+            <tbody><tr><td>① 个人中心 DAU</td><td class="cell-neg"><span class="data-var" data-abs="-32.0万人" data-pct="-14.5%">-14.5%</span></td></tr>
+            <tr><td style="text-align:center; color:#C9CDD4; border:none; padding:4px;">↓ (转化率维持)</td><td style="border:none; padding:4px;"></td></tr>
+            <tr><td>② 信贷入口曝光数</td><td class="cell-neg"><span class="data-var" data-abs="-2.5万次" data-pct="-12.8%">-12.8%</span></td></tr>
+            <tr><td style="text-align:center; color:#C9CDD4; border:none; padding:4px;">↓</td><td style="border:none; padding:4px;"></td></tr>
+            <tr><td><strong>③ 信贷最终借款单</strong></td><td class="cell-neg"><span class="data-var" data-abs="-850单" data-pct="-10.2%">-10.2%</span></td></tr>
+          </tbody></table>
+          <p style="font-size:12px; margin-top:12px; color:#888;">因行程中心独立导致信贷漏斗头部枯竭。需考虑跨端资源位补偿。</p>
+        </div>
+
+        <div class="card">
+          <div class="card-header" style="color: var(--warning);">
+            <span>🟡 公交/单车 空间挤压影响</span>
+            <div class="local-toggle-group">
+              <button class="local-toggle-btn active" onclick="switchLocalData(this, &#39;abs&#39;)">Δ</button>
+              <button class="local-toggle-btn" onclick="switchLocalData(this, &#39;pct&#39;)">%</button>
+            </div>
+          </div>
+          <table class="data-table" style="font-size:12px;">
+            <tbody><tr><td>乘车码入口点击</td><td class="cell-neg"><span class="data-var" data-abs="-1.4万次" data-pct="-2.1%">-2.1%</span></td></tr>
+            <tr><td>扫一扫骑车完单</td><td class="cell-neg"><span class="data-var" data-abs="-6.4万单" data-pct="-1.4%">-1.4%</span></td></tr>
+          </tbody></table>
+          <p style="font-size:12px; margin-top:12px; color:#888;">因顶导挤压导致顶部 Icon 尺寸变小。降幅微弱在可控范围内，属于正常物理空间让步，无需特别动作。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         附录区
+         ========================================== -->
+    <section id="sec-appendix">
+      <h2 class="section-title">📁 附录</h2>
+
+      <!-- 平台与网出逐日变化趋势 -->
+      <div class="card">
+        <div class="card-header">
+          <span>平台与网出逐日变化趋势</span>
+        </div>
+        <div class="conclusion-block" contenteditable="true" spellcheck="false">无引导组（蓝线）平台GMV负向逐渐收窄，从-0.65%收窄至-0.19%；保守引导组（橙线）恢复更快，从-0.41%恢复至-0.08%。网约车DAU两组均呈现负向收敛趋势，但无引导组负向更大。网约车完单量保守引导组表现优于无引导组，后期趋近于零。</div>
+
+        <!-- 图表容器 -->
+        <div class="chart-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 16px;">
+          <!-- 平台完单量 -->
+          <div class="chart-box" style="border: 1px solid var(--border); border-radius: 8px; padding: 16px; background: #FAFAFA;">
+            <div style="font-weight: 600; margin-bottom: 8px; color: var(--text-h);">平台完单量 CUPED提升%</div>
+            <div style="height: 200px; position: relative;">
+              <canvas id="chart-pt-order"></canvas>
+            </div>
+          </div>
+          <!-- 平台GMV -->
+          <div class="chart-box" style="border: 1px solid var(--border); border-radius: 8px; padding: 16px; background: #FAFAFA;">
+            <div style="font-weight: 600; margin-bottom: 8px; color: var(--text-h);">平台GMV CUPED提升%</div>
+            <div style="height: 200px; position: relative;">
+              <canvas id="chart-pt-gmv"></canvas>
+            </div>
+          </div>
+          <!-- 网约车DAU -->
+          <div class="chart-box" style="border: 1px solid var(--border); border-radius: 8px; padding: 16px; background: #FAFAFA;">
+            <div style="font-weight: 600; margin-bottom: 8px; color: var(--text-h);">网约车DAU CUPED提升%</div>
+            <div style="height: 200px; position: relative;">
+              <canvas id="chart-wc-dau"></canvas>
+            </div>
+          </div>
+          <!-- 网约车完单量 -->
+          <div class="chart-box" style="border: 1px solid var(--border); border-radius: 8px; padding: 16px; background: #FAFAFA;">
+            <div style="font-weight: 600; margin-bottom: 8px; color: var(--text-h);">网约车完单量 CUPED提升%</div>
+            <div style="height: 200px; position: relative;">
+              <canvas id="chart-wc-order"></canvas>
+            </div>
+          </div>
+          <!-- 网约车GMV -->
+          <div class="chart-box" style="border: 1px solid var(--border); border-radius: 8px; padding: 16px; background: #FAFAFA;">
+            <div style="font-weight: 600; margin-bottom: 8px; color: var(--text-h);">网约车GMV CUPED提升%</div>
+            <div style="height: 200px; position: relative;">
+              <canvas id="chart-wc-gmv"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="note-block" style="margin-top: 16px;">
+          <b>图表说明：</b>数据来源为CUPED滚动存档。蓝线为无引导组（new_no_popups），橙线为保守引导组（new_less_popups）。纵轴为CUPED提升百分比，横轴为日期（03-15至03-28）。数值为负表示相对对照组下降，为正表示上升。
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">备注</div>
+        <div class="note-block" contenteditable="true" spellcheck="false" style="min-height: 120px;">
+分析师可在此处添加补充说明、自定义图表代码或其他分析备注。
+
+示例：
+- ECharts 图表渲染代码
+- 多维数据表格
+- 补充分析结论
+- 数据口径说明
+        </div>
+      </div>
+    </section>
+
+  </b></b></div></section></main><b><b><strong>
+
+  <script>
+    // --- 侧边栏折叠/展开逻辑 ---
+    const toggleBtn = document.getElementById('toggle-sidebar');
+    const sidebar = document.getElementById('sidebar');
+    const mainContent = document.getElementById('main-content');
+    
+    toggleBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('collapsed');
+      mainContent.classList.toggle('expanded');
+      toggleBtn.classList.toggle('collapsed');
+    });
+
+    // --- 侧边栏导航平滑滚动 ---
+    function navTo(e) {
+      e.preventDefault();
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+      e.currentTarget.classList.add('active');
+      const targetId = e.currentTarget.getAttribute('href').substring(1);
+      const targetElement = document.getElementById(targetId);
+      const offsetTop = targetElement.getBoundingClientRect().top + window.pageYOffset - 40;
+      window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+    }
+
+    // --- 滚动自动高亮侧边栏 ---
+    window.addEventListener('scroll', () => {
+      let current = '';
+      document.querySelectorAll('section').forEach(sec => {
+        if (pageYOffset >= sec.offsetTop - 120) current = sec.getAttribute('id');
+      });
+      document.querySelectorAll('.nav-item').forEach(el => {
+        el.classList.remove('active');
+        if (el.getAttribute('href').substring(1) === current) el.classList.add('active');
+      });
+    });
+
+    // --- 局部数据切换 (绝对值/百分比) ---
+    function switchLocalData(btn, mode) {
+      // 找到当前按钮所在的组，更新按钮样式
+      const group = btn.closest('.local-toggle-group');
+      group.querySelectorAll('.local-toggle-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      
+      // 找到最近的卡片容器，更新数据
+      const container = btn.closest('.card');
+      container.querySelectorAll('.data-var').forEach(el => {
+        const val = el.getAttribute('data-' + mode);
+        if (val) el.innerText = val;
+      });
+    }
+
+    // --- 业务 Tabs 切换逻辑 (Q2 货运/车主/旅行) ---
+    function switchTab(index) {
+      const tabs = document.querySelectorAll('.biz-tab');
+      const panes = document.querySelectorAll('.tab-pane');
+
+      tabs.forEach(t => t.classList.remove('active'));
+      panes.forEach(p => p.classList.remove('active'));
+
+      tabs[index].classList.add('active');
+      panes[index].classList.add('active');
+    }
+
+    // --- 移动端自动收起侧边栏 ---
+    window.addEventListener('resize', () => {
+      if (window.innerWidth <= 800 && !sidebar.classList.contains('collapsed')) {
+        sidebar.classList.add('collapsed'); mainContent.classList.add('expanded');
+      } else if (window.innerWidth > 800 && sidebar.classList.contains('collapsed')) {
+        sidebar.classList.remove('collapsed'); mainContent.classList.remove('expanded');
+      }
+    });
+    // 初始化检查
+    if (window.innerWidth <= 800) {
+      sidebar.classList.add('collapsed'); mainContent.classList.add('expanded');
+    }
+  </script>
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script>
+    // --- CUPED逐日变化趋势图 ---
+    // 数据定义（来源：archive.xlsx 第一个sheet CUPED滚动存档）
+    const cupedTrendData = {
+      dates: ['03-15', '03-16', '03-17', '03-18', '03-19', '03-20', '03-21', '03-22', '03-23', '03-24', '03-25', '03-26', '03-27', '03-28'],
+      new_no_popups: {
+        pt_order: [0.24, -0.09, -0.30, -0.40, -0.37, -0.21, -0.22, -0.15, -0.08, -0.12, -0.14, -0.15, -0.13, -0.12],
+        pt_gmv: [0.45, -0.30, -0.53, -0.55, -0.65, -0.41, -0.41, -0.28, -0.28, -0.23, -0.20, -0.22, -0.20, -0.19],
+        wc_dau: [0.12, -0.10, -0.24, -0.29, -0.27, -0.20, -0.22, -0.19, -0.15, -0.17, -0.18, -0.17, -0.16, -0.16],
+        wc_order: [0.17, -0.11, -0.36, -0.41, -0.33, -0.17, -0.21, -0.14, -0.08, -0.11, -0.11, -0.11, -0.11, -0.10],
+        wc_gmv: [0.29, -0.29, -0.62, -0.63, -0.61, -0.35, -0.40, -0.28, -0.24, -0.23, -0.21, -0.22, -0.20, -0.20]
+      },
+      new_less_popups: {
+        pt_order: [0.19, -0.12, -0.08, -0.14, -0.19, -0.14, -0.07, -0.02, 0.01, -0.07, -0.08, -0.05, -0.02, -0.02],
+        pt_gmv: [0.23, -0.41, -0.35, -0.33, -0.40, -0.32, -0.20, -0.14, -0.08, -0.15, -0.15, -0.11, -0.04, -0.08],
+        wc_dau: [0.10, -0.13, -0.20, -0.28, -0.28, -0.26, -0.22, -0.18, -0.14, -0.16, -0.18, -0.13, -0.11, -0.12],
+        wc_order: [0.39, -0.03, -0.02, -0.08, -0.11, -0.07, 0.00, 0.02, 0.02, -0.04, -0.04, 0.00, 0.02, 0.01],
+        wc_gmv: [0.02, -0.54, -0.49, -0.40, -0.34, -0.24, -0.16, -0.11, -0.09, -0.15, -0.14, -0.07, -0.02, -0.06]
+      }
+    };
+
+    // 绘制折线图函数
+    function drawTrendChart(canvasId, dataKey) {
+      const ctx = document.getElementById(canvasId);
+      if (!ctx || typeof Chart === 'undefined') return;
+
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: cupedTrendData.dates,
+          datasets: [
+            {
+              label: '无引导组',
+              data: cupedTrendData.new_no_popups[dataKey],
+              borderColor: '#3B82F6',
+              backgroundColor: 'rgba(59, 130, 246, 0.1)',
+              borderWidth: 2,
+              pointRadius: 3,
+              pointBackgroundColor: '#3B82F6',
+              tension: 0.1,
+              fill: false
+            },
+            {
+              label: '保守引导组',
+              data: cupedTrendData.new_less_popups[dataKey],
+              borderColor: '#F97316',
+              backgroundColor: 'rgba(249, 115, 22, 0.1)',
+              borderWidth: 2,
+              pointRadius: 3,
+              pointBackgroundColor: '#F97316',
+              tension: 0.1,
+              fill: false
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: true,
+              position: 'top',
+              labels: { font: { size: 11 }, boxWidth: 20, padding: 10 }
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return context.dataset.label + ': ' + context.parsed.y.toFixed(2) + '%';
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              display: true,
+              grid: { display: false },
+              ticks: { font: { size: 10 } }
+            },
+            y: {
+              display: true,
+              grid: {
+                color: function(context) {
+                  return context.tick.value === 0 ? '#999' : 'transparent';
+                },
+                lineWidth: function(context) {
+                  return context.tick.value === 0 ? 1 : 0;
+                },
+                drawBorder: false
+              },
+              ticks: {
+                font: { size: 10 },
+                callback: function(value) { return value.toFixed(1) + '%'; }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    // 绘制所有图表
+    drawTrendChart('chart-pt-order', 'pt_order');
+    drawTrendChart('chart-pt-gmv', 'pt_gmv');
+    drawTrendChart('chart-wc-dau', 'wc_dau');
+    drawTrendChart('chart-wc-order', 'wc_order');
+    drawTrendChart('chart-wc-gmv', 'wc_gmv');
+  </script>
+
+</strong></b></b></body></html>

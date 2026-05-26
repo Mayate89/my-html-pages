@@ -1,0 +1,738 @@
+<html imt-state="dual"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oral Practice: Security vs. Liberty (Enhanced)</title>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 2.2; 
+            font-size: 19px;
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+            color: #333;
+            background-color: #fdfdfd;
+        }
+        h2, h3 {
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            color: #2c3e50;
+        }
+        p {
+            margin-bottom: 1.8em;
+        }
+        strong {
+            color: #c0392b; /* A strong red for emphasis */
+            font-weight: 600;
+        }
+        mark {
+            padding: 4px 6px;
+            border-radius: 5px;
+            font-weight: 500;
+            cursor: help; /* Indicates that there's a tooltip */
+            transition: all 0.2s ease-in-out;
+        }
+        mark:hover {
+            opacity: 0.85;
+        }
+        /* NEW Color Categories */
+        mark.vocab { background-color: #dff0d8; /* Green for Vocabulary/Concepts */ }
+        mark.phrase { background-color: #fcf8e3; /* Yellow for Phrases/Idioms */ }
+        mark.transition { background-color: #d9edf7; /* Blue for Transitions */ }
+
+        .instructions {
+            background-color: #f9f9f9;
+            border-left: 5px solid #bdc3c7;
+            padding: 15px 25px;
+            margin: 30px 0;
+            border-radius: 5px;
+        }
+        .instructions ul {
+            padding-left: 20px;
+            list-style: none;
+        }
+        .instructions li {
+            margin-bottom: 10px;
+        }
+        .color-box {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            margin-right: 10px;
+            vertical-align: middle;
+            border-radius: 3px;
+        }
+    </style>
+<style data-id="immersive-translate-default-injected-css">:root {
+  --immersive-translate-theme-underline-borderColor: #72ece9;
+  --immersive-translate-theme-nativeUnderline-borderColor: #72ece9;
+  --immersive-translate-theme-nativeDashed-borderColor: #72ece9;
+  --immersive-translate-theme-nativeDotted-borderColor: #72ece9;
+  --immersive-translate-theme-highlight-backgroundColor: #ffff00;
+  --immersive-translate-theme-dashed-borderColor: #59c1bd;
+  --immersive-translate-theme-blockquote-borderColor: #cc3355;
+  --immersive-translate-theme-thinDashed-borderColor: #ff374f;
+  --immersive-translate-theme-dashedBorder-borderColor: #94a3b8;
+  --immersive-translate-theme-dashedBorder-borderRadius: 0;
+  --immersive-translate-theme-solidBorder-borderColor: #94a3b8;
+  --immersive-translate-theme-solidBorder-borderRadius: 0;
+  --immersive-translate-theme-dotted-borderColor: #94a3b8;
+  --immersive-translate-theme-wavy-borderColor: #72ece9;
+  --immersive-translate-theme-dividingLine-borderColor: #94a3b8;
+  --immersive-translate-theme-grey-textColor: #2f4f4f;
+  --immersive-translate-theme-marker-backgroundColor: #fbda41;
+  --immersive-translate-theme-marker-backgroundColor-rgb: 251, 218, 65;
+  --immersive-translate-theme-marker2-backgroundColor: #ffff00;
+  --immersive-translate-theme-background-backgroundColor: #dbafaf;
+  --immersive-translate-theme-background-backgroundColor-rgb: 219, 175, 175;
+  --immersive-translate-theme-background-backgroundOpacity: 12;
+  --immersive-translate-theme-opacity-opacity: 10;
+}
+
+[imt-state="dual"] .immersive-translate-target-translation-pre-whitespace {
+  white-space: pre-wrap !important;
+}
+
+[imt-state="dual"] .immersive-translate-pdf-target-container {
+  position: absolute;
+  background-color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    sans-serif;
+  top: 0;
+  width: 600px;
+  height: 100%;
+  z-index: 2;
+  line-height: 1.3;
+  font-size: 16px;
+}
+[imt-state="dual"] .immersive-translate-target-wrapper[dir="rtl"] {
+  text-align: right;
+}
+
+[imt-state="dual"]
+  .immersive-translate-pdf-target-container
+  .immersive-translate-target-wrapper {
+  color: rgb(0, 0, 0);
+  white-space: normal;
+  position: absolute;
+}
+
+[imt-state="dual"]
+  .immersive-translate-pdf-target-container
+  .immersive-translate-target-wrapper
+  font {
+  color: inherit;
+  white-space: inherit;
+  position: unset;
+}
+
+[imt-state="translation"] .immersive-translate-target-wrapper > br {
+  display: none;
+}
+
+[imt-state="translation"]
+  .immersive-translate-target-translation-block-wrapper {
+  margin: 0 !important;
+}
+
+[imt-state="dual"] .immersive-translate-target-translation-block-wrapper {
+  margin: 8px 0 !important;
+  display: inline-block;
+}
+
+[imt-trans-position="before"]
+  .immersive-translate-target-translation-block-wrapper {
+  display: block;
+}
+
+[imt-trans-position="before"]
+  .immersive-translate-target-translation-block-wrapper {
+  margin-top: 0 !important;
+}
+
+[imt-state="dual"] .immersive-translate-target-translation-pdf-block-wrapper {
+  margin: 0 !important;
+  display: inline-block;
+}
+
+[imt-state="dual"] .immersive-translate-target-translation-theme-grey-inner {
+  color: var(--immersive-translate-theme-grey-textColor);
+}
+
+[imt-state="dual"]
+  .immersive-translate-target-translation-theme-underline-inner {
+  border-bottom: 1px solid
+    var(--immersive-translate-theme-underline-borderColor) !important;
+}
+
+[imt-state="dual"]
+  .immersive-translate-target-translation-theme-nativeUnderline-inner {
+  text-decoration: underline !important;
+  text-decoration-color: var(
+    --immersive-translate-theme-nativeUnderline-borderColor
+  ) !important;
+}
+
+[imt-state="dual"]
+  .immersive-translate-target-translation-block-wrapper-theme-dashedBorder {
+  border: 1px dashed var(--immersive-translate-theme-dashedBorder-borderColor) !important;
+  border-radius: var(
+    --immersive-translate-theme-dashedBorder-borderRadius
+  ) !important;
+  padding: 6px;
+  margin-top: 2px;
+  display: inline-block;
+}
+
+[imt-state="dual"]
+  .immersive-translate-target-translation-inline-wrapper-theme-dashedBorder {
+  border: 1px dashed var(--immersive-translate-theme-dashedBorder-borderColor) !important;
+  border-radius: var(
+    --immersive-translate-theme-dashedBorder-borderRadius
+  ) !important;
+  padding: 2px;
+}
+
+[imt-state="dual"]
+  .immersive-translate-target-translation-block-wrapper-theme-solidBorder {
+  border: 1px solid var(--immersive-translate-theme-solidBorder-borderColor) !important;
+  border-radius: var(
+    --immersive-translate-theme-solidBorder-borderRadius
+  ) !important;
+  padding: 6px;
+  margin-top: 2px;
+  display: inline-block;
+}
+
+[imt-state="dual"]
+  .immersive-translate-target-translation-inline-wrapper-theme-solidBorder {
+  border: 1px solid var(--immersive-translate-theme-solidBorder-borderColor) !important;
+  border-radius: var(
+    --immersive-translate-theme-solidBorder-borderRadius
+  ) !important;
+  padding: 2px;
+}
+
+[imt-state="dual"]
+  .immersive-translate-target-translation-theme-nativeDashed-inner {
+  text-decoration: underline !important;
+  text-decoration-color: var(
+    --immersive-translate-theme-nativeDashed-borderColor
+  ) !important;
+  text-decoration-style: dashed !important;
+}
+
+[imt-state="dual"]
+  .immersive-translate-target-translation-theme-thinDashed-inner {
+  border-bottom: 1px dashed
+    var(--immersive-translate-theme-thinDashed-borderColor) !important;
+}
+
+[imt-state="dual"] .immersive-translate-target-translation-theme-dotted-inner {
+  background-image: linear-gradient(
+    to right,
+    var(--immersive-translate-theme-dotted-borderColor) 30%,
+    rgba(255, 255, 255, 0) 0%
+  );
+  background-position: bottom;
+  background-size: 5px 1px;
+  background-repeat: repeat-x;
+  padding-bottom: 3px;
+}
+
+[imt-state="dual"]
+  .immersive-translate-target-translation-theme-nativeDotted-inner {
+  text-decoration: underline !important;
+  text-decoration-color: var(
+    --immersive-translate-theme-nativeDotted-borderColor
+  ) !important;
+  text-decoration-style: dotted !important;
+}
+
+[imt-state="dual"] .immersive-translate-target-translation-theme-wavy-inner {
+  text-decoration: underline !important;
+  text-decoration-color: var(
+    --immersive-translate-theme-wavy-borderColor
+  ) !important;
+  text-decoration-style: wavy !important;
+}
+
+[imt-state="dual"] .immersive-translate-target-translation-theme-dashed-inner {
+  background: linear-gradient(
+      to right,
+      var(--immersive-translate-theme-dashed-borderColor) 0%,
+      var(--immersive-translate-theme-dashed-borderColor) 50%,
+      transparent 50%,
+      transparent 100%
+    )
+    repeat-x left bottom;
+  background-size: 8px 2px;
+  padding-bottom: 2px;
+}
+
+[imt-state="dual"]
+  .immersive-translate-target-translation-block-wrapper-theme-dividingLine::before {
+  content: "";
+  display: block;
+  max-width: 80px;
+  width: 10%;
+  border-top: 1px dashed
+    var(--immersive-translate-theme-dividingLine-borderColor);
+  padding-top: 8px;
+}
+
+[imt-state="dual"]
+  .immersive-translate-target-translation-inline-wrapper-theme-dividingLine::before {
+  content: "";
+  border-left: 1px dashed
+    var(--immersive-translate-theme-dividingLine-borderColor);
+  max-height: 16px;
+  height: 16px;
+  padding-left: 8px;
+}
+
+[imt-state="dual"]
+  .immersive-translate-target-translation-theme-highlight-inner {
+  background: var(--immersive-translate-theme-highlight-backgroundColor);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+[imt-state="dual"]
+  .immersive-translate-target-translation-block-wrapper-theme-marker {
+  line-height: 1.5em;
+}
+
+[imt-state="dual"] .immersive-translate-target-translation-theme-marker2-inner {
+  font-weight: bold;
+  text-shadow: 10px 0px 3px
+      var(--immersive-translate-theme-marker2-backgroundColor),
+    16px 3px 9px var(--immersive-translate-theme-marker2-backgroundColor),
+    2px 0px 6px var(--immersive-translate-theme-marker2-backgroundColor),
+    -12px 0px 12px var(--immersive-translate-theme-marker2-backgroundColor) !important;
+}
+
+[imt-state="dual"] .immersive-translate-target-translation-theme-marker-inner {
+  /* TODO: add more texture */
+  background: linear-gradient(
+    to right,
+    rgba(var(--immersive-translate-theme-marker-backgroundColor-rgb), 0.1),
+    rgba(var(--immersive-translate-theme-marker-backgroundColor-rgb), 0.9) 3%,
+    rgba(var(--immersive-translate-theme-marker-backgroundColor-rgb), 0.9) 35%,
+    rgba(var(--immersive-translate-theme-marker-backgroundColor-rgb), 0.9) 70%,
+    rgba(var(--immersive-translate-theme-marker-backgroundColor-rgb), 0.8) 95%,
+    rgba(var(--immersive-translate-theme-marker-backgroundColor-rgb), 0.3)
+  );
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+[imt-state="dual"] .immersive-translate-target-translation-theme-weakening {
+  opacity: 0.618 !important;
+}
+
+[imt-state="dual"] .immersive-translate-target-translation-theme-italic {
+  font-style: italic !important;
+}
+
+[imt-state="dual"] .immersive-translate-target-translation-theme-bold {
+  font-weight: bold !important;
+}
+
+[imt-state="dual"]
+  .immersive-translate-target-translation-block-wrapper-theme-paper {
+  margin: 8px 0;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  padding: 16px 32px;
+  display: inline-block;
+}
+
+[imt-state="dual"]
+  .immersive-translate-target-translation-block-wrapper-theme-blockquote {
+  border-left: 4px solid var(--immersive-translate-theme-blockquote-borderColor) !important;
+  padding-left: 12px !important;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  display: inline-block;
+}
+
+[imt-state="dual"] .immersive-translate-target-translation-theme-mask-inner {
+  filter: blur(5px) !important;
+  transition: filter 0.3s ease !important;
+  border-radius: 10px;
+  display: inline-block;
+}
+
+[data-immersive-translate-root-translation-theme="none"]
+  .immersive-translate-target-translation-theme-mask-inner {
+  filter: none !important;
+}
+
+[data-immersive-translate-root-translation-theme="mask"]
+  .immersive-translate-target-inner {
+  filter: blur(5px) !important;
+  transition: filter 0.3s ease !important;
+  border-radius: 10px;
+  display: inline-block;
+}
+
+/* opacity theme start */
+
+[imt-state="dual"] .immersive-translate-target-translation-theme-opacity-inner {
+  filter: opacity(
+    calc(var(--immersive-translate-theme-opacity-opacity) * 1%)
+  ) !important;
+  transition: filter 0.3s ease !important;
+  border-radius: 10px;
+  display: inline-block;
+}
+
+[data-immersive-translate-root-translation-theme="none"]
+  .immersive-translate-target-translation-theme-opacity-inner {
+  filter: none !important;
+}
+[data-immersive-translate-root-translation-theme="opacity"]
+  .immersive-translate-target-inner,
+[imt-state="dual"]
+  .immersive-translate-target-translation-theme-opacity-inner:hover {
+  filter: opacity(
+    calc(var(--immersive-translate-theme-opacity-opacity) * 1%)
+  ) !important;
+  transition: filter 0.3s ease !important;
+  border-radius: 10px;
+  display: inline-block;
+}
+
+[imt-state="dual"]
+  .immersive-translate-target-translation-theme-opacity-inner:hover {
+  filter: none !important;
+}
+
+[imt-state="dual"]
+  .immersive-translate-target-translation-theme-mask-inner:hover {
+  filter: none !important;
+}
+[data-immersive-translate-root-translation-theme="opacity"]
+  .immersive-translate-target-inner:hover {
+  filter: none !important;
+}
+
+[data-immersive-translate-root-translation-theme="mask"]
+  .immersive-translate-target-inner:hover {
+  filter: none !important;
+}
+
+/* opacity theme end */
+
+/* background theme start */
+[imt-state="dual"]
+  .immersive-translate-target-translation-block-wrapper-theme-background {
+  margin: 8px 0;
+  background: rgba(
+    var(--immersive-translate-theme-background-backgroundColor-rgb),
+    calc(var(--immersive-translate-theme-background-backgroundOpacity) * 1%)
+  );
+  border-radius: 4px;
+  box-shadow: unset !important;
+  padding: 12px;
+  display: inline-block;
+}
+[imt-state="dual"]
+  .immersive-translate-target-translation-theme-background-inner {
+  background: rgba(
+    var(--immersive-translate-theme-background-backgroundColor-rgb),
+    calc(var(--immersive-translate-theme-background-backgroundOpacity) * 1%)
+  );
+  padding-left: 6px;
+  padding-right: 6px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+[imt-state="dual"]
+  .immersive-translate-target-translation-block-wrapper
+  .immersive-translate-target-translation-theme-background-inner {
+  background: unset;
+  padding-left: unset;
+  padding-right: unset;
+}
+/* background theme end */
+
+/* vertical css , please remain it in the last one. */
+.immersive-translate-target-translation-vertical-block-wrapper {
+  margin: 0px 8px !important;
+}
+
+.immersive-translate-text {
+  font-size: 15px !important;
+}
+
+.immersive-translate-error-toast {
+  position: fixed;
+  top: 5%;
+  z-index: 99999999;
+  left: 0;
+  right: 0;
+  margin: auto;
+  max-width: 300px;
+  padding: 16px;
+  border-radius: 12px;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+@media all and (min-width: 750px) {
+  .immersive-translate-error-toast {
+    max-width: 400px;
+  }
+}
+
+.immersive-translate-clickable-button {
+  cursor: pointer;
+}
+
+.immersive-translate-help-button {
+  cursor: pointer;
+}
+
+.immersive-translate-loading-text:before {
+  content: "...";
+}
+
+/* dark mode for loading */
+
+@media only screen and (prefers-color-scheme: dark) {
+  .immersive-translate-loading {
+    border: 2px rgba(255, 255, 255, 0.25) solid !important;
+    border-top: 2px rgba(255, 255, 255, 1) solid !important;
+  }
+}
+
+.immersive-translate-error-wrapper {
+  position: relative;
+  display: inline-flex;
+  padding: 6px;
+  margin: 0 12px;
+  white-space: nowrap;
+  font-size: 0.9em;
+}
+[lang="zh-CN"] .immersive-translate-error-wrapper {
+  font-size: 0.75em;
+}
+[lang="zh-TW"] .immersive-translate-error-wrapper {
+  font-size: 0.75em;
+}
+
+.immersive-translate-tooltip {
+  position: relative;
+  display: inline-flex;
+  /* little indicater to indicate it's hoverable */
+}
+
+.immersive-translate-tooltip-content {
+  /* here's the magic */
+  position: absolute;
+  z-index: 100000000000;
+
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, 110%);
+  line-height: 1;
+  /* and add a small left margin */
+
+  /* basic styles */
+  width: max-content;
+  max-width: 250px;
+  word-wrap: break-word;
+  white-space: pre-line;
+  padding: 10px;
+  border-radius: 10px;
+  background: #000c;
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+  display: none;
+  /* hide by default */
+}
+
+.immersive-translate-tooltip:hover .immersive-translate-tooltip-content {
+  display: inline-block;
+}
+
+.immersive-translate-tooltip:hover + .immersive-translate-tooltip-content {
+  display: inline-block;
+}
+
+.immersive-translate-tooltip-content-table {
+  left: unset !important;
+  bottom: unset !important;
+  transform: translate(-10%, 50%) !important;
+}
+
+.immersive-translate-tooltip:hover:before {
+  display: inline-block;
+}
+
+.immersive-translate-loading-spinner {
+  vertical-align: middle !important;
+  width: 10px !important;
+  height: 10px !important;
+  display: inline-block !important;
+  margin: 0 4px !important;
+  border: 2px rgba(221, 244, 255, 0.6) solid !important;
+  border-top: 2px rgba(0, 0, 0, 0.375) solid !important;
+  border-left: 2px rgba(0, 0, 0, 0.375) solid !important;
+  border-radius: 50% !important;
+  padding: 0 !important;
+  -webkit-animation: immersive-translate-loading-animation 0.6s infinite linear !important;
+  animation: immersive-translate-loading-animation 0.6s infinite linear !important;
+}
+
+@-webkit-keyframes immersive-translate-loading-animation {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+
+  to {
+    -webkit-transform: rotate(359deg);
+  }
+}
+
+@keyframes immersive-translate-loading-animation {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+.imt-image-status {
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--bg-2, #fff);
+  font-size: 14px;
+}
+</style><style data-id="immersive-translate-user-custom-style">:root {
+
+.immersive-translate-target-inner { font-family: inherit; }
+
+
+.immersive-translate-target-inner { font-family: inherit; }
+}
+</style><style data-id="immersive-translate-dynamic-injected-css">.immersive-translate-target-wrapper[dir='rtl'] {text-align: right;display:block!important;}
+[dir='rtl'] .immersive-translate-target-wrapper:not([dir]) {text-align:left;direction:ltr;}
+.immersive-translate-target-wrapper {word-break:break-word; user-select:text;}
+[imt-state=dual] .immersive-translate-target-translation-block-wrapper-theme-dividingLine::before {display:block;}
+[imt-trans-position=before] .immersive-translate-target-translation-block-wrapper {display:block!important;}
+.docx-wrapper p {line-height: unset!important;}
+</style></head><body>
+
+    <h2>Oral Practice: Security vs. Liberty<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">口头练习：安全与自由</font></font></font></h2>
+
+    <div class="instructions">
+        <h3>✨ Enhanced Practice Guide (New Colors)<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">✨ 增强实践指南（新颜色）</font></font></font></h3>
+        <ul>
+            <li><strong>//</strong> : At this symbol, take a short, natural <strong>pause</strong>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><strong></strong> ：在这个符号处，短暂、自然地<strong>停顿 </strong>。</font></font></font></li>
+            <li><strong><strong>Bold Text</strong></strong> : These are <strong>key words</strong> to emphasize with your voice.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><strong><strong>粗体文字 </strong></strong> ：这些是用你的声音强调的关键<strong>词 </strong>。</font></font></font></li>
+            <li><span class="color-box" style="background-color: #dff0d8;"></span><mark class="vocab" title="This is an example!">Hover over highlights</mark> for a tooltip explaining why the term is useful.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">将<mark title="This is an example!" class="vocab">鼠标悬停在突出显示上 </mark>，可查看解释该术语为何有用的工具提示。</font></font></font></li>
+        </ul>
+        <strong>Highlight Categories:<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">亮点类别：</font></font></font></strong>
+        <ul>
+            <li><span class="color-box" style="background-color: #dff0d8;"></span><mark class="vocab">Key Vocabulary &amp; Concepts<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">关键词汇和概念</font></font></font></mark></li>
+            <li><span class="color-box" style="background-color: #fcf8e3;"></span><mark class="phrase">Useful Phrases &amp; Idioms<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">有用的短语和习语</font></font></font></mark></li>
+            <li><span class="color-box" style="background-color: #d9edf7;"></span><mark class="transition">Transitions &amp; Connecting Words<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">过渡和连接词</font></font></font></mark></li>
+        </ul>
+    </div>
+
+    <p>Terrorism is very scary, // especially when it happens <mark class="phrase" title="An idiom meaning 'in one's own town or country', making it personal.">close to home</mark> // and not in some faraway place.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">恐怖主义非常可怕，//尤其是当它发生在<mark title="An idiom meaning 'in one's own town or country', making it personal." class="phrase">离家很近</mark>的地方//而不是在某个遥远的地方时。</font></font></font></p>
+    <p>Nobody likes to be afraid, // and we were eager to <mark class="phrase" title="A clear and simple phrase for eliminating fear.">make the fear go away</mark>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">没有人喜欢害怕，// 我们渴望<mark title="A clear and simple phrase for eliminating fear." class="phrase">让恐惧消失 </mark>。</font></font></font></p>
+    <p><mark class="transition" title="A simple transition showing a logical result.">So</mark> // we demanded more security.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="A simple transition showing a logical result." class="transition">所以 </mark> // 我们要求更多的安全性。</font></font></font></p>
+
+    <hr>
+
+    <p><mark class="transition" title="A phrase to introduce a trend over a period of time.">In the last decade</mark>, // it’s become increasingly normal // for <mark class="vocab" title="A key political concept for individual freedoms.">civil liberties</mark> to be <mark class="vocab" title="A strong verb meaning 'gradually destroyed'.">eroded</mark> // and for government agencies to spy on citizens, // to collect and store their personal information.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="A phrase to introduce a trend over a period of time." class="transition">在过去十年</mark>里，// 公民<mark title="A key political concept for individual freedoms." class="vocab">自由</mark>被<mark title="A strong verb meaning 'gradually destroyed'." class="vocab">侵蚀</mark>变得越来越常见 // 政府机构监视公民，// 收集和存储他们的个人信息。</font></font></font></p>
+    <p><mark class="transition" title="A phrase to show that the following point applies to everyone.">Regardless of</mark> whether you’re a fan of right- or left-wing policies, // this affects <strong>every one of us</strong>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="A phrase to show that the following point applies to everyone." class="transition">无论</mark>你是右翼政策还是左翼政策的拥护者，// 这会影响<strong>我们每个人 </strong>。</font></font></font></p>
+    <p><mark class="transition" title="A transition showing a logical next step.">So</mark> we have to <mark class="phrase" title="A common, slightly informal way to say 'examine'.">take a look</mark> at the data // and ask ourselves honestly, // “Has all of this actually made us <strong>safer</strong>?”<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="A transition showing a logical next step." class="transition">所以</mark>我们必须<mark title="A common, slightly informal way to say 'examine'." class="phrase">看看</mark>数据 // 并诚实地问自己，// “这一切真的让我们<strong>更安全</strong>了吗？</font></font></font></p>
+
+    <hr>
+
+    <p><mark class="transition" title="A phrase to describe the period following a major event.">In the aftermath of</mark> 9/11, // the US government concluded that the law had not <mark class="phrase" title="A great idiom meaning 'kept up with the development of'.">kept pace with</mark> technology.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">9/11 <mark title="A phrase to describe the period following a major event." class="transition"> 事件发生后 </mark>，// 美国政府得出结论，该法律没有跟上技术<mark title="A great idiom meaning 'kept up with the development of'." class="phrase">的步伐 </mark>。</font></font></font></p>
+    <p>It created the Terrorist Surveillance Program // initially to intercept communications linked to al-Qaeda.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">它创建了恐怖分子监视计划 // 最初是为了拦截与基地组织有关的通信。</font></font></font></p>
+    <p>Officials were confident // that if the program had been in place before 9/11, // the hijackers could have been <strong>stopped</strong>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">官员们相信 // 如果该计划在 9/11 之前就已经实施，// 劫机者本可以<strong>被阻止 </strong>。</font></font></font></p>
+
+    <hr>
+
+    <p><mark class="transition" title="A phrase to show a new, often negative, development.">But soon</mark> // the new powers were also used to prove <mark class="vocab" title="A legal concept where someone is considered guilty because of their connection to others.">guilt by association</mark>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="A phrase to show a new, often negative, development." class="transition">但很快 </mark> // 新权力也被用来通过<mark title="A legal concept where someone is considered guilty because of their connection to others." class="vocab">关联来证明有罪 </mark>。</font></font></font></p>
+    <p>The FBI used immigration records // to identify Arab and Muslim foreign nationals in the US.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">联邦调查局利用移民记录//识别了在美国境内的阿拉伯和穆斯林外国公民。</font></font></font></p>
+    <p><mark class="transition" title="A formal way to show a result or action based on previous information.">On this basis</mark>, // 80,000 individuals were required to register, // another 8,000 were called in for FBI interviews, // and more <strong>than</strong> 5,000 locked up in preventive detention.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">在此<mark title="A formal way to show a result or action based on previous information." class="transition">基础上 </mark>，// 80,000 人被要求登记，// 另有 8,000 人被传唤接受联邦调查局采访，// 5,000 <strong> 多人</strong>被关在预防性拘留中。</font></font></font></p>
+    <p><strong>Not one</strong> terrorist was found // in what’s been called // the most aggressive national campaign of <mark class="vocab" title="A key term for targeting individuals based on their race or ethnicity.">ethnic profiling</mark> // since World War II.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">在所谓的//自二战以来最激进的<mark title="A key term for targeting individuals based on their race or ethnicity." class="vocab">全国性种族定性</mark>运动中，没有<strong>发现一个</strong>恐怖分子//。</font></font></font></p>
+
+    <hr>
+
+    <p>How <mark class="vocab" title="An adjective meaning 'ordinary' or 'widespread'.">commonplace</mark> it’s since become // for government agencies to collect and store the personal data of citizens // was <mark class="phrase" title="A formal idiom meaning 'made clear or obvious'.">made plain</mark> by the leak of the Snowden documents in 2013.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">从那以后，政府机构收集和存储公民个人数据变得多么<mark title="An adjective meaning 'ordinary' or 'widespread'." class="vocab">普遍 </mark>//2013 年斯诺登文件的泄露让人们<mark title="A formal idiom meaning 'made clear or obvious'." class="phrase">明白</mark>了这一点。</font></font></font></p>
+    <p>They showed how the NSA can demand information about users // from firms like Microsoft or Google // <mark class="transition" title="A phrase to add more information.">in addition to</mark> their daily collection of data from civilian internet traffic // such as email content and contact lists.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">他们展示了美国国家安全局如何要求 Microsoft 或 Google 等公司提供有关用户的信息 <mark title="A phrase to add more information." class="transition">// 除了</mark>他们每天从民用互联网流量中收集数据 // （例如电子邮件内容和联系人列表）之外。</font></font></font></p>
+    <p><mark class="transition" title="A transition showing a shift in focus.">So, instead of</mark> focusing on criminals, // governments are increasingly turning their attention to <strong>everyone</strong>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="A transition showing a shift in focus." class="transition">因此，</mark> 政府不再关注罪犯，而是越来越多地将注意力转向<strong>每个人 </strong>。</font></font></font></p>
+    <p><mark class="transition" title="A simple but effective contrasting conjunction.">But</mark> if you are looking for a <mark class="phrase" title="A famous idiom for searching for something tiny within a huge amount of other things.">needle in a haystack</mark>, // adding more hay to the stack // isn’t going to make it any easier // to find the needle.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="A simple but effective contrasting conjunction." class="transition">但是 </mark>，如果你正在<mark title="A famous idiom for searching for something tiny within a huge amount of other things." class="phrase">大海捞</mark>针，// 在大海捞针堆中添加更多的干草 // 不会让 // 更容易找到针。</font></font></font></p>
+
+    <hr>
+
+    <p><mark class="transition" title="A strong phrase to introduce a contrasting fact.">On the contrary</mark>, // every recent success announced by the NSA // has come from classic <mark class="vocab" title="A key concept: surveillance focused on specific individuals.">targeted surveillance</mark>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">相反 <mark title="A strong phrase to introduce a contrasting fact." class="transition">，/</mark>/ 美国国家安全局最近宣布的每一次成功 // 都来自经典的<mark title="A key concept: surveillance focused on specific individuals." class="vocab">有针对性的监视 </mark>。</font></font></font></p>
+    <p><mark class="transition" title="A phrase to introduce a point that contrasts with expectations.">Despite high hopes</mark>, // the NSA surveillance program has not stopped <strong>any</strong> major terror attack.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="A phrase to introduce a point that contrasts with expectations." class="transition">尽管寄予厚望，但 </mark> // 美国国家安全局的监控计划并没有阻止<strong>任何</strong>重大恐怖袭击。</font></font></font></p>
+    <p><mark class="transition" title="A classic way to introduce a specific example.">For instance</mark>, // one of the Boston Marathon bombers was <strong>already</strong> a target of the FBI.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="A classic way to introduce a specific example." class="transition">例如 </mark>，// 波士顿马拉松炸弹袭击者之一<strong>已经</strong>是联邦调查局的目标。</font></font></font></p>
+
+    <hr>
+
+    <p><mark class="transition" title="A transition to a concluding thought or proposed solution.">So</mark> // what we need is not even more random data, // but <strong>better ways</strong> to understand and use the information we have.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="A transition to a concluding thought or proposed solution." class="transition">因此 </mark>，我们需要的不是更多的随机数据，而是更好的<strong>方法</strong>来理解和使用我们所拥有的信息。</font></font></font></p>
+    <p>Spy agencies are also pushing to <mark class="phrase" title="A strong, descriptive verb phrase meaning 'to disable or severely weaken'.">cripple encryption</mark>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">间谍机构也在推动削弱<mark title="A strong, descriptive verb phrase meaning 'to disable or severely weaken'." class="phrase">加密 </mark>。</font></font></font></p>
+    <p>In early 2016, // the FBI asked Apple to produce a <mark class="vocab" title="A key term in cybersecurity for a secret method of bypassing security.">backdoor program</mark> // to disable the encryption of a terrorist’s iPhone.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">2016 年初，// 联邦调查局要求苹果公司制作一个<mark title="A key term in cybersecurity for a secret method of bypassing security." class="vocab">后门程序 </mark> // 以禁用恐怖分子 iPhone 的加密。</font></font></font></p>
+    <p>Apple publicly declined, // not only because this tool could be used to permanently weaken the privacy of <mark class="vocab" title="A common term for ordinary people who obey the law.">law-abiding citizens</mark> worldwide, //<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">苹果公开拒绝，// 不仅因为这个工具可能被用来永久削弱全球守<mark title="A common term for ordinary people who obey the law." class="vocab">法公民</mark>的隐私， //</font></font></font></p>
+    <p>but fearing to <mark class="phrase" title="A powerful idiom for starting a process that will be hard to stop.">open the floodgates</mark> for governments requesting access // to a technology used by billions of people, // a fear shared by security experts and cryptographers.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">但担心为要求访问 // 数十亿人使用的技术的政府打开<mark title="A powerful idiom for starting a process that will be hard to stop." class="phrase">闸门 </mark>，// 安全专家和密码学家也有同样的担忧。</font></font></font></p>
+    <p><mark class="transition" title="A phrase to mark the passage of a short amount of time.">A few weeks later</mark>, // the FBI revealed that they had hacked the phone themselves, // basically admitting that they lied to the public about the need for a backdoor, //<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="A phrase to mark the passage of a short amount of time." class="transition">几周后 </mark>，// 联邦调查局透露他们自己入侵了手机，// 基本上承认他们在需要后门方面向公众撒谎， //</font></font></font></p>
+    <p>which questions <mark class="phrase" title="A good phrase for introducing doubt about something.">how trustworthy</mark> spy agencies are // in the debate about privacy and security, //<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">这也质疑了间谍机构在隐私和安全辩论<mark title="A good phrase for introducing doubt about something." class="phrase">中的可信度 </mark> //</font></font></font></p>
+    <p>especially considering that the NSA, for example, // already has the capability to turn on your iPhone microphone // or activate your laptop camera // <strong>without you noticing</strong>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">尤其是考虑到 NSA，比如说，// 已经有能力在<strong>你不注意</strong>的情况下打开你的 iPhone 麦克风 // 或激活你的笔记本摄像头 // 。</font></font></font></p>
+
+    <hr>
+
+    <p>Concerns about this are often met with the argument, // “<mark class="phrase" title="A famous and controversial argument in the privacy debate.">If you have nothing to hide, you have nothing to fear</mark>.”<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">对此的担忧常常会被反驳为“//”<mark title="A famous and controversial argument in the privacy debate." class="phrase"> 如果你无所隐瞒，就无所畏惧 </mark>。”</font></font></font></p>
+    <p><mark class="transition" title="A simple but strong contrasting conjunction.">But</mark> this reasoning only creates a <mark class="vocab" title="A powerful phrase for a social atmosphere of fear and control.">climate of oppression</mark>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="A simple but strong contrasting conjunction." class="transition">但</mark>这种推理只会制造<mark title="A powerful phrase for a social atmosphere of fear and control." class="vocab">压迫氛围 </mark>。</font></font></font></p>
+    <p>Wanting to keep certain parts of your life private // doesn’t mean you’re doing anything wrong.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">想把生活中某些部分保密 // 并不意味着你做错了什么。</font></font></font></p>
+    <p><mark class="transition" title="A phrase to ground the conversation in the present before speculating.">Right now</mark>, // we live in a democracy. // But imagine the damage // the <strong>wrong person</strong> could do // with all our data // and such easy access to our devices.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="A phrase to ground the conversation in the present before speculating." class="transition">现在 </mark>，// 我们生活在一个民主社会。但想象一下，<strong> 错误的人</strong>可能会/对我们所有的数据//以及如此轻易访问我们设备的访问造成多大的损害。</font></font></font></p>
+
+    <hr>
+
+    <p>Anti-terrorism laws allow the authorities // to investigate and punish non-terrorism-related crimes more <strong>aggressively</strong>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">反恐法律允许当局更<strong>积极</strong>地调查和惩罚非恐怖主义相关犯罪。</font></font></font></p>
+    <p>If you give law enforcement powerful tools, // they <strong>will</strong> use them.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">如果你给执法部门强大的工具，// 他们<strong>会</strong>使用这些工具。</font></font></font></p>
+    <p><mark class="transition" title="A phrase to explain the reason for the previous statement's importance.">That’s why</mark> <mark class="vocab" title="A key concept for holding power accountable in a democracy.">democratic oversight</mark> is so important: // even if those tools and laws aren’t used against you today, // they might be <strong>tomorrow</strong>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="A phrase to explain the reason for the previous statement's importance." class="transition">这就是为什么</mark><mark title="A key concept for holding power accountable in a democracy." class="vocab">民主监督</mark>如此重要：// 即使这些工具和法律今天没有被用来对付你，// 明<strong>天</strong>可能会被用来对付你。</font></font></font></p>
+    <p><mark class="transition" title="A classic way to introduce an example.">For example</mark>, // following the November 2015 Paris attacks, // France expanded its already extensive anti-terrorism laws // by giving law enforcement greater powers // to conduct <mark class="vocab" title="A term for searching a private home without a warrant.">house raids</mark> and place people under <mark class="vocab" title="A term for confining someone to their residence.">house arrest</mark>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="A classic way to introduce an example." class="transition">例如 </mark>，// 2015 年 11 月巴黎袭击事件后，// 法国扩大了其本已广泛的反恐法律，// 赋予执法部门更大的权力 // 进行<mark title="A term for searching a private home without a warrant." class="vocab">房屋突袭</mark>和软<mark title="A term for confining someone to their residence." class="vocab">禁 </mark>。</font></font></font></p>
+    <p><mark class="transition" title="A phrase to show a quick development after an event.">Within weeks</mark>, // evidence emerged that these powers were being used for <mark class="vocab" title="A formal term for purposes other than the original ones.">unintended purposes</mark>, // such as <mark class="vocab" title="A strong verb meaning 'to suppress or put down'.">quashing</mark> climate change protests.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="A phrase to show a quick development after an event." class="transition">几周内 </mark>，// 证据浮出水面，显示这些权力被用于<mark title="A formal term for purposes other than the original ones." class="vocab">意想不到的目的 </mark>，比如<mark title="A strong verb meaning 'to suppress or put down'." class="vocab">镇压</mark>气候变化抗议。</font></font></font></p>
+    <p>The governments of Spain, // Hungary, // and Poland have introduced more restrictive laws // on the <mark class="vocab" title="A fundamental democratic right.">freedom of assembly and speech</mark>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">西班牙、匈牙利和波兰政府出台了更严格的集<mark title="A fundamental democratic right." class="vocab">会和言论自由</mark>法律。</font></font></font></p>
+    <p>Freedom of expression and the press in Turkey // has been seriously <mark class="vocab" title="A verb meaning 'weakened or damaged'.">undermined</mark> in the last few years, // with people sentenced to prison // for criticizing the government.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">近年来，土耳其的言论和新闻自由受到严重<mark title="A verb meaning 'weakened or damaged'." class="vocab">破坏 </mark>，// 有人因批评政府而被判入狱。</font></font></font></p>
+    <p><mark class="transition" title="A concluding phrase to show that the previous examples are not helpful.">None of this</mark> is effectively helping us fight terrorism.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="A concluding phrase to show that the previous examples are not helpful." class="transition">这些都没有</mark>有效帮助我们打击恐怖主义。</font></font></font></p>
+
+    <hr>
+
+    <p>The motivation behind this might be good, // even noble, // but if we let our elected governments limit our personal freedom, // the terrorists are <strong>winning</strong>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">背后的动机可能是善良的，甚至是高尚的，但如果我们让民选政府限制我们的个人自由，恐怖分子正在<strong>获胜 </strong>。</font></font></font></p>
+    <p><mark class="transition" title="A phrase to introduce an even more negative potential outcome.">What’s worse</mark>, // if we’re not careful, // we might slowly move towards a <mark class="vocab" title="A key dystopian concept for a state that constantly monitors its citizens.">surveillance state</mark>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="A phrase to introduce an even more negative potential outcome." class="transition">更糟</mark>的是，如果我们不小心，可能会慢慢走向<mark title="A key dystopian concept for a state that constantly monitors its citizens." class="vocab">监控状态 </mark>。</font></font></font></p>
+    <p>The data is pretty clear: // the <mark class="vocab" title="A key concept: the gradual destruction of rights.">erosion of rights</mark>, // along with <mark class="vocab" title="A key term for the large-scale monitoring of a population.">mass surveillance</mark>, // hasn’t led to significant successes so far, // but it has changed the <strong>nature</strong> of our society.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">数据相当明确：// <mark title="A key concept: the gradual destruction of rights." class="vocab"> 权利的侵蚀 </mark>，// 伴随着<mark title="A key term for the large-scale monitoring of a population." class="vocab">大规模监控 </mark>，// 迄今尚未带来显著成功，// 但它改变了我们社会<strong>的本质 </strong>。</font></font></font></p>
+
+    <hr>
+
+    <p>Terrorism is a complicated problem // without simple solutions.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">恐怖主义是一个复杂的问题，没有简单的解决方案。</font></font></font></p>
+    <p>No security apparatus can prevent a few guys // from building a bomb in their basement.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">没有任何安保装置能阻止几个人在地下室制造炸弹。</font></font></font></p>
+    <p>We should keep the <mark class="vocab" title="A legal and ethical principle that actions should be fair and not excessive.">principle of proportionality</mark> in mind.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">我们应牢记<mark title="A legal and ethical principle that actions should be fair and not excessive." class="vocab">比例</mark>原则。</font></font></font></p>
+    <p>Creating master keys to enter millions of phones // is not the same as // searching a single house.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">创建万能钥匙来输入数百万部手机 // 和搜索一栋房子是不一样的。</font></font></font></p>
+    <p>In most countries, // the law already permits a wide range of actions, // including targeted surveillance.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">在大多数国家，// 法律已经允许广泛的行动，// 包括定点监控。</font></font></font></p>
+    <p><mark class="transition" title="A phrase to introduce the purpose of an action.">To take full advantage of</mark> this existing potential, // we need better international cooperation // and more effective security and foreign policies, // better application of our present laws // instead of new and stricter ones that undermine our freedom.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="A phrase to introduce the purpose of an action." class="transition">要充分利用</mark>现有潜力，// 我们需要更好的国际合作 // 更有效的安全和外交政策，// 更好地执行现有法律 // 而非削弱我们自由的新法律。</font></font></font></p>
+    <p>Let us not, // out of fear, // destroy what we are most proud of: // democracy and our <mark class="vocab" title="A core concept of modern democracies.">fundamental rights and liberties</mark>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">让我们不要，// 出于恐惧，// 摧毁我们最引以为傲的东西：// 民主以及我们的<mark title="A core concept of modern democracies." class="vocab">基本权利和自由 </mark>。</font></font></font></p>
+
+
+
+</body></html>

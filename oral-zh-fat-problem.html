@@ -1,0 +1,775 @@
+<html imt-state="dual"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oral Practice: The Fat Problem (Wide Layout)</title>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 2.2; 
+            font-size: 19px;
+            /* Wide layout as requested */
+            max-width: 1200px; 
+            margin: 40px auto;
+            padding: 20px;
+            color: #333;
+            background-color: #fdfdfd;
+        }
+        h2, h3 {
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            color: #2c3e50;
+        }
+        p {
+            margin-bottom: 1.8em;
+        }
+        strong {
+            color: #c0392b; /* A strong red for emphasis */
+            font-weight: 600;
+        }
+        mark {
+            padding: 4px 6px;
+            border-radius: 5px;
+            font-weight: 500;
+            cursor: help; /* Indicates that there's a tooltip */
+            transition: all 0.2s ease-in-out;
+        }
+        mark:hover {
+            opacity: 0.85;
+        }
+        /* Color Categories */
+        mark.vocab { background-color: #dff0d8; /* Light Green for Vocabulary/Concepts */ }
+        mark.phrase { background-color: #fcf8e3; /* Soft Yellow for Phrases/Idioms */ }
+        mark.transition { background-color: #d9edf7; /* Calm Blue for Transitions */ }
+
+        .instructions {
+            background-color: #f9f9f9;
+            border-left: 5px solid #bdc3c7;
+            padding: 15px 25px;
+            margin: 30px 0;
+            border-radius: 5px;
+        }
+        .instructions ul {
+            padding-left: 20px;
+            list-style: none;
+        }
+        .instructions li {
+            margin-bottom: 10px;
+        }
+        .color-box {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            margin-right: 10px;
+            vertical-align: middle;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+        }
+    </style>
+<style data-id="immersive-translate-default-injected-css">:root {
+  --immersive-translate-theme-underline-borderColor: #72ece9;
+  --immersive-translate-theme-nativeUnderline-borderColor: #72ece9;
+  --immersive-translate-theme-nativeDashed-borderColor: #72ece9;
+  --immersive-translate-theme-nativeDotted-borderColor: #72ece9;
+  --immersive-translate-theme-highlight-backgroundColor: #ffff00;
+  --immersive-translate-theme-dashed-borderColor: #59c1bd;
+  --immersive-translate-theme-blockquote-borderColor: #cc3355;
+  --immersive-translate-theme-thinDashed-borderColor: #ff374f;
+  --immersive-translate-theme-dashedBorder-borderColor: #94a3b8;
+  --immersive-translate-theme-dashedBorder-borderRadius: 0;
+  --immersive-translate-theme-solidBorder-borderColor: #94a3b8;
+  --immersive-translate-theme-solidBorder-borderRadius: 0;
+  --immersive-translate-theme-dotted-borderColor: #94a3b8;
+  --immersive-translate-theme-wavy-borderColor: #72ece9;
+  --immersive-translate-theme-dividingLine-borderColor: #94a3b8;
+  --immersive-translate-theme-grey-textColor: #2f4f4f;
+  --immersive-translate-theme-marker-backgroundColor: #fbda41;
+  --immersive-translate-theme-marker-backgroundColor-rgb: 251, 218, 65;
+  --immersive-translate-theme-marker2-backgroundColor: #ffff00;
+  --immersive-translate-theme-background-backgroundColor: #dbafaf;
+  --immersive-translate-theme-background-backgroundColor-rgb: 219, 175, 175;
+  --immersive-translate-theme-background-backgroundOpacity: 12;
+  --immersive-translate-theme-opacity-opacity: 10;
+}
+
+[imt-state="dual"] .immersive-translate-target-translation-pre-whitespace {
+  white-space: pre-wrap !important;
+}
+
+[imt-state="dual"] .immersive-translate-pdf-target-container {
+  position: absolute;
+  background-color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    sans-serif;
+  top: 0;
+  width: 600px;
+  height: 100%;
+  z-index: 2;
+  line-height: 1.3;
+  font-size: 16px;
+}
+[imt-state="dual"] .immersive-translate-target-wrapper[dir="rtl"] {
+  text-align: right;
+}
+
+[imt-state="dual"]
+  .immersive-translate-pdf-target-container
+  .immersive-translate-target-wrapper {
+  color: rgb(0, 0, 0);
+  white-space: normal;
+  position: absolute;
+}
+
+[imt-state="dual"]
+  .immersive-translate-pdf-target-container
+  .immersive-translate-target-wrapper
+  font {
+  color: inherit;
+  white-space: inherit;
+  position: unset;
+}
+
+[imt-state="translation"] .immersive-translate-target-wrapper > br {
+  display: none;
+}
+
+[imt-state="translation"]
+  .immersive-translate-target-translation-block-wrapper {
+  margin: 0 !important;
+}
+
+[imt-state="dual"] .immersive-translate-target-translation-block-wrapper {
+  margin: 8px 0 !important;
+  display: inline-block;
+}
+
+[imt-trans-position="before"]
+  .immersive-translate-target-translation-block-wrapper {
+  display: block;
+}
+
+[imt-trans-position="before"]
+  .immersive-translate-target-translation-block-wrapper {
+  margin-top: 0 !important;
+}
+
+[imt-state="dual"] .immersive-translate-target-translation-pdf-block-wrapper {
+  margin: 0 !important;
+  display: inline-block;
+}
+
+[imt-state="dual"] .immersive-translate-target-translation-theme-grey-inner {
+  color: var(--immersive-translate-theme-grey-textColor);
+}
+
+[imt-state="dual"]
+  .immersive-translate-target-translation-theme-underline-inner {
+  border-bottom: 1px solid
+    var(--immersive-translate-theme-underline-borderColor) !important;
+}
+
+[imt-state="dual"]
+  .immersive-translate-target-translation-theme-nativeUnderline-inner {
+  text-decoration: underline !important;
+  text-decoration-color: var(
+    --immersive-translate-theme-nativeUnderline-borderColor
+  ) !important;
+}
+
+[imt-state="dual"]
+  .immersive-translate-target-translation-block-wrapper-theme-dashedBorder {
+  border: 1px dashed var(--immersive-translate-theme-dashedBorder-borderColor) !important;
+  border-radius: var(
+    --immersive-translate-theme-dashedBorder-borderRadius
+  ) !important;
+  padding: 6px;
+  margin-top: 2px;
+  display: inline-block;
+}
+
+[imt-state="dual"]
+  .immersive-translate-target-translation-inline-wrapper-theme-dashedBorder {
+  border: 1px dashed var(--immersive-translate-theme-dashedBorder-borderColor) !important;
+  border-radius: var(
+    --immersive-translate-theme-dashedBorder-borderRadius
+  ) !important;
+  padding: 2px;
+}
+
+[imt-state="dual"]
+  .immersive-translate-target-translation-block-wrapper-theme-solidBorder {
+  border: 1px solid var(--immersive-translate-theme-solidBorder-borderColor) !important;
+  border-radius: var(
+    --immersive-translate-theme-solidBorder-borderRadius
+  ) !important;
+  padding: 6px;
+  margin-top: 2px;
+  display: inline-block;
+}
+
+[imt-state="dual"]
+  .immersive-translate-target-translation-inline-wrapper-theme-solidBorder {
+  border: 1px solid var(--immersive-translate-theme-solidBorder-borderColor) !important;
+  border-radius: var(
+    --immersive-translate-theme-solidBorder-borderRadius
+  ) !important;
+  padding: 2px;
+}
+
+[imt-state="dual"]
+  .immersive-translate-target-translation-theme-nativeDashed-inner {
+  text-decoration: underline !important;
+  text-decoration-color: var(
+    --immersive-translate-theme-nativeDashed-borderColor
+  ) !important;
+  text-decoration-style: dashed !important;
+}
+
+[imt-state="dual"]
+  .immersive-translate-target-translation-theme-thinDashed-inner {
+  border-bottom: 1px dashed
+    var(--immersive-translate-theme-thinDashed-borderColor) !important;
+}
+
+[imt-state="dual"] .immersive-translate-target-translation-theme-dotted-inner {
+  background-image: linear-gradient(
+    to right,
+    var(--immersive-translate-theme-dotted-borderColor) 30%,
+    rgba(255, 255, 255, 0) 0%
+  );
+  background-position: bottom;
+  background-size: 5px 1px;
+  background-repeat: repeat-x;
+  padding-bottom: 3px;
+}
+
+[imt-state="dual"]
+  .immersive-translate-target-translation-theme-nativeDotted-inner {
+  text-decoration: underline !important;
+  text-decoration-color: var(
+    --immersive-translate-theme-nativeDotted-borderColor
+  ) !important;
+  text-decoration-style: dotted !important;
+}
+
+[imt-state="dual"] .immersive-translate-target-translation-theme-wavy-inner {
+  text-decoration: underline !important;
+  text-decoration-color: var(
+    --immersive-translate-theme-wavy-borderColor
+  ) !important;
+  text-decoration-style: wavy !important;
+}
+
+[imt-state="dual"] .immersive-translate-target-translation-theme-dashed-inner {
+  background: linear-gradient(
+      to right,
+      var(--immersive-translate-theme-dashed-borderColor) 0%,
+      var(--immersive-translate-theme-dashed-borderColor) 50%,
+      transparent 50%,
+      transparent 100%
+    )
+    repeat-x left bottom;
+  background-size: 8px 2px;
+  padding-bottom: 2px;
+}
+
+[imt-state="dual"]
+  .immersive-translate-target-translation-block-wrapper-theme-dividingLine::before {
+  content: "";
+  display: block;
+  max-width: 80px;
+  width: 10%;
+  border-top: 1px dashed
+    var(--immersive-translate-theme-dividingLine-borderColor);
+  padding-top: 8px;
+}
+
+[imt-state="dual"]
+  .immersive-translate-target-translation-inline-wrapper-theme-dividingLine::before {
+  content: "";
+  border-left: 1px dashed
+    var(--immersive-translate-theme-dividingLine-borderColor);
+  max-height: 16px;
+  height: 16px;
+  padding-left: 8px;
+}
+
+[imt-state="dual"]
+  .immersive-translate-target-translation-theme-highlight-inner {
+  background: var(--immersive-translate-theme-highlight-backgroundColor);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+[imt-state="dual"]
+  .immersive-translate-target-translation-block-wrapper-theme-marker {
+  line-height: 1.5em;
+}
+
+[imt-state="dual"] .immersive-translate-target-translation-theme-marker2-inner {
+  font-weight: bold;
+  text-shadow: 10px 0px 3px
+      var(--immersive-translate-theme-marker2-backgroundColor),
+    16px 3px 9px var(--immersive-translate-theme-marker2-backgroundColor),
+    2px 0px 6px var(--immersive-translate-theme-marker2-backgroundColor),
+    -12px 0px 12px var(--immersive-translate-theme-marker2-backgroundColor) !important;
+}
+
+[imt-state="dual"] .immersive-translate-target-translation-theme-marker-inner {
+  /* TODO: add more texture */
+  background: linear-gradient(
+    to right,
+    rgba(var(--immersive-translate-theme-marker-backgroundColor-rgb), 0.1),
+    rgba(var(--immersive-translate-theme-marker-backgroundColor-rgb), 0.9) 3%,
+    rgba(var(--immersive-translate-theme-marker-backgroundColor-rgb), 0.9) 35%,
+    rgba(var(--immersive-translate-theme-marker-backgroundColor-rgb), 0.9) 70%,
+    rgba(var(--immersive-translate-theme-marker-backgroundColor-rgb), 0.8) 95%,
+    rgba(var(--immersive-translate-theme-marker-backgroundColor-rgb), 0.3)
+  );
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+[imt-state="dual"] .immersive-translate-target-translation-theme-weakening {
+  opacity: 0.618 !important;
+}
+
+[imt-state="dual"] .immersive-translate-target-translation-theme-italic {
+  font-style: italic !important;
+}
+
+[imt-state="dual"] .immersive-translate-target-translation-theme-bold {
+  font-weight: bold !important;
+}
+
+[imt-state="dual"]
+  .immersive-translate-target-translation-block-wrapper-theme-paper {
+  margin: 8px 0;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  padding: 16px 32px;
+  display: inline-block;
+}
+
+[imt-state="dual"]
+  .immersive-translate-target-translation-block-wrapper-theme-blockquote {
+  border-left: 4px solid var(--immersive-translate-theme-blockquote-borderColor) !important;
+  padding-left: 12px !important;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  display: inline-block;
+}
+
+[imt-state="dual"] .immersive-translate-target-translation-theme-mask-inner {
+  filter: blur(5px) !important;
+  transition: filter 0.3s ease !important;
+  border-radius: 10px;
+  display: inline-block;
+}
+
+[data-immersive-translate-root-translation-theme="none"]
+  .immersive-translate-target-translation-theme-mask-inner {
+  filter: none !important;
+}
+
+[data-immersive-translate-root-translation-theme="mask"]
+  .immersive-translate-target-inner {
+  filter: blur(5px) !important;
+  transition: filter 0.3s ease !important;
+  border-radius: 10px;
+  display: inline-block;
+}
+
+/* opacity theme start */
+
+[imt-state="dual"] .immersive-translate-target-translation-theme-opacity-inner {
+  filter: opacity(
+    calc(var(--immersive-translate-theme-opacity-opacity) * 1%)
+  ) !important;
+  transition: filter 0.3s ease !important;
+  border-radius: 10px;
+  display: inline-block;
+}
+
+[data-immersive-translate-root-translation-theme="none"]
+  .immersive-translate-target-translation-theme-opacity-inner {
+  filter: none !important;
+}
+[data-immersive-translate-root-translation-theme="opacity"]
+  .immersive-translate-target-inner,
+[imt-state="dual"]
+  .immersive-translate-target-translation-theme-opacity-inner:hover {
+  filter: opacity(
+    calc(var(--immersive-translate-theme-opacity-opacity) * 1%)
+  ) !important;
+  transition: filter 0.3s ease !important;
+  border-radius: 10px;
+  display: inline-block;
+}
+
+[imt-state="dual"]
+  .immersive-translate-target-translation-theme-opacity-inner:hover {
+  filter: none !important;
+}
+
+[imt-state="dual"]
+  .immersive-translate-target-translation-theme-mask-inner:hover {
+  filter: none !important;
+}
+[data-immersive-translate-root-translation-theme="opacity"]
+  .immersive-translate-target-inner:hover {
+  filter: none !important;
+}
+
+[data-immersive-translate-root-translation-theme="mask"]
+  .immersive-translate-target-inner:hover {
+  filter: none !important;
+}
+
+/* opacity theme end */
+
+/* background theme start */
+[imt-state="dual"]
+  .immersive-translate-target-translation-block-wrapper-theme-background {
+  margin: 8px 0;
+  background: rgba(
+    var(--immersive-translate-theme-background-backgroundColor-rgb),
+    calc(var(--immersive-translate-theme-background-backgroundOpacity) * 1%)
+  );
+  border-radius: 4px;
+  box-shadow: unset !important;
+  padding: 12px;
+  display: inline-block;
+}
+[imt-state="dual"]
+  .immersive-translate-target-translation-theme-background-inner {
+  background: rgba(
+    var(--immersive-translate-theme-background-backgroundColor-rgb),
+    calc(var(--immersive-translate-theme-background-backgroundOpacity) * 1%)
+  );
+  padding-left: 6px;
+  padding-right: 6px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+[imt-state="dual"]
+  .immersive-translate-target-translation-block-wrapper
+  .immersive-translate-target-translation-theme-background-inner {
+  background: unset;
+  padding-left: unset;
+  padding-right: unset;
+}
+/* background theme end */
+
+/* vertical css , please remain it in the last one. */
+.immersive-translate-target-translation-vertical-block-wrapper {
+  margin: 0px 8px !important;
+}
+
+.immersive-translate-text {
+  font-size: 15px !important;
+}
+
+.immersive-translate-error-toast {
+  position: fixed;
+  top: 5%;
+  z-index: 99999999;
+  left: 0;
+  right: 0;
+  margin: auto;
+  max-width: 300px;
+  padding: 16px;
+  border-radius: 12px;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+@media all and (min-width: 750px) {
+  .immersive-translate-error-toast {
+    max-width: 400px;
+  }
+}
+
+.immersive-translate-clickable-button {
+  cursor: pointer;
+}
+
+.immersive-translate-help-button {
+  cursor: pointer;
+}
+
+.immersive-translate-loading-text:before {
+  content: "...";
+}
+
+/* dark mode for loading */
+
+@media only screen and (prefers-color-scheme: dark) {
+  .immersive-translate-loading {
+    border: 2px rgba(255, 255, 255, 0.25) solid !important;
+    border-top: 2px rgba(255, 255, 255, 1) solid !important;
+  }
+}
+
+.immersive-translate-error-wrapper {
+  position: relative;
+  display: inline-flex;
+  padding: 6px;
+  margin: 0 12px;
+  white-space: nowrap;
+  font-size: 0.9em;
+}
+[lang="zh-CN"] .immersive-translate-error-wrapper {
+  font-size: 0.75em;
+}
+[lang="zh-TW"] .immersive-translate-error-wrapper {
+  font-size: 0.75em;
+}
+
+.immersive-translate-tooltip {
+  position: relative;
+  display: inline-flex;
+  /* little indicater to indicate it's hoverable */
+}
+
+.immersive-translate-tooltip-content {
+  /* here's the magic */
+  position: absolute;
+  z-index: 100000000000;
+
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, 110%);
+  line-height: 1;
+  /* and add a small left margin */
+
+  /* basic styles */
+  width: max-content;
+  max-width: 250px;
+  word-wrap: break-word;
+  white-space: pre-line;
+  padding: 10px;
+  border-radius: 10px;
+  background: #000c;
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+  display: none;
+  /* hide by default */
+}
+
+.immersive-translate-tooltip:hover .immersive-translate-tooltip-content {
+  display: inline-block;
+}
+
+.immersive-translate-tooltip:hover + .immersive-translate-tooltip-content {
+  display: inline-block;
+}
+
+.immersive-translate-tooltip-content-table {
+  left: unset !important;
+  bottom: unset !important;
+  transform: translate(-10%, 50%) !important;
+}
+
+.immersive-translate-tooltip:hover:before {
+  display: inline-block;
+}
+
+.immersive-translate-loading-spinner {
+  vertical-align: middle !important;
+  width: 10px !important;
+  height: 10px !important;
+  display: inline-block !important;
+  margin: 0 4px !important;
+  border: 2px rgba(221, 244, 255, 0.6) solid !important;
+  border-top: 2px rgba(0, 0, 0, 0.375) solid !important;
+  border-left: 2px rgba(0, 0, 0, 0.375) solid !important;
+  border-radius: 50% !important;
+  padding: 0 !important;
+  -webkit-animation: immersive-translate-loading-animation 0.6s infinite linear !important;
+  animation: immersive-translate-loading-animation 0.6s infinite linear !important;
+}
+
+@-webkit-keyframes immersive-translate-loading-animation {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+
+  to {
+    -webkit-transform: rotate(359deg);
+  }
+}
+
+@keyframes immersive-translate-loading-animation {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+.imt-image-status {
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--bg-2, #fff);
+  font-size: 14px;
+}
+</style><style data-id="immersive-translate-user-custom-style">:root {
+
+.immersive-translate-target-inner { font-family: inherit; }
+
+
+.immersive-translate-target-inner { font-family: inherit; }
+}
+</style><style data-id="immersive-translate-dynamic-injected-css">.immersive-translate-target-wrapper[dir='rtl'] {text-align: right;display:block!important;}
+[dir='rtl'] .immersive-translate-target-wrapper:not([dir]) {text-align:left;direction:ltr;}
+.immersive-translate-target-wrapper {word-break:break-word; user-select:text;}
+[imt-state=dual] .immersive-translate-target-translation-block-wrapper-theme-dividingLine::before {display:block;}
+[imt-trans-position=before] .immersive-translate-target-translation-block-wrapper {display:block!important;}
+.docx-wrapper p {line-height: unset!important;}
+</style></head><body>
+
+    <h2>Oral Practice: The Fat Problem<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">口语练习：肥胖问题</font></font></font></h2>
+
+    <div class="instructions">
+        <h3>✨ Enhanced Practice Guide (Wide Layout)<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">✨ 增强练习指南（宽版版）</font></font></font></h3>
+        <ul>
+            <li><strong>//</strong> : At this symbol, take a short, natural <strong>pause</strong>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><strong></strong> ：在这个符号处，短暂、自然地<strong>停顿 </strong>。</font></font></font></li>
+            <li><strong><strong>Bold Text</strong></strong> : These are <strong>key words</strong> to emphasize with your voice.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><strong><strong>粗体文字 </strong></strong> ：这些是用你的声音强调的关键<strong>词 </strong>。</font></font></font></li>
+            <li><span class="color-box" style="background-color: #dff0d8;"></span><mark class="vocab" title="This is an example!">Hover over highlights</mark> for a tooltip explaining why the term is useful.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">将<mark title="This is an example!" class="vocab">鼠标悬停在突出显示上 </mark>，可查看解释该术语为何有用的工具提示。</font></font></font></li>
+        </ul>
+        <strong>Highlight Categories:<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">亮点类别：</font></font></font></strong>
+        <ul>
+            <li><span class="color-box" style="background-color: #dff0d8;"></span><mark class="vocab">Key Vocabulary &amp; Concepts<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">关键词汇和概念</font></font></font></mark></li>
+            <li><span class="color-box" style="background-color: #fcf8e3;"></span><mark class="phrase">Useful Phrases &amp; Idioms<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">有用的短语和习语</font></font></font></mark></li>
+            <li><span class="color-box" style="background-color: #d9edf7;"></span><mark class="transition">Transitions &amp; Connecting Words<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">过渡和连接词</font></font></font></mark></li>
+        </ul>
+    </div>
+
+    <p>Fat is your most <strong>dangerous organ</strong>. // Yes, organ.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">脂肪是你最危险的<strong>器官 </strong>。是的，风琴。</font></font></font></p>
+    <p><mark class="transition" title="A conjunction used to show contrast.">While</mark> it's often falsely described as a <mark class="phrase" title="A phrase meaning 'nothing more than'.">mere expression of</mark> laziness or <mark class="vocab" title="Habitual greed or excess in eating.">gluttony</mark>, // fat is <strong>essential</strong> for health, // controlling and guiding crucial processes in your body.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="A conjunction used to show contrast." class="transition">虽然</mark>脂肪常被错误地描述为懒惰或<mark title="Habitual greed or excess in eating." class="vocab">暴食</mark>的<mark title="A phrase meaning 'nothing more than'." class="phrase">表现 </mark>，但// 脂肪对健康<strong>至关重要 </strong>，// 控制并引导身体的关键过程。</font></font></font></p>
+    <p><mark class="transition" title="But if: introduces a conditional contrast.">But if</mark> you have too much fat, // it starts to <mark class="vocab" title="To interrupt or prevent the correct working of.">disrupt</mark> your <mark class="vocab" title="The chemical processes that occur within a living organism in order to maintain life.">metabolism</mark>, // becoming one of the most deadly things that can happen to your body.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="But if: introduces a conditional contrast." class="transition">但如果你</mark>脂肪过多，// 它会开始<mark title="To interrupt or prevent the correct working of." class="vocab">干扰</mark>你的<mark title="The chemical processes that occur within a living organism in order to maintain life." class="vocab">新陈代谢 </mark>，// 成为你身体可能发生的最致命的事情之一。</font></font></font></p>
+    
+    <hr>
+    
+    <p>Today, // more people are <mark class="vocab" title="Grossly fat or overweight.">obese</mark> than starving, // which is a huge victory.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">如今，肥胖<mark title="Grossly fat or overweight." class="vocab">的人比饥</mark>饿的人还多，// 这是一个巨大的胜利。</font></font></font></p>
+    <p>There are <mark class="phrase" title="Various kinds of.">all sorts of</mark> ideas about the cause of the obesity epidemic, // <mark class="transition" title="But it really: helps to focus on the main point.">but it really</mark> <mark class="phrase" title="A phrasal verb meaning 'can be explained by a single important factor'.">comes down to one thing</mark>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">关于肥胖流行的原因有<mark title="Various kinds of." class="phrase">各种</mark>各样的说法，<mark title="But it really: helps to focus on the main point." class="transition">// 但归</mark>根结底只有<mark title="A phrasal verb meaning 'can be explained by a single important factor'." class="phrase">一个。</mark></font></font></font></p>
+    <p>For millions of years, // humans had to <mark class="phrase" title="To use up energy or effort.">expend a lot of effort</mark> to get food // and often faced hunger.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">数百万年来，// 人类不得不<mark title="To use up energy or effort." class="phrase">付出大量努力</mark>才能获得食物 // 并且经常面临饥饿。</font></font></font></p>
+    <p>Our bodies evolved to <mark class="phrase" title="To keep or retain.">hold on to</mark> every bit of energy.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">我们的身体进化出能<mark title="To keep or retain." class="phrase">储存</mark>每一丝能量。</font></font></font></p>
+    <p><mark class="transition" title="And then suddenly: introduces a rapid change in circumstances.">And then suddenly</mark> // we had an <mark class="vocab" title="An extremely plentiful quantity.">overabundance</mark> of food // we didn't need to move much for.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="And then suddenly: introduces a rapid change in circumstances." class="transition">然后突然间 </mark>，我们有了<mark title="An extremely plentiful quantity." class="vocab">过剩</mark>的食物，不需要怎么动。</font></font></font></p>
+    <p>We made food <mark class="vocab" title="Extremely extremely pleasant to taste.">hyperpalatable</mark> // and <mark class="vocab" title="Foods containing added ingredients like sugar, salt, fat, and artificial colors/preservatives.">ultra-processed</mark> // with <mark class="phrase" title="A large amount of.">loads of</mark> unhealthy fats, // salt // and sugar.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">我们让食物<mark title="Extremely extremely pleasant to taste." class="vocab">变得极其美味 </mark>，// 并且<mark title="Foods containing added ingredients like sugar, salt, fat, and artificial colors/preservatives." class="vocab">是超级加工的 </mark> /<mark title="A large amount of." class="phrase">/ 加了很多</mark>不健康的脂肪、盐 // 和糖。</font></font></font></p>
+    <p>Our brains love this, // so our food is extremely <mark class="phrase" title="Difficult to stop oneself from eating.">hard to resist</mark>, // <mark class="phrase" title="To the degree that.">to the point of</mark> being addictive.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">我们的大脑非常喜欢这个，// 所以我们的食物极<mark title="Difficult to stop oneself from eating." class="phrase">难抗拒 </mark>，// <mark title="To the degree that." class="phrase"> 甚至</mark>让人上瘾。</font></font></font></p>
+    <p>It's also extremely convenient, // cheap, // and you get a lot of energy <mark class="vocab" title="Amount of energy per unit of volume.">per volume</mark>, // so it's not very <mark class="vocab" title="Filling; satisfying hunger.">satiating</mark>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">而且非常方便，// 便宜，// 而且<mark title="Amount of energy per unit of volume." class="vocab">每体积</mark>能消耗很多能量，// 所以不太<mark title="Filling; satisfying hunger." class="vocab">让人满足 </mark>。</font></font></font></p>
+    <p>This leads to most of us regularly overeating // without realizing it.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">这导致我们大多数人经常暴饮暴食，却浑然不觉。</font></font></font></p>
+    <p><mark class="transition" title="And: introduces an additional factor.">And</mark> food is <mark class="phrase" title="Promoted with great force and determination.">aggressively marketed</mark>, // especially to children.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="And: introduces an additional factor." class="transition">而且</mark>食品营销<mark title="Promoted with great force and determination." class="phrase">非常积极 </mark>，尤其是针对儿童。</font></font></font></p>
+
+    <hr>
+
+    <p>Fat <mark class="phrase" title="Is accompanied by.">comes with</mark> a lot of shame and blame, // which is pretty unfair // in a world full of things that make you feel nice // and are available <mark class="phrase" title="Very quickly.">within minutes</mark>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">肥胖<mark title="Is accompanied by." class="phrase">带来</mark>很多羞耻和责备，// 在这个充满让你感觉良好的事物 // 几分钟<mark title="Very quickly." class="phrase">内</mark>就能获得的世界中，这相当不公平。</font></font></font></p>
+    <p>Body fat is also often unfairly <mark class="vocab" title="To describe someone or something as bad or evil.">villainized</mark> // <mark class="transition" title="But: introduces the positive side.">but</mark> it's <strong>crucially important</strong> for your health // and if you don't have enough // you can suffer problems from <mark class="vocab" title="Inability to conceive children.">infertility</mark> // to a weak immune system, // <mark class="vocab" title="Extreme tiredness.">fatigue</mark>, // mental health issues // and <mark class="vocab" title="A medical condition in which the bones become brittle and fragile.">osteoporosis</mark>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">体脂也常被<mark title="To describe someone or something as bad or evil." class="vocab">不公平地妖魔化 </mark> // <mark title="But: introduces the positive side." class="transition"> 但它</mark>对你的健康<strong>至关重要 </strong> // 如果你脂肪不足 // 你可能会遭受不<mark title="Inability to conceive children." class="vocab">孕不育 </mark>、免疫系统薄弱、疲<mark title="Extreme tiredness." class="vocab">劳 </mark>、心理健康问题和<mark title="A medical condition in which the bones become brittle and fragile." class="vocab">骨质疏松</mark>等问题。</font></font></font></p>
+    <p><mark class="transition" title="Still: despite that.">Still</mark>, // none of this changes how bad <strong>excess fat</strong> is for us.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="Still: despite that." class="transition">不过 </mark>，// 这些都改变不了多<strong>余脂肪</strong>对我们的伤害。</font></font></font></p>
+    <p><mark class="transition" title="So: introduces a question leading to the next section.">So</mark>, // how does our fat organ become so destructive // and can we help ourselves?<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="So: introduces a question leading to the next section." class="transition">那么 </mark>，// 我们的脂肪器官是如何变得如此具有破坏性的 // 我们能帮助自己吗？</font></font></font></p>
+
+    <h3>What is fat?<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">什么是脂肪？</font></font></font></h3>
+
+    <p>If you consume more energy than you burn, // you store it as <mark class="vocab" title="The main constituents of natural fats and oils.">triglycerides</mark>, // an organic battery <mark class="phrase" title="Full of energy.">bustling with energy</mark>, // collected in a large drop of fat // inside a white fat cell.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">如果你消耗的能量超过消耗的能量，// 你会将其储存为甘<mark title="The main constituents of natural fats and oils." class="vocab">油三</mark>酯，// 一个<mark title="Full of energy." class="phrase">充满能量的</mark>有机电池，// 收集在一大滴脂肪中 // 置于白色脂肪细胞内。</font></font></font></p>
+    <p>Gain weight // and white fat cells expand with fat, // lose weight, // and they <mark class="vocab" title="Become smaller.">shrink</mark>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">体重增加 // 白细胞会随着脂肪一起膨胀，// 减肥，// 它们<mark title="Become smaller." class="vocab">会缩小 </mark>。</font></font></font></p>
+    <p><mark class="transition" title="Only in the last few decades: emphasizes recent knowledge.">Only in the last few decades</mark> // have we learned fat's most important job.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="Only in the last few decades: emphasizes recent knowledge." class="transition">直到近几十年 </mark>，我们才了解到脂肪最重要的作用。</font></font></font></p>
+    <p>Fat is an <mark class="vocab" title="Relating to glands that secrete hormones.">endocrine organ</mark>, // part of the system that makes and regulates your <mark class="vocab" title="Chemical substances that act like messenger molecules in the body.">hormones</mark>, // chemical signals for your brain, // liver, // muscles, // digestive tract, // and immune system, // making them work correctly together.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">脂肪是一种<mark title="Relating to glands that secrete hormones." class="vocab">内分泌器官 </mark>，是制造和<mark title="Chemical substances that act like messenger molecules in the body." class="vocab">调节激素的</mark>系统的一部分，负责大脑、肝脏、肌肉、消化道和免疫系统，使它们正常协同工作。</font></font></font></p>
+    <p><mark class="transition" title="Unfortunately: introduces a negative turn.">Unfortunately</mark>, // if you become overweight and obese, // your fat organ and the many hormones it releases <mark class="phrase" title="Become disordered or chaotic.">turn insane</mark>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="Unfortunately: introduces a negative turn." class="transition">不幸的是 </mark>，如果你变得超重和肥胖，你的脂肪器官和它释放的多种激素<mark title="Become disordered or chaotic." class="phrase">会变得疯狂 </mark>。</font></font></font></p>
+    <p>In adults, // fat <mark class="phrase" title="Exists in certain forms.">comes in</mark> two types of white fat depots.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">在成年人中，// 脂肪<mark title="Exists in certain forms." class="phrase">分为</mark>两种白脂储备。</font></font></font></p>
+    <p>Most of it is <mark class="vocab" title="Situated or applied under the skin.">subcutaneous fat</mark>, // the gooey soft stuff under your skin // that <mark class="vocab" title="Protects from heat/cold loss.">insulates</mark> against the cold // and serves as energy storage.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">大部分是<mark title="Situated or applied under the skin." class="vocab">皮下脂肪 </mark>，// 皮肤下那种软软黏稠的东西 // 能<mark title="Protects from heat/cold loss." class="vocab">隔绝</mark>寒冷 // 并起到能量储存的作用。</font></font></font></p>
+    <p>The other one is <mark class="vocab" title="Fat stored within the abdominal cavity.">visceral fat</mark> // <mark class="phrase" title="Located snugly or comfortably within.">nestled between</mark> your organs, // providing a soft cushion for your sensitive insides.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">另一种是内脏<mark title="Fat stored within the abdominal cavity." class="vocab">脂肪 </mark>，<mark title="Located snugly or comfortably within." class="phrase"> 夹在器官之间 </mark>，为你敏感的内部提供柔软的缓冲。</font></font></font></p>
+    <p><mark class="transition" title="But it also happens to be: introduces a surprising negative fact.">But it also happens to be</mark> more dangerous.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="But it also happens to be: introduces a surprising negative fact." class="transition">但这也</mark>更危险。</font></font></font></p>
+    <p>These fat cells are <mark class="phrase" title="Extremely reactive.">super sensitive</mark> to stress hormones // like <mark class="vocab" title="The primary stress hormone.">cortisol</mark> or adrenaline.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">这些脂肪细胞对压力激素<mark title="Extremely reactive." class="phrase">非常敏感 </mark>，比如<mark title="The primary stress hormone." class="vocab">皮质醇</mark>或肾上腺素。</font></font></font></p>
+    <p>When they <mark class="phrase" title="Detect an increase.">pick up a surge</mark> of stress, // they release <mark class="vocab" title="Building blocks of the fat in our bodies.">fatty acids</mark> directly into your blood // and are <mark class="phrase" title="Collected or absorbed.">picked up</mark> by your liver // as a rapid source of energy.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">当它们<mark title="Detect an increase." class="phrase">感受到压力激增</mark>时，// 它们<mark title="Building blocks of the fat in our bodies." class="vocab">会</mark>直接释放脂肪酸到血液中 // 然后被肝<mark title="Collected or absorbed." class="phrase">脏接收 </mark> // 作为快速的能量来源。</font></font></font></p>
+    <p><mark class="transition" title="On top of that: in addition to that (usually negative).">On top of that</mark>, // your visceral fat is very <mark class="vocab" title="Highly involved in metabolic processes.">metabolically active</mark>, // in a constant hormonal dialogue with the rest of your body.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">此外 <mark title="On top of that: in addition to that (usually negative)." class="transition">，/</mark>/ 你的内脏脂肪代谢非常<mark title="Highly involved in metabolic processes." class="vocab">活跃 </mark>，// 与身体其他部位持续进行激素对话。</font></font></font></p>
+    <p>This is also why the health of two people with the same weight and amount of fat // can be totally different.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">这也是为什么两个体重和脂肪量相同的人的健康状况可能完全不同。</font></font></font></p>
+    <p>If you're <mark class="vocab" title="Having hips wider than the shoulders (fat stored in hips).">pear-shaped</mark> // and your fat is mostly in your hips or <mark class="vocab" title="Arms and legs.">limbs</mark>, // you're <mark class="phrase" title="Having a lower chance of danger.">much less at risk</mark> // than someone <mark class="vocab" title="Carrying weight around the abdomen.">apple-shaped</mark> // with a lot of fat in their torso.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">如果你是<mark title="Having hips wider than the shoulders (fat stored in hips)." class="vocab">梨形 </mark>，脂肪主要集中在臀部或<mark title="Arms and legs." class="vocab">四肢 </mark>，风险<mark title="Having a lower chance of danger." class="phrase">远低于</mark>苹果<mark title="Carrying weight around the abdomen." class="vocab">形</mark>且躯干脂肪很多的人。</font></font></font></p>
+
+    <h3>Bite by bite.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">一口一口地。</font></font></font></h3>
+
+    <p><mark class="transition" title="As: while.">As</mark> you gain unhealthy weight, // excess visceral fat <mark class="vocab" title="Starts or activates.">triggers</mark> a <mark class="vocab" title="A process where something is successively passed on.">cascade</mark> of negative changes all at once.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="As: while." class="transition">随着</mark>体重不健康增加，// 过多的内脏脂肪<mark title="Starts or activates." class="vocab">会一次性引发</mark><mark title="A process where something is successively passed on." class="vocab">一连</mark>串负面变化。</font></font></font></p>
+    <p>Fat cells <mark class="phrase" title="Swell or expand.">bloat up</mark> to their limit // until they <mark class="phrase" title="Grow too large for.">outgrow</mark> their blood supply // and get <mark class="phrase" title="Deprived of.">starved of</mark> oxygen.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">脂肪细胞<mark title="Swell or expand." class="phrase">会膨胀</mark>到极限 // 直到<mark title="Grow too large for." class="phrase">它们的血液供应耗尽 </mark> // 导致<mark title="Deprived of." class="phrase">缺</mark>氧。</font></font></font></p>
+    <p>They become <mark class="vocab" title="Severely or dangerously.">critically</mark> stressed or even die. // This is bad.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">他们会陷入<mark title="Severely or dangerously." class="vocab">极度</mark>压力，甚至死亡。这很糟糕。</font></font></font></p>
+    <p>If you're overweight or obese, // your fat is basically a <strong>wounded organ</strong> // leaking stress and poison into your system.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">如果你超重或肥胖，// 你的脂肪基本上是一个<strong>受伤的器官 </strong> // 正在向你的系统泄漏压力和毒素。</font></font></font></p>
+    <p>Especially your visceral fat, // <mark class="phrase" title="Stimulated or activated by.">even more triggered by</mark> the extra stress hormones, // makes your blood more fatty.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">尤其是内脏脂肪，// 额外的压力激素会<mark title="Stimulated or activated by." class="phrase">触发</mark>更多，// 让你的血液更油腻。</font></font></font></p>
+    <p>This <mark class="phrase" title="Feeds too much.">overfeeds</mark> your organs like your liver or your muscles, // who <mark class="phrase" title="Maintain the required pace.">can't keep up</mark> anymore // and begin to <mark class="phrase" title="Suffer damage.">take damage</mark>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">这会<mark title="Feeds too much." class="phrase">过度滋养</mark>你的肝脏或肌肉，// 它们<mark title="Maintain the required pace." class="phrase">无法再跟</mark>上 // 并开始<mark title="Suffer damage." class="phrase">受损 </mark>。</font></font></font></p>
+    <p>The cellular stress and dead fat cells are <strong>emergency signals</strong> // that call your immune system to a fight.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">细胞压力和死亡脂肪细胞是紧急<strong>信号 </strong>，召唤你的免疫系统战斗。</font></font></font></p>
+    <p>Armies of <mark class="vocab" title="A type of white blood cell that engulfs and digests cellular debris.">macrophages</mark> invade your fat tissue, // creating clusters trying to eliminate the cause of the stress, // but can't.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">大量<mark title="A type of white blood cell that engulfs and digests cellular debris." class="vocab">巨噬细胞</mark>入侵你的脂肪组织，// 形成簇状结构，试图消除压力的原因，// 但却做不到。</font></font></font></p>
+    <p><mark class="transition" title="So: result.">So</mark> they stay and call for more help.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="So: result." class="transition">于是</mark>他们留下来呼救。</font></font></font></p>
+    <p>In a <mark class="vocab" title="Thin, healthy weight.">lean</mark> person's fat // immune cells make up about 5% of cells.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">瘦<mark title="Thin, healthy weight." class="vocab">人脂肪</mark>中，免疫细胞大约占细胞的 5%。</font></font></font></p>
+    <p>In an obese person's fat // up to 40%.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">肥胖者的脂肪含量可达40%。</font></font></font></p>
+    <p>Active immune cells cause <mark class="vocab" title="Redness, swelling, pain, heat.">inflammation</mark> // bloating up your tissue // and releasing even more alarm signals.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">活跃的免疫细胞会引起<mark title="Redness, swelling, pain, heat." class="vocab">炎症 </mark> // 膨胀你的组织 // 并释放更多警报信号。</font></font></font></p>
+    <p>Which is good for a short amount of time when you're sick // <mark class="transition" title="But if: contrast.">but if</mark> it becomes <mark class="vocab" title="Persisting for a long time.">chronic</mark> // it's like your entire body is under <mark class="vocab" title="Accidental attack by one's own side.">friendly fire</mark>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">这在生病时短暂时是好事 // <mark title="But if: contrast." class="transition"> 但如果</mark>变成<mark title="Persisting for a long time." class="vocab">慢性</mark>病 // 就像全身都遭受<mark title="Accidental attack by one's own side." class="vocab">了友军误伤 </mark>。</font></font></font></p>
+    <p>The inflammation molecules and fatty acids // <mark class="vocab" title="Tear or cut.">rip</mark> countless tiny wounds // into the insides of your blood vessels // which leads to <mark class="vocab" title="Sticky deposits.">plaques</mark> // that <mark class="phrase" title="With great urgency or hopelessness.">desperately try to</mark> close them.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">炎症分子和脂肪酸会<mark title="Tear or cut." class="vocab">撕裂</mark>无数微小的伤口，深入血管内部，形成拼命<mark title="With great urgency or hopelessness." class="phrase">试图</mark>闭合的<mark title="Sticky deposits." class="vocab">斑块 </mark>。</font></font></font></p>
+    <p>This <mark class="vocab" title="Makes smaller.">narrows</mark> your blood vessels // and reduces the flow of oxygen-rich blood.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">这<mark title="Makes smaller." class="vocab">会收缩</mark>你的血管 // 并减少富含氧气的血液流动。</font></font></font></p>
+    <p>Inflammation also causes your blood pressure to rise // so your heart has to work harder // and your risk of heart attacks or strokes // increases <strong>massively</strong>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">炎症还会导致血压升高 // 所以心脏必须更努力工作 // 心脏病发作或中风的风险<strong>大幅</strong>增加 //</font></font></font></p>
+
+    <hr>
+
+    <p><mark class="transition" title="To make things worse: introduces an additional negative factor.">To make things worse</mark> // your fat organ's hormone production gets <mark class="phrase" title="Not working correctly.">out of whack</mark>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="To make things worse: introduces an additional negative factor." class="transition">更糟</mark>的是，你的脂肪器官激素<mark title="Not working correctly." class="phrase">分泌失调</mark>了。</font></font></font></p>
+    <p>Like <mark class="vocab" title="A hormone that inhibits hunger.">leptin</mark>, // the <mark class="vocab" title="The feeling of being full.">satiety</mark> hormone.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">比如<mark title="A hormone that inhibits hunger." class="vocab">瘦素 </mark>，// 饱<mark title="The feeling of being full." class="vocab">腹</mark>激素。</font></font></font></p>
+    <p>With a healthy amount of fat // leptin tells your brain when you have enough energy storage, // can eat less // and spend more energy.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">摄入健康脂肪时，瘦素会告诉大脑你有足够的能量储存，可以吃得更少，消耗更多能量。</font></font></font></p>
+    <p><mark class="transition" title="But if: contrast.">But if</mark> you have too much fat, // <mark class="transition" title="Instead of: contrast.">instead of</mark> becoming less hungry, // your brain becomes <mark class="vocab" title="Immune to the effects of.">resistant</mark> against the constant flood of leptin.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="But if: contrast." class="transition">但如果你</mark>脂肪过多，// <mark title="Instead of: contrast." class="transition"> 非但不会</mark>减少饥饿感，// 你的大脑反而会对持续的瘦素洪流产生<mark title="Immune to the effects of." class="vocab">抵抗</mark>力。</font></font></font></p>
+    <p>This breaks your internal food <mark class="vocab" title="Device that regulates temperature (metaphor for regulation).">thermostat</mark>, // which is one of the reasons why many people who are overweight // feel intense hunger.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">这会破坏你体内的食物<mark title="Device that regulates temperature (metaphor for regulation)." class="vocab">恒温器 </mark>，// 这也是许多超重者感到强烈饥饿的原因之一。</font></font></font></p>
+    <p>Their fat is <strong>screaming</strong> at their brain that they have enough, // but the brain is not hearing the message anymore.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">他们的脂肪在<strong>大脑里大声喊</strong>着他们已经够了，// 但大脑已经听不到这个信息了。</font></font></font></p>
+    <p>Your sex hormones also get <mark class="phrase" title="Not functioning properly.">out of whack</mark>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">你的性激素也会失<mark title="Not functioning properly." class="phrase">衡 </mark>。</font></font></font></p>
+    <p><mark class="vocab" title="Male sex hormone.">Testosterone</mark> is lowered // <mark class="transition" title="While: contrast.">while</mark> <mark class="vocab" title="Female sex hormone.">estrogen</mark> is overproduced.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="Male sex hormone." class="vocab">睾酮</mark>降低 // <mark title="While: contrast." class="transition"> 而</mark><mark title="Female sex hormone." class="vocab">雌激素</mark>过度产生。</font></font></font></p>
+    <p>In women // this increases the risk of breast cancer <strong>significantly</strong>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">女性//<strong> 这会显著</strong>增加乳腺癌的风险。</font></font></font></p>
+    <p>Most people are not aware // how much the risk of cancer rises with excess fat.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">大多数人并不知道// 过多脂肪会增加癌症风险有多大。</font></font></font></p>
+    <p>In the US // almost 10% of all cancers are <mark class="phrase" title="Caused exactly by.">directly related to</mark> being overweight or obese.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">在美国，// 几乎 10%的癌症与超重或肥胖<mark title="Caused exactly by." class="phrase">直接相关 </mark>。</font></font></font></p>
+    <p><mark class="transition" title="And to top this off: adds a final, usually negative, point.">And to top this off</mark>, // obese cancer patients have much worse <mark class="vocab" title="Results.">outcomes</mark> // <mark class="vocab" title="Dying from.">succumbing to</mark> the disease more often and sooner.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="And to top this off: adds a final, usually negative, point." class="transition">更糟</mark>的是，// 肥胖癌症患者的<mark title="Results." class="vocab">结局</mark>更差 // 更容易、更早死<mark title="Dying from." class="vocab">于</mark>疾病。</font></font></font></p>
+    <p><mark class="transition" title="None of this is great: understatement.">None of this is great</mark>, // but <mark class="phrase" title="Even more serious.">even worse</mark> is what happens to one of your most important hormones, // <mark class="vocab" title="Hormone regulating blood glucose.">insulin</mark>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="None of this is great: understatement." class="transition">这些都不好 </mark>，// <mark title="Even more serious." class="phrase"> 但更糟</mark>的是你最重要的激素之一——<mark title="Hormone regulating blood glucose." class="vocab"> 胰岛素</mark>会发生什么变化。</font></font></font></p>
+
+    <h3>When the Hormone World Explodes<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">当激素世界爆发时</font></font></font></h3>
+
+    <p>Insulin is a hormone produced by your <mark class="vocab" title="Organ behind the stomach.">pancreas</mark> // that tells your cells to open their tiny mouths // and eat up <mark class="vocab" title="Sugar energy.">glucose</mark> from your blood.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">胰岛素是<mark title="Organ behind the stomach." class="vocab">胰腺</mark>产生的一种激素，// 它会告诉细胞张开小嘴 // 并从血液中吸收<mark title="Sugar energy." class="vocab">葡萄糖 </mark>。</font></font></font></p>
+    <p>It's your body's way of screaming, // "dinner time".<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">这是你身体在大声喊叫，// “吃饭时间到了”。</font></font></font></p>
+    <p><mark class="vocab" title="Causing great damage.">Disastrously</mark> <mark class="vocab" title="Attacked continuously.">bombarded</mark> by the stress from your excess fat, // cells all over your body become <mark class="vocab" title="A condition where cells stop responding to insulin.">insulin resistant</mark>, // worse at eating glucose and taking up energy.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">在<mark title="Causing great damage." class="vocab"></mark><mark title="Attacked continuously." class="vocab"></mark>多余脂肪带来的压力下，// 全身的细胞变得胰<mark title="A condition where cells stop responding to insulin." class="vocab">岛素抵抗 </mark>，// 在摄入葡萄糖和消耗能量方面变得更差。</font></font></font></p>
+    <p>Your body tries to <mark class="vocab" title="To make up for something.">compensate</mark> // by <mark class="phrase" title="Producing large amounts of.">pumping out</mark> more insulin, // screaming louder.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">你的身体试图通过<mark title="Producing large amounts of." class="phrase">大量分泌</mark>胰岛素来<mark title="To make up for something." class="vocab">补偿 </mark>，// 发出更大声的尖叫声。</font></font></font></p>
+    <p>This can <mark class="phrase" title="Continue.">go on</mark> silently for many years // and progress to <mark class="vocab" title="Condition preceding diabetes.">pre-diabetes</mark>, // with no or only <mark class="vocab" title="Delicate, difficult to detect.">subtle</mark> symptoms like fatigue or hunger.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">这种情况<mark title="Continue." class="phrase">可能无</mark>声持续多年 // 并发展为<mark title="Condition preceding diabetes." class="vocab">糖尿病前</mark>期，// 没有或只有<mark title="Delicate, difficult to detect." class="vocab">轻微</mark>症状，比如疲劳或饥饿。</font></font></font></p>
+    <p><mark class="transition" title="But as: progression.">But as</mark> the damage <mark class="vocab" title="Builds up over time.">accumulates</mark>, // eventually your body just <mark class="phrase" title="Cannot maintain the pace.">can't keep up</mark> anymore.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="But as: progression." class="transition">但随着</mark>损伤<mark title="Builds up over time." class="vocab">积累 </mark>，// 最终你的身体就<mark title="Cannot maintain the pace." class="phrase">跟不</mark>上了。</font></font></font></p>
+    <p>Something breaks // and you get <mark class="vocab" title="Chronic condition affecting the way the body processes blood sugar.">type 2 diabetes</mark>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">一旦某样东西坏了 // 你就得了 <mark title="Chronic condition affecting the way the body processes blood sugar." class="vocab">2 型糖尿病 </mark>。</font></font></font></p>
+    <p>The cells responsible for insulin production are so <mark class="phrase" title="Worked too hard.">overworked</mark> // that they stop functioning properly // and eventually <mark class="phrase" title="Surrender; fail.">give in</mark>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">负责胰岛素生成的细胞过度<mark title="Worked too hard." class="phrase">劳累 </mark> // 以至于功能停止 // 最终<mark title="Surrender; fail." class="phrase">崩溃 </mark>。</font></font></font></p>
+    <p>Your insulin <mark class="phrase" title="Falls suddenly.">crashes drastically</mark> // and your body can't compensate.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">你的胰岛素<mark title="Falls suddenly." class="phrase">会剧烈下降 </mark> // 身体无法补偿。</font></font></font></p>
+    <p><mark class="transition" title="While: contrast.">While</mark> the blood is now <mark class="vocab" title="Filled until no more can be absorbed.">saturated</mark> with glucose, // yet you're starving // and feel exhausted and unwell.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="While: contrast." class="transition">当</mark>血液中葡萄糖已经<mark title="Filled until no more can be absorbed." class="vocab">饱和</mark>时，// 你却饥饿 // 感到疲惫和不适。</font></font></font></p>
+    <p><mark class="phrase" title="Imagine this as: metaphor.">Imagine this as</mark> trillions of tiny sharp <mark class="vocab" title="Pieces of broken ceramic/glass.">shards</mark> // floating through you, // damaging your blood vessels, // nerves // and organs, // causing slow but constant damage everywhere.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="Imagine this as: metaphor." class="phrase">想象成</mark>数万亿颗微小锋利的<mark title="Pieces of broken ceramic/glass." class="vocab">碎片 </mark> // 漂浮在你体内，// 损伤你的血管、神经 // 和器官，// 造成缓慢但持续的伤害。</font></font></font></p>
+    <p><mark class="transition" title="At this point: current situation.">At this point</mark>, // your body is so chronically inflamed // that almost all organ systems are affected.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="At this point: current situation." class="transition">此时 </mark>，// 你的身体已经严重发炎 // 几乎所有器官系统都会受到影响。</font></font></font></p>
+    <p>The <mark class="vocab" title="Organs filtering blood.">kidneys</mark> are overwhelmed, // making you pee way more.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="Organs filtering blood." class="vocab">肾</mark>脏过度受损，// 导致尿量大幅增加。</font></font></font></p>
+    <p>Your vision gets blurry, // your immune system is <mark class="vocab" title="Very badly.">severely</mark> weakened, // wounds heal slower, // dying nerves lead to <mark class="vocab" title="Lack of sensation.">numbness</mark> and pain.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">你的视力会模糊，// 免疫系统<mark title="Very badly." class="vocab">严重</mark>衰弱，// 伤口愈合变慢，// 神经死亡会导致<mark title="Lack of sensation." class="vocab">麻木</mark>和疼痛。</font></font></font></p>
+    <p>You may experience <mark class="phrase" title="Difficulty breathing.">shortness of breath</mark>, // chest discomfort, // <mark class="vocab" title="Inability to get or keep an erection.">erectile dysfunction</mark> // and high blood pressure, // problems with your memory, // focus, // mood // and even depression.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">你可能会出现<mark title="Difficulty breathing." class="phrase">呼吸急促 </mark>、胸部不适、勃<mark title="Inability to get or keep an erection." class="vocab">起功能障碍 </mark>、高血压、记忆力、注意力、情绪和抑郁问题。</font></font></font></p>
+    <p>Your risk of developing just about every possible deadly disease // <mark class="phrase" title="Increases to a very high level.">goes through the roof</mark>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">你患几乎所有可能致命疾病的风险<mark title="Increases to a very high level." class="phrase">都会飙</mark>升。</font></font></font></p>
+    <p><mark class="transition" title="On average: typically.">On average</mark>, // type 2 diabetes <mark class="phrase" title="Removes.">shaves</mark> 10 years <mark class="phrase" title="From.">off</mark> your life // and reduces your <mark class="vocab" title="The part of life spent in good health.">health span</mark> massively, // <mark class="phrase" title="It could be argued.">arguably</mark> as much as smoking.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="On average: typically." class="transition">平均而言 </mark>，// 2 型糖尿病<mark title="Removes." class="phrase">能</mark>让你的寿命<mark title="From." class="phrase">缩短 </mark>10 年 // 并大幅缩短<mark title="The part of life spent in good health." class="vocab">健康寿命 </mark>，// <mark title="It could be argued." class="phrase"> 可以说</mark>和吸烟一样严重。</font></font></font></p>
+    <p>If current obesity trends continue, // <mark class="phrase" title="As many as.">up to</mark> one in three Americans will have diabetes by 2050.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">如果当前肥胖趋势持续，// 到 2050 年，<mark title="As many as." class="phrase"> 多达</mark>三分之一的美国人将患有糖尿病。</font></font></font></p>
+
+    <hr>
+
+    <p>There is <mark class="phrase" title="No polite or gentle way to say this.">no nice way to put this</mark>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">这<mark title="No polite or gentle way to say this." class="phrase">话说得不好</mark>听。</font></font></font></p>
+    <p>Excessive fat <mark class="vocab" title="Puts pressure on.">strains</mark> nearly every organ system in your body, // ages you much quicker, // and often leads to <mark class="vocab" title="Damage to multiple systems.">multi system damage</mark> and dysfunction.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">过多的脂肪会让你身体几乎所有器官<mark title="Puts pressure on." class="vocab">系统都紧张 </mark>，// 让你衰老得更快，// 而且常常导致<mark title="Damage to multiple systems." class="vocab">多系统损伤</mark>和功能障碍。</font></font></font></p>
+    <p><mark class="transition" title="And yet: contrast.">And yet</mark> // fat is still mostly discussed <mark class="phrase" title="From the perspective of.">through the lens of</mark> <mark class="vocab" title="Appearance/Beauty.">aesthetics</mark> first // and health second.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="And yet: contrast." class="transition">然而 </mark>，肥胖仍然是主要<mark title="From the perspective of." class="phrase">从</mark><mark title="Appearance/Beauty." class="vocab">审美</mark>和健康为先的角度来讨论。</font></font></font></p>
+    <p>Which is <mark class="phrase" title="Sort of confusing.">kind of baffling</mark> // considering that most // if not all // of the toxic effects of your excess fat // basically <mark class="phrase" title="Disappear.">go away</mark> // <mark class="transition" title="As soon as: immediately when.">as soon as</mark> you lose it // and start eating a <mark class="phrase" title="Somewhat healthy.">healthy-ish</mark> diet.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">这<mark title="Sort of confusing." class="phrase">有点令人费解 </mark>，因为大多数多余脂肪的毒性影响基本上都会<mark title="Disappear." class="phrase">消失 </mark>，<mark title="As soon as: immediately when." class="transition"> 一旦你减</mark>掉脂肪，开始吃<mark title="Somewhat healthy." class="phrase">比较健康的</mark>饮食。</font></font></font></p>
+    <p><mark class="transition" title="Once: as soon as.">Once</mark> your fat cells <mark class="vocab" title="Shrink/Tighten.">contract</mark> again, // they stop being stressed // and your immune system <mark class="phrase" title="Relaxes.">calms down</mark>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="Once: as soon as." class="transition">一旦</mark>脂肪细胞<mark title="Shrink/Tighten." class="vocab">再次收缩 </mark>，// 它们就不再紧张 // 免疫系统<mark title="Relaxes." class="phrase">也会平静</mark>下来。</font></font></font></p>
+    <p>The excess blood fat and sugar drops to normal levels // and your body <mark class="vocab" title="Heals.">recovers</mark>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">多余的血液脂肪和血糖会降到正常水平// 你的身体<mark title="Heals." class="vocab">恢复 </mark>。</font></font></font></p>
+    <p>Even if you already have <mark class="phrase" title="Fully developed/Advanced.">full-blown</mark> diabetes type 2, // by losing weight // you can <mark class="vocab" title="Turn backward.">reverse</mark> many of the negative effects // and <mark class="vocab" title="Extremely/Severely.">drastically</mark> improve your health and lifespan.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">即使你已经患有<mark title="Fully developed/Advanced." class="phrase">严重</mark>的 2 型糖尿病，// 通过减肥 // 你也能<mark title="Turn backward." class="vocab">逆转</mark>许多负面影响 // 并<mark title="Extremely/Severely." class="vocab">大幅</mark>改善你的健康和寿命。</font></font></font></p>
+    <p><mark class="transition" title="So if: conclusion.">So if</mark> you've been waiting for a <mark class="phrase" title="Motivation/Encouragement.">push</mark> to get started, // <mark class="phrase" title="The best time is immediately.">now is the time</mark>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1"><mark title="So if: conclusion." class="transition">所以如果你</mark>一直在等待一个<mark title="Motivation/Encouragement." class="phrase">推动</mark>开始，// <mark title="The best time is immediately." class="phrase"> 现在就是时候</mark>了。</font></font></font></p>
+
+    <hr>
+    
+    <p>[Sponsored content section omitted for brevity in practice]<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">[为简化作，省略赞助内容部分]</font></font></font></p>
+
+    <p>Taking care of your health can feel very <mark class="vocab" title="Too much to handle.">overwhelming</mark>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">照顾自己的健康可能会让人感到非常<mark title="Too much to handle." class="vocab">压力</mark>山大。</font></font></font></p>
+    <p>We know exactly how this feels. // <mark class="transition" title="That's why: reason.">That's why</mark> we created a health journal.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">我们完全明白这种感觉。<mark title="That's why: reason." class="transition"> 这就是我们创建</mark>健康期刊的原因。</font></font></font></p>
+    <p>We've developed a <mark class="vocab" title="A supporting structure/system.">framework</mark> // to help you <mark class="phrase" title="Understand/Solve.">figure out</mark> what actually works for your life // without pressure or guilt.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">我们开发了一个<mark title="A supporting structure/system." class="vocab">框架 </mark> // 帮助你<mark title="Understand/Solve." class="phrase">找到</mark>真正适合你生活的方式 // 无需压力或内疚感。</font></font></font></p>
+    <p>Just give yourself one month, // try it, // <mark class="phrase" title="See what the result is.">see where it takes you</mark>.<font class="notranslate immersive-translate-target-wrapper" lang="zh-CN"><br><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-block-wrapper-theme-none immersive-translate-target-translation-block-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">给自己一个月时间，// 试试看，// <mark title="See what the result is." class="phrase"> 看看会带你去哪里 </mark>。</font></font></font></p>
+
+
+</body></html>

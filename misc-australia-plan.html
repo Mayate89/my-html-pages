@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meta Plan - Next Station: Down Under</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Vue 3 -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* 沉浸式背景：澳洲大洋路海岸线 */
+        body {
+            background-image: url('https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+        }
+        
+        .glass-nav {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: rgba(156, 163, 175, 0.5); border-radius: 20px; }
+        
+        /* Vue 动画过渡 */
+        .fade-enter-active, .fade-leave-active { transition: opacity 0.5s ease; }
+        .fade-enter-from, .fade-leave-to { opacity: 0; }
+        .tab-transition { transition: all 0.3s ease; }
+
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+        input[type="date"]::-webkit-calendar-picker-indicator:hover {
+            opacity: 1;
+        }
+        
+        /* 任务列表排序动画 */
+        .list-move, .list-enter-active, .list-leave-active {
+            transition: all 0.3s ease;
+        }
+        .list-enter-from, .list-leave-to {
+            opacity: 0;
+            transform: translateX(30px);
+        }
+        .list-leave-active {
+            position: absolute;
+        }
+    </style>
+</head>
+<body class="text-gray-800 antialiased flex flex-col">
+
+<div id="app" class="flex-1 flex flex-col h-full w-full relative">
+    
+    <!-- 顶部导航栏 -->
+    <header class="glass-nav text-white shadow-xl z-20 shrink-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- 左侧 Logo & Tabs -->
+                <div class="flex items-center gap-8">
+                    <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer" @click="activeTab = 'home'">
+                        <i data-lucide="compass" class="w-6 h-6 text-cyan-400"></i>
+                        <span class="font-bold text-xl tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-200">Meta-Plan</span>
+                    </div>
+                    
+                    <!-- 桌面端 Tabs -->
+                    <nav class="hidden md:flex space-x-1">
+                        <button v-for="tab in tabs" :key="tab.id" @click="activeTab = tab.id"
+                                :class="['px-4 py-2 rounded-md text-sm font-medium tab-transition flex items-center gap-2', 
+                                         activeTab === tab.id ? 'bg-white/20 text-white shadow-sm' : 'text-slate-300 hover:bg-white/10 hover:text-white']">
+                            <span>{{ tab.icon }}</span> {{ tab.name }}
+                        </button>
+                    </nav>
+                </div>
+                
+                <!-- 右侧 AI 汇报按钮 -->
+                <div class="flex items-center gap-4">
+                    <div class="hidden sm:block text-xs text-slate-400 text-right mr-2">
+                        <div>全局推进</div>
+                        <div class="text-cyan-400 font-bold text-sm">{{ globalProgress }}%</div>
+                    </div>
+                    <button @click="generateSyncReport" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-lg flex items-center gap-2 transition duration-300 border border-blue-400/30">
+                        <i data-lucide="bot" class="w-4 h-4"></i>
+                        <span>AI 同步汇报</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 移动端 Tabs -->
+        <div class="md:hidden flex overflow-x-auto bg-slate-900/50 custom-scrollbar border-t border-white/5">
+            <button v-for="tab in tabs" :key="tab.id" @click="activeTab = tab.id"
+                    :class="['px-4 py-3 whitespace-nowrap text-sm font-medium flex-1 text-center border-b-2', 
+                             activeTab === tab.id ? 'border-cyan-400 text-white bg-white/10' : 'border-transparent text-slate-400']">
+                {{ tab.icon }} {{ tab.name }}
+            </button>
+        </div>
+    </header>
+
+    <!-- 主体内容区 -->
+    <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 custom-scrollbar">
+        <div class="max-w-5xl mx-auto">
+            
+            <!-- ================= TAB: HOME (指挥中心) ================= -->
+            <transition name="fade" mode="out-in">
+                <div v-if="activeTab === 'home'" key="home" class="space-y-6">
+                    
+                    <!-- Manifestation 宣言卡片 -->
+                    <div class="glass-panel rounded-2xl p-8 sm:p-12 text-center shadow-2xl relative overflow-hidden group transition-all duration-500"
+                         :class="{'py-24 sm:py-32': zenMode}">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500"></div>
+                        
+                        <!-- 沉浸模式 Toggle -->
+                        <button @click="zenMode = !zenMode" 
+                                class="absolute top-4 right-4 text-slate-400 hover:text-blue-500 transition-colors p-2 rounded-full hover:bg-white/50"
+                                :title="zenMode ? '退出沉浸模式' : '开启沉浸模式 (隐藏面板)'">
+                            <i v-if="zenMode" data-lucide="eye" class="w-6 h-6"></i>
+                            <i v-else data-lucide="eye-off" class="w-6 h-6"></i>
+                        </button>
+
+                        <h2 class="text-3xl sm:text-5xl md:text-6xl font-extrabold text-slate-800 tracking-tight mb-4 transition-all duration-500"
+                            :class="{'scale-105 drop-shadow-xl': zenMode}">
+                            Next Station: <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Down Under</span> 🇦🇺
+                        </h2>
+                        <p class="text-lg text-slate-600 font-medium max-w-2xl mx-auto transition-opacity"
+                           :class="{'opacity-80': zenMode}">
+                            "Don't freeze. Focus on the next actionable step. The rest is just noise."
+                        </p>
+                    </div>
+
+                    <!-- 隐藏区域：倒计时 & Next Actions -->
+                    <transition name="fade">
+                        <div v-if="!zenMode" class="space-y-6">
+                            
+                            <!-- 倒计时仪表盘 -->
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+                                <div v-for="(cd, idx) in countdowns" :key="idx" class="glass-panel rounded-xl p-5 border-t-4 shadow-lg hover:shadow-xl transition-shadow" :class="cd.borderClass">
+                                    <div class="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-1 flex justify-between items-center">
+                                        <span>{{ cd.title }}</span>
+                                        <span>{{ cd.icon }}</span>
+                                    </div>
+                                    <div class="flex items-baseline gap-2 mt-2">
+                                        <span class="text-4xl font-black text-slate-800">{{ getDaysLeft(cd.date) }}</span>
+                                        <span class="text-sm text-slate-500 font-medium">Days Left</span>
+                                    </div>
+                                    <div class="mt-3 pt-3 border-t border-slate-200/50 flex items-center gap-2">
+                                        <i data-lucide="calendar" class="w-4 h-4 text-slate-400"></i>
+                                        <input type="date" v-model="cd.date" @change="saveCountdowns" 
+                                               class="bg-transparent border-none text-slate-500 text-sm font-medium focus:ring-0 p-0 m-0 w-full outline-none cursor-pointer">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Next Actions 协议 -->
+                            <div class="glass-panel rounded-xl p-6 shadow-xl">
+                                <div class="flex items-center gap-2 mb-4 border-b border-slate-200 pb-3">
+                                    <i data-lucide="zap" class="text-amber-500 w-5 h-5"></i>
+                                    <h3 class="text-xl font-bold text-slate-800">The "Next Action" Protocol</h3>
+                                    <span class="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full ml-2">Break the Freeze</span>
+                                </div>
+                                <p class="text-sm text-slate-500 mb-4">今天只看这几件事。系统已自动提取各支线中**排在最前面**的未完成任务：</p>
+                                
+                                <div class="space-y-3">
+                                    <div v-for="(action, idx) in nextActions" :key="idx" class="flex items-start gap-3 p-3 bg-white/60 rounded-lg border border-white hover:bg-white transition shadow-sm cursor-pointer" @click="activeTab = action.tabId">
+                                        <div class="mt-0.5 w-6 h-6 flex items-center justify-center bg-slate-100 rounded text-lg shrink-0">{{ action.categoryIcon }}</div>
+                                        <div>
+                                            <h4 class="text-sm font-bold text-slate-800 hover:text-blue-600 transition-colors">{{ action.task.name }}</h4>
+                                            <p class="text-xs text-slate-500 mt-0.5">隶属于: {{ action.categoryName }} 支线 (点击前往处理)</p>
+                                        </div>
+                                    </div>
+                                    <div v-if="nextActions.length === 0" class="text-center p-8 text-slate-500 border border-dashed border-slate-300 rounded-lg">
+                                        🎉 太棒了！所有当前规划的任务均已清空，尽情休息吧！
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </transition>
+                </div>
+
+                <!-- ================= TAB: 其他具体任务版块 ================= -->
+                <div v-else :key="activeTab" class="glass-panel rounded-2xl shadow-xl overflow-hidden flex flex-col h-[calc(100vh-8rem)]">
+                    <!-- 版块 Header -->
+                    <div class="bg-gradient-to-r from-slate-800 to-slate-900 px-6 py-5 flex justify-between items-center shrink-0">
+                        <div class="flex items-center gap-3">
+                            <span class="text-2xl">{{ currentCategory.icon }}</span>
+                            <h2 class="text-xl font-bold text-white tracking-wide">{{ currentCategory.title }}</h2>
+                        </div>
+                        <div class="bg-white/20 text-white text-sm px-3 py-1 rounded-full font-medium">
+                            进度: {{ getCategoryProgress(currentCategory) }}%
+                        </div>
+                    </div>
+
+                    <!-- 任务列表区 -->
+                    <div class="p-4 sm:p-6 overflow-y-auto custom-scrollbar flex-1 relative">
+                        <transition-group name="list" tag="div" class="space-y-4">
+                            <div v-for="(task, index) in currentCategory.tasks" :key="task.id" 
+                                 class="bg-white/70 border border-slate-200 rounded-xl p-4 transition-all duration-300 group"
+                                 :class="{'opacity-60 bg-slate-50/50 shadow-none': task.completed, 'shadow-md': !task.completed}">
+                                <div class="flex items-start gap-4 w-full">
+                                    <!-- Checkbox -->
+                                    <div class="shrink-0 mt-1">
+                                        <div @click="toggleTask(task)" 
+                                             class="w-6 h-6 rounded-md border-2 flex items-center justify-center cursor-pointer transition-colors duration-200"
+                                             :class="task.completed ? 'bg-blue-500 border-blue-500' : 'border-slate-300 hover:border-blue-400 bg-white'">
+                                            <i v-if="task.completed" data-lucide="check" class="text-white w-4 h-4"></i>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- 任务内容 -->
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex justify-between items-start gap-2">
+                                            <h3 class="text-base font-semibold text-slate-800" :class="{'line-through text-slate-500': task.completed}">
+                                                {{ task.name }}
+                                            </h3>
+                                            <!-- 操作按钮组 (排序 + 删除) -->
+                                            <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <button v-if="index > 0" @click="moveTaskUp(index)" class="p-1 text-slate-300 hover:text-blue-500 transition-colors bg-white hover:bg-slate-100 rounded" title="上移 (提升优先级)">
+                                                    <i data-lucide="arrow-up" class="w-4 h-4"></i>
+                                                </button>
+                                                <button v-if="index < currentCategory.tasks.length - 1" @click="moveTaskDown(index)" class="p-1 text-slate-300 hover:text-blue-500 transition-colors bg-white hover:bg-slate-100 rounded" title="下移 (降低优先级)">
+                                                    <i data-lucide="arrow-down" class="w-4 h-4"></i>
+                                                </button>
+                                                <div class="w-px h-4 bg-slate-200 mx-1"></div>
+                                                <button @click="deleteTask(task.id)" class="p-1 text-slate-300 hover:text-red-500 transition-colors bg-white hover:bg-slate-100 rounded" title="删除任务">
+                                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <p class="text-sm text-slate-500 mt-1 mb-3 leading-relaxed">{{ task.desc }}</p>
+                                        
+                                        <!-- 备忘录/路径输入 -->
+                                        <div class="relative flex items-center mt-2">
+                                            <i data-lucide="file-text" class="absolute left-3 w-4 h-4 text-slate-400"></i>
+                                            <input type="text" v-model="task.notes" @input="saveData" 
+                                                   placeholder="添加备忘录、文件路径或相关网址..." 
+                                                   class="w-full pl-9 pr-3 py-2 text-sm bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition"
+                                                   :class="{'bg-slate-100 text-slate-500': task.completed}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </transition-group>
+
+                        <!-- 新增任务框 -->
+                        <div class="mt-6 p-4 bg-white/40 border-2 border-dashed border-slate-300 rounded-xl flex gap-3 items-center hover:border-blue-400 transition-colors">
+                            <div class="w-6 h-6 flex items-center justify-center text-slate-400 shrink-0">
+                                <i data-lucide="plus" class="w-5 h-5"></i>
+                            </div>
+                            <input type="text" v-model="newTaskName" @keyup.enter="addTask" 
+                                   :placeholder="`在【${currentCategory.title}】新增任务，按回车添加 (新任务默认加在最后)...`" 
+                                   class="flex-1 bg-transparent border-none focus:ring-0 text-sm font-medium text-slate-700 placeholder-slate-400 p-0 m-0 outline-none">
+                            <button @click="addTask" class="text-xs font-bold bg-slate-200 hover:bg-blue-500 hover:text-white text-slate-600 px-3 py-1.5 rounded-lg transition-colors duration-200">
+                                添加
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </transition>
+        </div>
+    </main>
+
+    <!-- ================= AI 报告导出 Modal ================= -->
+    <div v-if="showModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex justify-center items-center z-50 p-4" @click.self="showModal = false">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl flex flex-col max-h-[90vh] transform transition-all">
+            <div class="p-6 border-b border-slate-100 flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <div class="bg-blue-100 p-2 rounded-lg text-blue-600"><i data-lucide="send"></i></div>
+                    <h3 class="text-xl font-bold text-slate-800">同步报告生成完毕</h3>
+                </div>
+                <button @click="showModal = false" class="text-slate-400 hover:text-slate-700 transition"><i data-lucide="x"></i></button>
+            </div>
+            
+            <div class="p-6 flex-1 overflow-y-auto bg-slate-50">
+                <p class="text-sm text-slate-600 mb-3 font-medium">请一键复制以下状态，发送给你的 AI 规划师：</p>
+                <div class="relative group">
+                    <textarea ref="reportText" readonly class="w-full h-72 p-4 text-sm font-mono bg-slate-800 text-emerald-400 rounded-xl shadow-inner focus:outline-none resize-none custom-scrollbar leading-relaxed border border-slate-700">{{ syncReportContent }}</textarea>
+                </div>
+            </div>
+            
+            <div class="p-5 border-t border-slate-100 flex justify-end gap-3 bg-white rounded-b-2xl">
+                <button @click="showModal = false" class="px-5 py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-100 rounded-xl transition">关闭</button>
+                <button @click="copyReport" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-xl shadow-lg shadow-blue-200 transition flex items-center gap-2">
+                    <i v-if="copied" data-lucide="check-circle" class="w-4 h-4"></i>
+                    <i v-else data-lucide="copy" class="w-4 h-4"></i>
+                    <span>{{ copied ? '已复制！去粘贴吧' : '一键复制报告' }}</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const { createApp } = Vue;
+
+const app = createApp({
+    data() {
+        return {
+            activeTab: 'home',
+            showModal: false,
+            syncReportContent: '',
+            copied: false,
+            zenMode: false, 
+            newTaskName: '', 
+            
+            countdowns: [
+                { id: 'cd1', title: "滴滴刑满释放", date: "2026-05-08", icon: "🏢", borderClass: "border-t-orange-400" },
+                { id: 'cd2', title: "欧洲申根送签", date: "2026-05-30", icon: "✈️", borderClass: "border-t-emerald-400" },
+                { id: 'cd3', title: "语言战役决战", date: "2026-06-30", icon: "⚔️", borderClass: "border-t-purple-400" }
+            ],
+
+            tabs: [
+                { id: 'home', name: '总览', icon: '🏠' },
+                { id: 'migration', name: '澳洲行动', icon: '🇦🇺' },
+                { id: 'language', name: '语言战役', icon: '🗣️' },
+                { id: 'career', name: '职业与后路', icon: '🏢' },
+                { id: 'life', name: '生命重建', icon: '🌍' }
+            ],
+
+            categories: {
+                migration: {
+                    title: "澳洲移民核心线", icon: "🇦🇺",
+                    tasks: [
+                        { id: 'm1', name: "提交 VETASSESS 职业评估", desc: "附带个人法定声明(Stat Dec)和前司签字的英文 SoS，选 Fast Track 加急。", completed: false, notes: "" },
+                        { id: 'm2', name: "递交 WA / SA 州担保 EOI", desc: "在 SkillSelect 中建立矩阵：WA 491 (免雇主合同) 及 SA 190/491。", completed: false, notes: "" },
+                        { id: 'm3', name: "递交 VIC 维州 ROI", desc: "在 Live in Melbourne 官网登记，强调数字经济数据建模能力。", completed: false, notes: "" },
+                        { id: 'm4', name: "LinkedIn 搜寻澳洲 482 猎头", desc: "搜索 Clicks IT, Hays 等，主动私信寻找愿意提供 Visa Sponsorship 的机会。", completed: false, notes: "" }
+                    ]
+                },
+                language: {
+                    title: "语言与提分战役", icon: "🗣️",
+                    tasks: [
+                        { id: 'l1', name: "PTE 首次全真模考定级", desc: "摸底机考流程，确认听力/口语的薄弱环节，让 AI 制定针对性计划。", completed: false, notes: "" },
+                        { id: 'l2', name: "报名 PTE 考试 (定下决战日)", desc: "倒推时间，锁定考位，交钱产生紧迫感。目标 8个79 (20分)。", completed: false, notes: "" },
+                        { id: 'l3', name: "抢定 NAATI CCL 考位", desc: "考位极度紧张，提前在 myNAATI 刷出并锁定 Mandarin 考位。", completed: false, notes: "" }
+                    ]
+                },
+                career: {
+                    title: "职业交接与安全网", icon: "🏢",
+                    tasks: [
+                        { id: 'c1', name: "索取前司(字节)及现司的签字", desc: "找资深前辈签字节的 SoS；等 5 月离职时大方找滴滴主管签字。", completed: false, notes: "" },
+                        { id: 'c2', name: "隐秘备份脱敏的项目材料", desc: "离职前备份自己的周报、AB实验大纲，作为后续英文面试的“弹药”。", completed: false, notes: "" },
+                        { id: 'c3', name: "熬到 5 月 8 日安全离职", desc: "满一周年，拿离职证明，不卷绩效，保持平稳心态。", completed: false, notes: "" }
+                    ]
+                },
+                life: {
+                    title: "Gap 期生命力重建", icon: "🌍",
+                    tasks: [
+                        { id: 'lf1', name: "准备申根签证材料及递交", desc: "趁在职搞定在职证明和流水，提前规划欧洲之行。", completed: false, notes: "" },
+                        { id: 'lf2', name: "驾校报名，搞定科目一", desc: "把这件拖延很久的事启动，未来去澳洲自驾必备。", completed: false, notes: "" },
+                        { id: 'lf3', name: "学会游泳 (克服恐水)", desc: "找教练，学会基本换气，为去海岸线生活做准备。", completed: false, notes: "" }
+                    ]
+                }
+            }
+        }
+    },
+    computed: {
+        currentCategory() {
+            return this.categories[this.activeTab] || {};
+        },
+        globalProgress() {
+            let total = 0, completed = 0;
+            Object.values(this.categories).forEach(cat => {
+                total += cat.tasks.length;
+                completed += cat.tasks.filter(t => t.completed).length;
+            });
+            return total === 0 ? 0 : Math.round((completed / total) * 100);
+        },
+        nextActions() {
+            const actions = [];
+            Object.keys(this.categories).forEach(key => {
+                const cat = this.categories[key];
+                const nextTask = cat.tasks.find(t => !t.completed);
+                if (nextTask) {
+                    actions.push({
+                        tabId: key,
+                        categoryName: cat.title,
+                        categoryIcon: cat.icon,
+                        task: nextTask
+                    });
+                }
+            });
+            return actions;
+        }
+    },
+    mounted() {
+        this.loadData();
+        this.loadCountdowns();
+        this.$nextTick(() => { lucide.createIcons(); });
+    },
+    updated() {
+        lucide.createIcons();
+    },
+    methods: {
+        addTask() {
+            if (!this.newTaskName.trim()) return;
+            const newTask = {
+                id: 't_' + Date.now(),
+                name: this.newTaskName.trim(),
+                desc: "", 
+                completed: false,
+                notes: ""
+            };
+            this.categories[this.activeTab].tasks.push(newTask);
+            this.newTaskName = ''; 
+            this.saveData();
+            this.$nextTick(() => { lucide.createIcons(); });
+        },
+        deleteTask(taskId) {
+            if (confirm("确定要删除这个任务吗？")) {
+                const tasks = this.categories[this.activeTab].tasks;
+                const index = tasks.findIndex(t => t.id === taskId);
+                if (index > -1) {
+                    tasks.splice(index, 1);
+                    this.saveData();
+                }
+            }
+        },
+        // ========== 核心新增功能：上下移动排序 ==========
+        moveTaskUp(index) {
+            if (index > 0) {
+                const tasks = this.categories[this.activeTab].tasks;
+                const temp = tasks[index];
+                tasks[index] = tasks[index - 1];
+                tasks[index - 1] = temp;
+                this.saveData();
+                this.$nextTick(() => { lucide.createIcons(); });
+            }
+        },
+        moveTaskDown(index) {
+            const tasks = this.categories[this.activeTab].tasks;
+            if (index < tasks.length - 1) {
+                const temp = tasks[index];
+                tasks[index] = tasks[index + 1];
+                tasks[index + 1] = temp;
+                this.saveData();
+                this.$nextTick(() => { lucide.createIcons(); });
+            }
+        },
+        // ===============================================
+        toggleTask(task) {
+            task.completed = !task.completed;
+            this.saveData();
+        },
+        getDaysLeft(targetDate) {
+            if (!targetDate) return 0;
+            const diffTime = new Date(targetDate) - new Date();
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+            return diffDays > 0 ? diffDays : 0;
+        },
+        getCategoryProgress(category) {
+            if (!category || !category.tasks || category.tasks.length === 0) return 0;
+            const completed = category.tasks.filter(t => t.completed).length;
+            return Math.round((completed / category.tasks.length) * 100);
+        },
+        saveCountdowns() {
+            localStorage.setItem('metaPlanCountdowns', JSON.stringify(this.countdowns));
+        },
+        loadCountdowns() {
+            const saved = localStorage.getItem('metaPlanCountdowns');
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                this.countdowns.forEach((cd, index) => {
+                    if (parsed[index] && parsed[index].date) {
+                        cd.date = parsed[index].date;
+                    }
+                });
+            }
+        },
+        saveData() {
+            localStorage.setItem('metaPlanAdvancedData', JSON.stringify(this.categories));
+        },
+        loadData() {
+            const saved = localStorage.getItem('metaPlanAdvancedData');
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                Object.keys(this.categories).forEach(key => {
+                    if (parsed[key] && parsed[key].tasks) {
+                        this.categories[key].tasks = parsed[key].tasks; 
+                    }
+                });
+            }
+        },
+        generateSyncReport() {
+            const dateStr = new Date().toLocaleDateString('zh-CN');
+            let report = `【META-PLAN SYNC REPORT | ${dateStr}】\n\n`;
+            report += `> 总体完成度: ${this.globalProgress}%\n`;
+            report += `> 当前瓶颈与求助: ______________ (请在此补充你今天感到头疼的地方)\n\n`;
+            
+            Object.values(this.categories).forEach(cat => {
+                const completed = cat.tasks.filter(t => t.completed);
+                const pending = cat.tasks.filter(t => !t.completed);
+                
+                if (completed.length > 0 || pending.length > 0) {
+                    report += `[${cat.icon} ${cat.title}]\n`;
+                    if (completed.length > 0) {
+                        completed.forEach(t => report += `  ✅ ${t.name}\n`);
+                    }
+                    if (pending.length > 0) {
+                        report += `  ⏳ 阻塞/推进中: ${pending[0].name}\n`;
+                        if (pending[0].notes) report += `     (笔记: ${pending[0].notes})\n`;
+                    }
+                    report += `\n`;
+                }
+            });
+            
+            report += `-------------------\n`;
+            report += `🤖 [To AI]: 请根据以上简报，评估我的进度。忽略已完成项，只需告诉我：为了破除当前的阻塞，我接下来的 48 小时内**最应该集中精力做的一件微小的事情**是什么？`;
+            
+            this.syncReportContent = report;
+            this.copied = false;
+            this.showModal = true;
+            setTimeout(() => { lucide.createIcons(); }, 10);
+        },
+        async copyReport() {
+            try {
+                await navigator.clipboard.writeText(this.syncReportContent);
+                this.copied = true;
+                setTimeout(() => { this.copied = false; }, 2000);
+            } catch (err) {
+                this.$refs.reportText.select();
+                document.execCommand('copy');
+                this.copied = true;
+                setTimeout(() => { this.copied = false; }, 2000);
+            }
+        }
+    }
+});
+
+app.mount('#app');
+</script>
+</body>
+</html>
